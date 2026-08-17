@@ -1,0 +1,12 @@
+=== BRANCHES ===
+  id: bbbbbbbb-0000-0000-0000-000000000001 | name: "Main Campus"
+  id: ba530268-ceaa-4d3d-bf40-799f50aea53b | name: "Dhupri Campus"
+
+=== SAMPLE STUDENTS (first 5) ===
+{"id":"1d6cfdaa-fc07-4613-a72e-ca2e7c20c38c","full_name":"Irha Fatima","registration_number":"913","roll_number":"2308","branch_id":"bbbbbbbb-0000-0000-0000-000000000001","father_name":"Zameer Sadiq","contact_number":"34557261555","gender":"female"}
+{"id":"ee799e47-20fa-4422-8556-66e0110897cb","full_name":"Zohan Jamal Janjua","registration_number":"938","roll_number":"2319","branch_id":"bbbbbbbb-0000-0000-0000-000000000001","father_name":"Ibrar Ahmed","contact_number":"03015247422","gender":"male"}
+{"id":"95607800-753b-4107-91ea-2ffb1bdcdcac","full_name":"Muhammad Sarim","registration_number":"925","roll_number":"2311","branch_id":"bbbbbbbb-0000-0000-0000-000000000001","father_name":"Qasir Mehmood","contact_number":"03165069002","gender":"male"}
+{"id":"311aa3cb-3b85-46e2-b57b-e20b1f12fd63","full_name":"Muhammad Shifan Malik","registration_number":"700","roll_number":"2211","branch_id":"bbbbbbbb-0000-0000-0000-000000000001","father_name":"Muhammad  Hamais Arshad","contact_number":"03112200439","gender":"male"}
+{"id":"838c17f8-e196-4d7c-9f19-bf032298ec8b","full_name":"Muhammad Rohan","registration_number":"978","roll_number":"2325","branch_id":"bbbbbbbb-0000-0000-0000-000000000001","father_name":"Yasir Mehmood","contact_number":"03259183407","gender":"male"}
+
+Total students in DB: 652

@@ -1,0 +1,7 @@
+Name: School Owner / CEO | Email: hassanaliabrar635@gmail.com | Role: ceo | Campus: CEO / No Branch | Branch ID: null
+Name: Demo Teacher | Email: teacher@gmail.com | Role: teacher | Campus: Main Campus | Branch ID: bbbbbbbb-0000-0000-0000-000000000001
+Name: Demo Admin | Email: admin@gmail.com | Role: admin | Campus: Main Campus | Branch ID: bbbbbbbb-0000-0000-0000-000000000001
+Name: Main Campus Accountant | Email: maincampus.accountant+1785992187997@gmail.com | Role: accountant | Campus: Main Campus | Branch ID: bbbbbbbb-0000-0000-0000-000000000001
+Name: Ali | Email: ali@gmail.com | Role: admin | Campus: Main Campus | Branch ID: bbbbbbbb-0000-0000-0000-000000000001
+Name: Ahmed | Email: ahmed@gmail.com | Role: accountant | Campus: Main Campus | Branch ID: bbbbbbbb-0000-0000-0000-000000000001
+Name: hassam | Email: hassam@gmail.com | Role: teacher | Campus: Main Campus | Branch ID: bbbbbbbb-0000-0000-0000-000000000001

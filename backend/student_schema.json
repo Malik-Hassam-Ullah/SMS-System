@@ -1,0 +1,21 @@
+{
+  "id": "02ddb8b8-a701-4cd4-b8fc-bac49d32d1da",
+  "branch_id": "bbbbbbbb-0000-0000-0000-000000000001",
+  "registration_number": "GEN-40",
+  "roll_number": null,
+  "voucher_number": null,
+  "full_name": "Total",
+  "father_name": null,
+  "father_cnic": null,
+  "contact_number": null,
+  "gender": null,
+  "date_of_birth": null,
+  "date_of_admission": null,
+  "admission_class": "PlayGroup/A",
+  "current_class_id": "9003511e-3eb0-4baa-9bb8-9df3777bccba",
+  "current_section_id": null,
+  "address": "Kahuta",
+  "is_active": true,
+  "created_at": "2026-08-09T04:31:59.299495+00:00",
+  "updated_at": "2026-08-09T04:31:59.299495+00:00"
+}

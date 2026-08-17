@@ -1,0 +1,6 @@
+{
+  "students": 651,
+  "teachers": 1,
+  "classes": 16,
+  "vouchers": 651
+}

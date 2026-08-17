@@ -1,0 +1,87 @@
+{
+  "profiles": [
+    {
+      "id": "709d1bac-8988-4fc9-baa7-dce8e5787681",
+      "full_name": "School Owner / CEO",
+      "role": "ceo",
+      "branch_id": null,
+      "is_active": true
+    },
+    {
+      "id": "b302f229-7bd6-40ea-946f-b834622e65e4",
+      "full_name": "Demo Teacher",
+      "role": "teacher",
+      "branch_id": "bbbbbbbb-0000-0000-0000-000000000001",
+      "is_active": true
+    },
+    {
+      "id": "012d7004-121b-413b-a20b-6d678b17099e",
+      "full_name": "Demo Admin",
+      "role": "admin",
+      "branch_id": "bbbbbbbb-0000-0000-0000-000000000001",
+      "is_active": true
+    },
+    {
+      "id": "c13013a8-3bbe-43eb-ae2e-e861b2653f7a",
+      "full_name": "Main Campus Accountant",
+      "role": "accountant",
+      "branch_id": "bbbbbbbb-0000-0000-0000-000000000001",
+      "is_active": true
+    },
+    {
+      "id": "79b9957e-4ce2-4061-93ce-6a98f629d39d",
+      "full_name": "Ali",
+      "role": "admin",
+      "branch_id": "bbbbbbbb-0000-0000-0000-000000000001",
+      "is_active": true
+    },
+    {
+      "id": "b1bd2410-51b9-4689-8998-5f51a8a3a666",
+      "full_name": "Ahmed",
+      "role": "accountant",
+      "branch_id": "bbbbbbbb-0000-0000-0000-000000000001",
+      "is_active": true
+    },
+    {
+      "id": "dc78c37f-64bb-4a2d-9b25-99204001eff3",
+      "full_name": "hassam",
+      "role": "teacher",
+      "branch_id": "bbbbbbbb-0000-0000-0000-000000000001",
+      "is_active": true
+    }
+  ],
+  "activeStudents": 651,
+  "allStudents": 651,
+  "sampleStudents": [
+    {
+      "id": "1d6cfdaa-fc07-4613-a72e-ca2e7c20c38c",
+      "full_name": "Irha Fatima",
+      "is_active": true,
+      "branch_id": "bbbbbbbb-0000-0000-0000-000000000001"
+    },
+    {
+      "id": "ee799e47-20fa-4422-8556-66e0110897cb",
+      "full_name": "Zohan Jamal Janjua",
+      "is_active": true,
+      "branch_id": "bbbbbbbb-0000-0000-0000-000000000001"
+    },
+    {
+      "id": "95607800-753b-4107-91ea-2ffb1bdcdcac",
+      "full_name": "Muhammad Sarim",
+      "is_active": true,
+      "branch_id": "bbbbbbbb-0000-0000-0000-000000000001"
+    },
+    {
+      "id": "311aa3cb-3b85-46e2-b57b-e20b1f12fd63",
+      "full_name": "Muhammad Shifan Malik",
+      "is_active": true,
+      "branch_id": "bbbbbbbb-0000-0000-0000-000000000001"
+    },
+    {
+      "id": "838c17f8-e196-4d7c-9f19-bf032298ec8b",
+      "full_name": "Muhammad Rohan",
+      "is_active": true,
+      "branch_id": "bbbbbbbb-0000-0000-0000-000000000001"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+--- SUPABASE AUTH USERS ---
+ID: a72c80ec-18db-4022-86a5-b694d0ff9749 | Email: dhupri.accountant@gmail.com | Created At: 2026-08-12T07:30:54.140293Z
+ID: 6817760b-a0f6-41dd-83a0-842eac3899d9 | Email: dhupri.teacher@gmail.com | Created At: 2026-08-12T07:30:53.157624Z
+ID: e10b7953-9b13-434e-b20a-eadd8ac35c18 | Email: main.accountant@gmail.com | Created At: 2026-08-12T07:30:52.594994Z
+ID: c5eda9e2-5c56-4cf6-82c2-61314d6de55a | Email: main.teacher@gmail.com | Created At: 2026-08-12T07:30:51.209033Z
+ID: c13013a8-3bbe-43eb-ae2e-e861b2653f7a | Email: maincampus.accountant+1785992187997@gmail.com | Created At: 2026-08-06T04:56:28.335136Z
+ID: dc78c37f-64bb-4a2d-9b25-99204001eff3 | Email: hassam@gmail.com | Created At: 2026-07-22T18:16:44.516226Z
+ID: b1bd2410-51b9-4689-8998-5f51a8a3a666 | Email: ahmed@gmail.com | Created At: 2026-07-22T18:15:18.948034Z
+ID: 79b9957e-4ce2-4061-93ce-6a98f629d39d | Email: ali@gmail.com | Created At: 2026-07-22T18:13:58.931743Z
+ID: 709d1bac-8988-4fc9-baa7-dce8e5787681 | Email: hassanaliabrar635@gmail.com | Created At: 2026-07-21T18:12:47.515805Z
+ID: b302f229-7bd6-40ea-946f-b834622e65e4 | Email: teacher@gmail.com | Created At: 2026-07-21T09:02:06.734692Z
+ID: 012d7004-121b-413b-a20b-6d678b17099e | Email: admin@gmail.com | Created At: 2026-07-21T09:00:19.719521Z
+
+--- USER PROFILES TABLE ---
+ID: 709d1bac-8988-4fc9-baa7-dce8e5787681 | Role: ceo | Name: School Owner / CEO | School ID: aaaaaaaa-0000-0000-0000-000000000001 | Branch ID: null
+ID: b302f229-7bd6-40ea-946f-b834622e65e4 | Role: teacher | Name: Demo Teacher | School ID: aaaaaaaa-0000-0000-0000-000000000001 | Branch ID: bbbbbbbb-0000-0000-0000-000000000001
+ID: 012d7004-121b-413b-a20b-6d678b17099e | Role: admin | Name: Demo Admin | School ID: aaaaaaaa-0000-0000-0000-000000000001 | Branch ID: bbbbbbbb-0000-0000-0000-000000000001
+ID: c13013a8-3bbe-43eb-ae2e-e861b2653f7a | Role: accountant | Name: Main Campus Accountant | School ID: aaaaaaaa-0000-0000-0000-000000000001 | Branch ID: bbbbbbbb-0000-0000-0000-000000000001
+ID: 79b9957e-4ce2-4061-93ce-6a98f629d39d | Role: admin | Name: Ali | School ID: aaaaaaaa-0000-0000-0000-000000000001 | Branch ID: bbbbbbbb-0000-0000-0000-000000000001
+ID: b1bd2410-51b9-4689-8998-5f51a8a3a666 | Role: accountant | Name: Ahmed | School ID: aaaaaaaa-0000-0000-0000-000000000001 | Branch ID: bbbbbbbb-0000-0000-0000-000000000001
+ID: dc78c37f-64bb-4a2d-9b25-99204001eff3 | Role: teacher | Name: hassam | School ID: aaaaaaaa-0000-0000-0000-000000000001 | Branch ID: bbbbbbbb-0000-0000-0000-000000000001
+ID: c5eda9e2-5c56-4cf6-82c2-61314d6de55a | Role: teacher | Name: Main Campus Teacher | School ID: aaaaaaaa-0000-0000-0000-000000000001 | Branch ID: bbbbbbbb-0000-0000-0000-000000000001
+ID: e10b7953-9b13-434e-b20a-eadd8ac35c18 | Role: accountant | Name: Main Campus Accountant | School ID: aaaaaaaa-0000-0000-0000-000000000001 | Branch ID: bbbbbbbb-0000-0000-0000-000000000001
+ID: 6817760b-a0f6-41dd-83a0-842eac3899d9 | Role: teacher | Name: Dhupri Campus Teacher | School ID: aaaaaaaa-0000-0000-0000-000000000001 | Branch ID: ba530268-ceaa-4d3d-bf40-799f50aea53b
+ID: a72c80ec-18db-4022-86a5-b694d0ff9749 | Role: accountant | Name: Dhupri Campus Accountant | School ID: aaaaaaaa-0000-0000-0000-000000000001 | Branch ID: ba530268-ceaa-4d3d-bf40-799f50aea53b

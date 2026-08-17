@@ -1,0 +1,36 @@
+1. name="PV (Roll#):" | reg="GEN-31" | roll="null" | father="null" | class="null" | active=true
+2. name="Description" | reg="GEN-14" | roll="null" | father="null" | class="null" | active=true
+3. name="Arrears" | reg="GEN-16" | roll="null" | father="null" | class="null" | active=true
+4. name="Branch:" | reg="GEN-26" | roll="null" | father="null" | class="null" | active=true
+5. name="Payment Terms:" | reg="GEN-23" | roll="null" | father="null" | class="null" | active=true
+6. name="Annual Charges" | reg="GEN-17" | roll="null" | father="null" | class="null" | active=true
+7. name="Issue Date:" | reg="GEN-12" | roll="null" | father="null" | class="null" | active=true
+8. name="Tuition Fee" | reg="GEN-15" | roll="null" | father="null" | class="null" | active=true
+9. name="Late Fee Charges" | reg="GEN-20" | roll="null" | father="null" | class="null" | active=true
+10. name="Collection Account# :" | reg="GEN-25" | roll="null" | father="null" | class="null" | active=true
+11. name="This is system generated document and needs no signature" | reg="GEN-37" | roll="null" | father="null" | class="null" | active=true
+12. name="Buyer (Challan #):" | reg="GEN-32" | roll="null" | father="null" | class="null" | active=true
+13. name="After Due Date" | reg="GEN-21" | roll="null" | father="null" | class="null" | active=true
+14. name="Registration Charges" | reg="GEN-18" | roll="null" | father="null" | class="null" | active=true
+15. name="Roll#:" | reg="GEN-10" | roll="null" | father="null" | class="null" | active=true
+16. name="Fee for the Month of:" | reg="GEN-11" | roll="null" | father="null" | class="null" | active=true
+17. name="FEE CHALLAN" | reg="GEN-13" | roll="null" | father="null" | class="null" | active=true
+18. name="Aimen Gul" | reg="885" | roll="2023" | father="Asim Sajjad Pasha" | class="9th" | active=false
+19. name="Husnain Haider" | reg="101" | roll="2002" | father="Muhammad  Adnan" | class="Two" | active=false
+20. name="Irtaza Hussain" | reg="754" | roll="1925" | father="Shahzad Ahmed" | class="8th" | active=false
+21. name="Huzaifa Bashir" | reg="661" | roll="2028" | father="Amjad Bashir" | class="8th" | active=false
+22. name="Hamood Ur Rehman" | reg="789" | roll="1930" | father="Sibghat Ullah Abbasi" | class="8th" | active=false
+23. name="Syeda Meerab Gillani" | reg="596" | roll="2024" | father="Afzal Hussain" | class="8th" | active=false
+24. name="Laiba  Zainab" | reg="9" | roll="2003" | father="Amjad  Mehmood" | class="Two" | active=false
+25. name="Arman Israr" | reg="990" | roll="1932" | father="Muhammad Israr" | class="9th" | active=false
+26. name="Muhammad Umer" | reg="450" | roll="2015" | father="Muhammad Umer" | class="7th" | active=false
+27. name="Eshal Azhar" | reg="609" | roll="2025" | father="Azhar Javed" | class="8th" | active=false
+28. name="Husnain Raza" | reg="205" | roll="2006" | father="Amir Raza" | class="Foure" | active=false
+29. name="Zimal Zubair" | reg="657" | roll="2027" | father="Muhammad  Zubair Ahmed" | class="8th" | active=false
+30. name="Fizza Tanveer" | reg="2105" | roll="2105" | father="null" | class="null" | active=false
+
+TOTAL: 669 | ACTIVE: 18
+
+BAD ROWS (field names as names): 2
+  - id=28791360-1d77-4066-90e1-470b77f230c7 name="Annual Charges"
+  - id=e9e5c01b-712b-4222-b6b3-dd283bd50bff name="Registration Charges"

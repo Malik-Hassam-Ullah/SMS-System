@@ -1,0 +1,282 @@
+import React, { useState, useEffect } from 'react';
+import { Search, FileText, Printer, CheckCircle, Award, AlertCircle, Loader2, ChevronDown } from 'lucide-react';
+import api from '../../../lib/api';
+
+const CertificatesPage = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
+
+  const [student, setStudent] = useState(null);
+  const [certificateType, setCertificateType] = useState('character');
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
+
+  useEffect(() => {
+    if (searchQuery.length < 2) {
+      setSearchResults([]);
+      return;
+    }
+    const t = setTimeout(async () => {
+      setIsSearching(true);
+      try {
+        const res = await api.get('/students', { params: { search: searchQuery, limit: 10 } });
+        setSearchResults(res.data || []);
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setIsSearching(false);
+      }
+    }, 400);
+    return () => clearTimeout(t);
+  }, [searchQuery]);
+
+  const handleSelectStudent = (selected) => {
+    setStudent({
+      id: selected.id,
+      name: selected.full_name,
+      class: selected.classes?.name || 'N/A',
+      section: selected.sections?.name || 'N/A',
+      rollNo: selected.roll_number || 'N/A',
+      admissionDate: selected.created_at ? new Date(selected.created_at).toLocaleDateString() : 'N/A',
+      fatherName: selected.father_name || 'N/A',
+      status: selected.is_active ? 'Active' : 'Inactive',
+      registrationNumber: selected.registration_number,
+      admissionClass: selected.admission_class || 'N/A',
+      dob: selected.date_of_birth ? new Date(selected.date_of_birth).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' }) : 'N/A',
+      admissionDateFormatted: selected.date_of_admission ? new Date(selected.date_of_admission).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' }) : 'N/A',
+      admissionYear: selected.date_of_admission ? new Date(selected.date_of_admission).getFullYear() : 'N/A',
+      gender: selected.gender || 'male'
+    });
+    setSearchQuery(selected.full_name);
+    setSearchResults([]);
+    setShowPreview(false);
+  };
+
+  const handleGenerate = () => {
+    setIsGenerating(true);
+    setTimeout(() => {
+      setIsGenerating(false);
+      setShowPreview(true);
+    }, 800);
+  };
+
+  const handlePrint = () => {
+    window.print();
+  };
+
+  return (
+    <div className="space-y-6 max-w-7xl mx-auto">
+      <div className="page-header print:hidden">
+        <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
+          <Award className="h-7 w-7 text-purple-600" /> Certificates Generation
+        </h1>
+        <p className="text-slate-500 text-sm mt-1 font-medium">Generate and print official certificates for students</p>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 print:hidden">
+        <div className="lg:col-span-4 space-y-6">
+          <div className="card p-6 bg-white rounded-xl shadow-sm border border-slate-200 relative z-20">
+            <h2 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+              <Search className="h-5 w-5 text-purple-500" /> Find Student
+            </h2>
+            <div className="relative">
+              <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">Student Name or Reg No.</label>
+              <div className="relative">
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    if (student) setStudent(null);
+                    setShowPreview(false);
+                  }}
+                  placeholder="e.g. John Doe or REG-123"
+                  className="input w-full pr-10 bg-slate-50 border-slate-200"
+                />
+                {isSearching && <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 animate-spin text-slate-400" />}
+              </div>
+
+              {searchResults.length > 0 && (
+                <div className="absolute z-50 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-xl max-h-60 overflow-y-auto">
+                  {searchResults.map(s => (
+                    <button
+                      key={s.id}
+                      onClick={() => handleSelectStudent(s)}
+                      className="w-full text-left px-4 py-3 hover:bg-purple-50 transition-colors border-b border-slate-50 last:border-0 flex items-center justify-between"
+                    >
+                      <div>
+                        <p className="font-bold text-slate-800">{s.full_name}</p>
+                        <p className="text-xs text-slate-500 font-medium">{s.registration_number} • {s.classes?.name} - {s.sections?.name}</p>
+                      </div>
+                      <ChevronDown className="h-4 w-4 text-slate-400" />
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {student && (
+            <div className="card p-6 bg-white rounded-xl shadow-sm border border-slate-200 animate-in fade-in slide-in-from-bottom-2 relative z-10">
+              <h2 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                <FileText className="h-5 w-5 text-purple-500" /> Document Details
+              </h2>
+              <div className="space-y-5">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">Select Certificate</label>
+                  <select
+                    value={certificateType}
+                    onChange={(e) => {
+                      setCertificateType(e.target.value);
+                      setShowPreview(false);
+                    }}
+                    className="input w-full bg-slate-50 border-slate-200"
+                  >
+                    <option value="character">Character Certificate</option>
+                    <option value="leaving">School Leaving Certificate</option>
+                    <option value="bonafide">Bonafide Certificate</option>
+                  </select>
+                </div>
+
+                <div className="bg-purple-50/50 border border-purple-100 p-4 rounded-xl space-y-3">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-slate-500 font-medium">Name:</span>
+                    <span className="font-bold text-slate-800">{student.name}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-slate-500 font-medium">Class/Sec:</span>
+                    <span className="font-bold text-slate-800">{student.class} - {student.section}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-slate-500 font-medium">Admission:</span>
+                    <span className="font-bold text-slate-800">{student.admissionDate}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-slate-500 font-medium">Status:</span>
+                    <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${student.status === 'Active' ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'}`}>
+                      {student.status}
+                    </span>
+                  </div>
+                </div>
+
+                <button
+                  onClick={handleGenerate}
+                  disabled={isGenerating}
+                  className="btn-primary w-full flex items-center justify-center gap-2 py-3 text-base bg-purple-600 hover:bg-purple-700"
+                >
+                  {isGenerating ? <Loader2 className="animate-spin h-5 w-5" /> : <CheckCircle className="h-5 w-5" />}
+                  {isGenerating ? 'Generating Draft...' : 'Generate Certificate'}
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="lg:col-span-8">
+          {showPreview ? (
+            <div className="card p-0 bg-white shadow-xl border border-slate-200 rounded-xl overflow-hidden min-h-[700px] flex flex-col relative z-0 animate-in fade-in zoom-in-95">
+              <div className="bg-slate-50 p-4 border-b border-slate-200 flex justify-between items-center print:hidden">
+                <span className="font-bold text-slate-700 flex items-center gap-2">
+                  <FileText className="h-5 w-5 text-slate-500" />
+                  Print Preview
+                </span>
+                <button onClick={handlePrint} className="btn-primary flex items-center gap-2 px-6">
+                  <Printer className="h-4 w-4" /> Print Document
+                </button>
+              </div>
+
+              <div className="flex-1 p-12 print:p-8 print:m-0 bg-white">
+                {/* Certificate Design */}
+                <div className="border-4 border-slate-900 p-10 h-full print:border-2 relative">
+
+                  {/* Header */}
+                  <div className="flex justify-between items-center mb-4">
+                    <h1 className="text-2xl font-bold text-slate-900">The Smart School Kahuta Campus (R)</h1>
+                    <span className="text-lg font-bold text-slate-900">1361/PSR (SE)</span>
+                  </div>
+                  <div className="border-b-2 border-slate-900 mb-8"></div>
+
+                  {/* Title */}
+                  <div className="text-center mb-10">
+                    <h2 className="inline-block text-2xl font-bold uppercase tracking-wide text-slate-900 border-b-2 border-slate-900 pb-1">
+                      {certificateType === 'character' ? 'TO WHOM IT MAY CONCERN' : 'SCHOOL LEAVING CERTIFICATE'}
+                    </h2>
+                  </div>
+
+                  {/* Form & Ref No */}
+                  <div className="flex justify-between items-center font-medium text-slate-900 mb-10">
+                    <span>Form No: <span className="border-b border-slate-500 px-4">{new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: '2-digit' }).replace(/ /g, '')}/{Math.floor(Math.random() * 9000) + 1000}</span></span>
+                    <span>Rf. No: <span className="border-b border-slate-500 px-4">SLC{Math.floor(Math.random() * 900000) + 100000}</span></span>
+                  </div>
+
+                  {/* Body */}
+                  <div className="space-y-6 text-lg leading-loose text-slate-900">
+                    <p className="text-justify">
+                      THIS IS TO CERTIFY THAT; <span className="font-bold border-b border-slate-500 px-4 uppercase">{student?.name}</span>
+                      {student?.gender === 'female' ? ' D/O ' : ' S/O '}
+                      <span className="font-bold border-b border-slate-500 px-4 uppercase">{student?.fatherName}</span>
+
+                      {certificateType === 'leaving' ? (
+                        <>
+                          <br />was admitted to the school on <span className="font-bold border-b border-slate-500 px-4">{student?.admissionDateFormatted}</span>
+                          in <span className="font-bold border-b border-slate-500 px-4">{student?.admissionClass}</span>
+                          and left on <span className="font-bold border-b border-slate-500 px-4">{new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' })}</span>.
+                          <br />At the time of leaving, the student was studying in Grade <span className="font-bold border-b border-slate-500 px-4">{student?.class}</span>.
+                          <br />All sums due to this school on his account have been paid. His date of birth according to the admission register is <span className="font-bold border-b border-slate-500 px-4">{student?.dob}</span>.
+                        </>
+                      ) : (
+                        <>
+                          <br />has studied in this Institution from <span className="font-bold border-b border-slate-500 px-4">{student?.admissionYear}</span>
+                          to <span className="font-bold border-b border-slate-500 px-4">{new Date().getFullYear()}</span>
+                          and Passed Grade <span className="font-bold border-b border-slate-500 px-4">{student?.class}</span>.
+                          During {student?.gender === 'female' ? 'her' : 'his'} stay at the school {student?.gender === 'female' ? 'her' : 'his'} conduct and behavior was remained excellent.
+                          {student?.gender === 'female' ? ' She' : ' He'} bears good moral character. We wish {student?.gender === 'female' ? 'her' : 'him'} success in {student?.gender === 'female' ? 'her' : 'his'} future career.
+                        </>
+                      )}
+                    </p>
+
+                    {/* Footer Signatures */}
+                    <div className="flex justify-between items-end mt-32">
+                      <div className="text-center w-48">
+                        <div className="border-b border-slate-900 mb-2 h-10"></div>
+                        <p className="font-bold">School Head</p>
+                      </div>
+                      <div className="text-center w-48">
+                        <p className="font-medium text-left mb-2">Dated: <span className="border-b border-slate-900 px-4">{new Date().toLocaleDateString('en-GB')}</span></p>
+                      </div>
+                      <div className="text-center w-48">
+                        <div className="border-b border-slate-900 mb-2 h-10"></div>
+                        <p className="font-bold">School Stamp</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="card h-full min-h-[700px] flex flex-col items-center justify-center text-slate-400 bg-slate-50 border-2 border-dashed border-slate-200 print:hidden rounded-xl">
+              <Printer className="h-16 w-16 mb-4 text-slate-300" />
+              <p className="text-xl font-bold text-slate-500">Document Preview</p>
+              <p className="text-sm mt-1 font-medium">Select a student and generate to view certificate</p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <style dangerouslySetInnerHTML={{
+        __html: `
+        @media print {
+          body * { visibility: hidden; }
+          .print\\:hidden { display: none !important; }
+          .card { border: none !important; box-shadow: none !important; background: white !important; }
+          .card > div:last-child, .card > div:last-child * { visibility: visible; }
+          .card > div:last-child { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+          @page { margin: 1cm; size: A4; }
+        }
+      `}} />
+    </div>
+  );
+};
+
+export default CertificatesPage;
