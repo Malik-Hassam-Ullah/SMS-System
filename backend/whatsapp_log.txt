@@ -191,3 +191,240 @@
 [2026-08-16T11:52:36.630Z] Loading: 100% — WhatsApp
 [2026-08-16T11:52:37.145Z] ✅ Authenticated successfully!
 [2026-08-16T11:52:37.325Z] ✅ WhatsApp client is READY!
+[2026-08-17T04:42:28.917Z] Initializing WhatsApp client...
+[2026-08-17T04:42:34.351Z] Loading: 0% — WhatsApp
+[2026-08-17T04:42:35.112Z] ✅ Authenticated successfully!
+[2026-08-17T04:42:35.288Z] ✅ WhatsApp client is READY!
+[2026-08-17T04:42:35.357Z] Loading: 95% — WhatsApp
+[2026-08-17T04:42:35.503Z] Loading: 99% — WhatsApp
+[2026-08-17T04:43:51.926Z] Initializing WhatsApp client...
+[2026-08-17T04:43:53.728Z] Initializing WhatsApp client...
+[2026-08-17T04:43:58.065Z] Loading: 100% — WhatsApp
+[2026-08-17T04:43:58.806Z] ✅ Authenticated successfully!
+[2026-08-17T04:43:58.963Z] ✅ WhatsApp client is READY!
+[2026-08-17T05:13:57.390Z] Initializing WhatsApp client...
+[2026-08-17T05:14:03.200Z] ✅ Authenticated successfully!
+[2026-08-17T05:14:03.237Z] Loading: 100% — WhatsApp
+[2026-08-17T05:14:04.286Z] ✅ WhatsApp client is READY!
+[2026-08-17T05:14:08.722Z] Initializing WhatsApp client...
+[2026-08-17T05:14:18.985Z] ✅ Authenticated successfully!
+[2026-08-17T05:14:19.024Z] Loading: 100% — WhatsApp
+[2026-08-17T05:14:19.227Z] ✅ WhatsApp client is READY!
+[2026-08-17T05:29:05.113Z] Initializing WhatsApp client...
+[2026-08-17T05:29:09.971Z] Loading: 100% — WhatsApp
+[2026-08-17T05:29:10.956Z] ✅ Authenticated successfully!
+[2026-08-17T05:29:11.217Z] ✅ WhatsApp client is READY!
+[2026-08-17T05:29:18.231Z] Initializing WhatsApp client...
+[2026-08-17T05:29:24.405Z] ✅ Authenticated successfully!
+[2026-08-17T05:29:24.572Z] Loading: 100% — WhatsApp
+[2026-08-17T05:29:27.972Z] Initializing WhatsApp client...
+[2026-08-17T05:29:34.072Z] Initializing WhatsApp client...
+[2026-08-17T05:29:39.765Z] Loading: 100% — WhatsApp
+[2026-08-17T05:29:40.371Z] ✅ Authenticated successfully!
+[2026-08-17T05:29:41.413Z] ✅ WhatsApp client is READY!
+[2026-08-17T05:29:46.096Z] Initializing WhatsApp client...
+[2026-08-17T05:29:51.836Z] ✅ Authenticated successfully!
+[2026-08-17T05:29:51.870Z] Loading: 100% — WhatsApp
+[2026-08-17T05:29:52.153Z] ✅ WhatsApp client is READY!
+[2026-08-17T06:24:09.139Z] Initializing WhatsApp client...
+[2026-08-17T06:24:13.362Z] Loading: 100% — WhatsApp
+[2026-08-17T06:24:14.301Z] ✅ Authenticated successfully!
+[2026-08-17T06:24:14.516Z] ✅ WhatsApp client is READY!
+[2026-08-17T06:24:39.449Z] Initializing WhatsApp client...
+[2026-08-17T06:24:43.434Z] Loading: 100% — WhatsApp
+[2026-08-17T06:24:44.268Z] ✅ Authenticated successfully!
+[2026-08-17T06:24:44.468Z] ✅ WhatsApp client is READY!
+[2026-08-17T06:25:22.660Z] Initializing WhatsApp client...
+[2026-08-17T06:25:26.562Z] Loading: 100% — WhatsApp
+[2026-08-17T06:25:27.456Z] ✅ Authenticated successfully!
+[2026-08-17T06:25:27.674Z] ✅ WhatsApp client is READY!
+[2026-08-17T06:25:47.105Z] Initializing WhatsApp client...
+[2026-08-17T06:25:51.164Z] Loading: 100% — WhatsApp
+[2026-08-17T06:25:52.030Z] ✅ Authenticated successfully!
+[2026-08-17T06:25:52.240Z] ✅ WhatsApp client is READY!
+[2026-08-17T06:26:17.727Z] Initializing WhatsApp client...
+[2026-08-17T06:26:26.034Z] Loading: 100% — WhatsApp
+[2026-08-17T06:26:26.942Z] ✅ Authenticated successfully!
+[2026-08-17T06:26:27.166Z] ✅ WhatsApp client is READY!
+[2026-08-17T06:27:14.884Z] Initializing WhatsApp client...
+[2026-08-17T06:27:18.979Z] Loading: 100% — WhatsApp
+[2026-08-17T06:27:19.828Z] ✅ Authenticated successfully!
+[2026-08-17T06:27:20.055Z] ✅ WhatsApp client is READY!
+[2026-08-17T06:27:46.470Z] Initializing WhatsApp client...
+[2026-08-17T06:27:50.768Z] Loading: 100% — WhatsApp
+[2026-08-17T06:27:51.688Z] ✅ Authenticated successfully!
+[2026-08-17T06:27:51.889Z] ✅ WhatsApp client is READY!
+[2026-08-17T06:28:07.931Z] Initializing WhatsApp client...
+[2026-08-17T06:28:13.634Z] ✅ Authenticated successfully!
+[2026-08-17T06:28:13.667Z] Loading: 100% — WhatsApp
+[2026-08-17T06:28:13.812Z] ✅ WhatsApp client is READY!
+[2026-08-17T06:28:38.939Z] Initializing WhatsApp client...
+[2026-08-17T06:28:42.915Z] Loading: 100% — WhatsApp
+[2026-08-17T06:28:43.806Z] ✅ Authenticated successfully!
+[2026-08-17T06:28:43.996Z] ✅ WhatsApp client is READY!
+[2026-08-17T06:28:58.558Z] Initializing WhatsApp client...
+[2026-08-17T06:29:02.680Z] Loading: 100% — WhatsApp
+[2026-08-17T06:29:03.765Z] ✅ Authenticated successfully!
+[2026-08-17T06:29:03.976Z] ✅ WhatsApp client is READY!
+[2026-08-17T06:29:45.449Z] Initializing WhatsApp client...
+[2026-08-17T06:29:50.174Z] Loading: 100% — WhatsApp
+[2026-08-17T06:29:51.134Z] ✅ Authenticated successfully!
+[2026-08-17T06:29:51.354Z] ✅ WhatsApp client is READY!
+[2026-08-17T06:30:06.800Z] Initializing WhatsApp client...
+[2026-08-17T06:30:10.811Z] Loading: 100% — WhatsApp
+[2026-08-17T06:30:11.695Z] ✅ Authenticated successfully!
+[2026-08-17T06:30:11.930Z] ✅ WhatsApp client is READY!
+[2026-08-17T06:30:32.478Z] Initializing WhatsApp client...
+[2026-08-17T06:30:36.655Z] Loading: 100% — WhatsApp
+[2026-08-17T06:30:37.620Z] ✅ Authenticated successfully!
+[2026-08-17T06:30:37.856Z] ✅ WhatsApp client is READY!
+[2026-08-17T06:30:52.231Z] Initializing WhatsApp client...
+[2026-08-17T06:30:56.279Z] Loading: 100% — WhatsApp
+[2026-08-17T06:30:57.161Z] ✅ Authenticated successfully!
+[2026-08-17T06:30:57.368Z] ✅ WhatsApp client is READY!
+[2026-08-17T06:32:20.379Z] Initializing WhatsApp client...
+[2026-08-17T06:32:24.371Z] Loading: 100% — WhatsApp
+[2026-08-17T06:32:25.228Z] ✅ Authenticated successfully!
+[2026-08-17T06:32:25.422Z] ✅ WhatsApp client is READY!
+[2026-08-17T06:32:50.724Z] Initializing WhatsApp client...
+[2026-08-17T06:32:55.152Z] Loading: 100% — WhatsApp
+[2026-08-17T06:32:56.066Z] ✅ Authenticated successfully!
+[2026-08-17T06:32:56.266Z] ✅ WhatsApp client is READY!
+[2026-08-17T16:16:23.001Z] Initializing WhatsApp client...
+[2026-08-17T16:17:10.762Z] Loading: 0% — WhatsApp
+[2026-08-17T16:17:11.528Z] ✅ Authenticated successfully!
+[2026-08-17T16:17:13.685Z] ✅ WhatsApp client is READY!
+[2026-08-17T16:17:14.722Z] Loading: 4% — WhatsApp
+[2026-08-17T16:17:15.729Z] Loading: 8% — WhatsApp
+[2026-08-17T16:17:16.778Z] Loading: 20% — WhatsApp
+[2026-08-17T16:17:17.792Z] Loading: 48% — WhatsApp
+[2026-08-17T16:17:18.853Z] Loading: 62% — WhatsApp
+[2026-08-17T16:17:19.857Z] Loading: 75% — WhatsApp
+[2026-08-17T16:17:20.876Z] Loading: 86% — WhatsApp
+[2026-08-17T16:17:21.899Z] Loading: 95% — WhatsApp
+[2026-08-17T16:17:22.900Z] Loading: 97% — WhatsApp
+[2026-08-17T16:17:23.468Z] Loading: 99% — WhatsApp
+[2026-08-17T16:19:04.378Z] Initializing WhatsApp client...
+[2026-08-17T16:19:08.972Z] Initializing WhatsApp client...
+[2026-08-17T16:19:17.714Z] Loading: 0% — WhatsApp
+[2026-08-17T16:19:19.057Z] ✅ Authenticated successfully!
+[2026-08-17T16:19:21.438Z] Loading: 95% — WhatsApp
+[2026-08-17T16:19:21.739Z] Loading: 99% — WhatsApp
+[2026-08-17T16:19:22.416Z] ✅ WhatsApp client is READY!
+[2026-08-17T16:41:32.701Z] Loading: 0% — WhatsApp
+[2026-08-17T16:41:32.899Z] Loading: 99% — WhatsApp
+[2026-08-18T05:00:27.499Z] Initializing WhatsApp client...
+[2026-08-18T05:00:41.648Z] Loading: 0% — WhatsApp
+[2026-08-18T05:00:42.364Z] ✅ Authenticated successfully!
+[2026-08-18T05:00:42.545Z] ✅ WhatsApp client is READY!
+[2026-08-18T05:00:42.651Z] Loading: 8% — WhatsApp
+[2026-08-18T05:00:43.652Z] Loading: 36% — WhatsApp
+[2026-08-18T05:00:44.740Z] Loading: 79% — WhatsApp
+[2026-08-18T05:00:45.470Z] Loading: 99% — WhatsApp
+[2026-08-18T05:01:34.505Z] Initializing WhatsApp client...
+[2026-08-18T05:01:36.368Z] Initializing WhatsApp client...
+[2026-08-18T05:01:40.939Z] Loading: 100% — WhatsApp
+[2026-08-18T05:01:41.456Z] ✅ Authenticated successfully!
+[2026-08-18T05:01:41.612Z] ✅ WhatsApp client is READY!
+[2026-08-18T05:17:55.919Z] Initializing WhatsApp client...
+[2026-08-18T05:18:01.084Z] ✅ Authenticated successfully!
+[2026-08-18T05:18:01.107Z] Loading: 100% — WhatsApp
+[2026-08-18T05:18:01.956Z] ✅ WhatsApp client is READY!
+[2026-08-18T05:18:25.099Z] Initializing WhatsApp client...
+[2026-08-18T05:18:28.729Z] Loading: 100% — WhatsApp
+[2026-08-18T05:18:29.316Z] ✅ Authenticated successfully!
+[2026-08-18T05:18:29.478Z] ✅ WhatsApp client is READY!
+[2026-08-18T05:20:44.370Z] Initializing WhatsApp client...
+[2026-08-18T05:20:48.789Z] Loading: 0% — WhatsApp
+[2026-08-18T05:20:49.519Z] ✅ Authenticated successfully!
+[2026-08-18T05:20:50.084Z] Loading: 95% — WhatsApp
+[2026-08-18T05:20:50.183Z] ✅ WhatsApp client is READY!
+[2026-08-18T05:20:50.233Z] Loading: 99% — WhatsApp
+[2026-08-18T05:22:47.837Z] Initializing WhatsApp client...
+[2026-08-18T05:22:52.445Z] Loading: 100% — WhatsApp
+[2026-08-18T05:22:53.110Z] ✅ Authenticated successfully!
+[2026-08-18T05:22:53.274Z] ✅ WhatsApp client is READY!
+[2026-08-18T05:23:33.413Z] Sending message to 923065520204@c.us
+[2026-08-18T05:23:33.451Z] Message sent to 923065520204@c.us
+[2026-08-18T05:25:04.514Z] Initializing WhatsApp client...
+[2026-08-18T05:25:08.912Z] Loading: 100% — WhatsApp
+[2026-08-18T05:25:09.702Z] ✅ Authenticated successfully!
+[2026-08-18T05:25:09.875Z] ✅ WhatsApp client is READY!
+[2026-08-18T05:25:16.974Z] Initializing WhatsApp client...
+[2026-08-18T05:25:21.239Z] Loading: 100% — WhatsApp
+[2026-08-18T05:25:22.042Z] ✅ Authenticated successfully!
+[2026-08-18T05:25:22.233Z] ✅ WhatsApp client is READY!
+[2026-08-18T05:25:30.734Z] Initializing WhatsApp client...
+[2026-08-18T05:25:49.476Z] Initializing WhatsApp client...
+[2026-08-18T05:25:53.619Z] Loading: 100% — WhatsApp
+[2026-08-18T05:25:54.534Z] ✅ Authenticated successfully!
+[2026-08-18T05:25:54.736Z] ✅ WhatsApp client is READY!
+[2026-08-18T07:37:11.227Z] Initializing WhatsApp client...
+[2026-08-18T07:37:15.567Z] Loading: 0% — WhatsApp
+[2026-08-18T07:37:16.034Z] ✅ Authenticated successfully!
+[2026-08-18T07:37:16.205Z] ✅ WhatsApp client is READY!
+[2026-08-18T07:37:16.578Z] Loading: 95% — WhatsApp
+[2026-08-18T07:37:17.367Z] Loading: 99% — WhatsApp
+[2026-08-18T07:38:52.546Z] Initializing WhatsApp client...
+[2026-08-18T07:38:56.888Z] Initializing WhatsApp client...
+[2026-08-18T07:39:03.296Z] Loading: 100% — WhatsApp
+[2026-08-18T07:39:04.644Z] ✅ Authenticated successfully!
+[2026-08-18T07:39:06.473Z] ✅ WhatsApp client is READY!
+[2026-08-18T08:12:01.745Z] Initializing WhatsApp client...
+[2026-08-18T08:12:05.864Z] Loading: 100% — WhatsApp
+[2026-08-18T08:12:06.442Z] ✅ Authenticated successfully!
+[2026-08-18T08:12:07.234Z] ✅ WhatsApp client is READY!
+[2026-08-18T08:12:12.513Z] Initializing WhatsApp client...
+[2026-08-18T08:12:16.921Z] Loading: 100% — WhatsApp
+[2026-08-18T08:12:17.911Z] ✅ Authenticated successfully!
+[2026-08-18T08:12:19.188Z] ✅ WhatsApp client is READY!
+[2026-08-18T08:12:29.301Z] Initializing WhatsApp client...
+[2026-08-18T08:12:33.939Z] Loading: 100% — WhatsApp
+[2026-08-18T08:12:34.476Z] ✅ Authenticated successfully!
+[2026-08-18T08:12:35.500Z] ✅ WhatsApp client is READY!
+[2026-08-18T08:12:45.010Z] Initializing WhatsApp client...
+[2026-08-18T08:12:49.142Z] Loading: 100% — WhatsApp
+[2026-08-18T08:12:50.304Z] ✅ Authenticated successfully!
+[2026-08-18T08:12:50.697Z] ✅ WhatsApp client is READY!
+[2026-08-18T08:13:00.874Z] Initializing WhatsApp client...
+[2026-08-18T08:13:04.982Z] Loading: 100% — WhatsApp
+[2026-08-18T08:13:06.067Z] ✅ Authenticated successfully!
+[2026-08-18T08:13:06.364Z] ✅ WhatsApp client is READY!
+[2026-08-18T08:13:12.370Z] Initializing WhatsApp client...
+[2026-08-18T08:13:18.415Z] ✅ Authenticated successfully!
+[2026-08-18T08:13:18.451Z] Loading: 100% — WhatsApp
+[2026-08-18T08:13:19.577Z] ✅ WhatsApp client is READY!
+[2026-08-18T08:13:40.528Z] Initializing WhatsApp client...
+[2026-08-18T08:13:44.461Z] Loading: 100% — WhatsApp
+[2026-08-18T08:13:45.265Z] ✅ Authenticated successfully!
+[2026-08-18T08:13:46.130Z] ✅ WhatsApp client is READY!
+[2026-08-18T08:14:21.957Z] Initializing WhatsApp client...
+[2026-08-18T08:14:26.061Z] Loading: 100% — WhatsApp
+[2026-08-18T08:14:26.852Z] ✅ Authenticated successfully!
+[2026-08-18T08:14:27.839Z] ✅ WhatsApp client is READY!
+[2026-08-18T08:19:07.525Z] Initializing WhatsApp client...
+[2026-08-18T08:19:12.000Z] Loading: 100% — WhatsApp
+[2026-08-18T08:19:12.714Z] ✅ Authenticated successfully!
+[2026-08-18T08:19:14.148Z] ✅ WhatsApp client is READY!
+[2026-08-18T08:20:38.719Z] Initializing WhatsApp client...
+[2026-08-18T08:20:42.818Z] Loading: 100% — WhatsApp
+[2026-08-18T08:20:43.684Z] ✅ Authenticated successfully!
+[2026-08-18T08:20:43.906Z] ✅ WhatsApp client is READY!
+[2026-08-18T08:34:53.890Z] Initializing WhatsApp client...
+[2026-08-18T08:34:57.848Z] Loading: 100% — WhatsApp
+[2026-08-18T08:34:58.969Z] ✅ Authenticated successfully!
+[2026-08-18T08:34:59.213Z] ✅ WhatsApp client is READY!
+[2026-08-18T15:21:23.309Z] Initializing WhatsApp client...
+[2026-08-18T15:22:01.425Z] Loading: 0% — WhatsApp
+[2026-08-18T15:22:04.864Z] ✅ Authenticated successfully!
+[2026-08-18T15:22:07.963Z] Loading: 17% — WhatsApp
+[2026-08-18T15:22:08.308Z] ✅ WhatsApp client is READY!
+[2026-08-18T15:22:08.795Z] Loading: 95% — WhatsApp
+[2026-08-18T15:22:09.488Z] Loading: 99% — WhatsApp
+[2026-08-18T16:40:31.292Z] Initializing WhatsApp client...
+[2026-08-18T16:40:38.797Z] Loading: 0% — WhatsApp
+[2026-08-18T16:40:39.441Z] ✅ Authenticated successfully!
+[2026-08-18T16:40:39.583Z] ✅ WhatsApp client is READY!
+[2026-08-18T16:40:41.965Z] Loading: 13% — WhatsApp
+[2026-08-18T16:40:42.967Z] Loading: 97% — WhatsApp
+[2026-08-18T16:40:43.185Z] Loading: 99% — WhatsApp

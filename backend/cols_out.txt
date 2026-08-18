@@ -1,20 +1,9 @@
-=== ALL COLUMNS ===
-id = "1d6cfdaa-fc07-4613-a72e-ca2e7c20c38c"
-branch_id = "bbbbbbbb-0000-0000-0000-000000000001"
-registration_number = "913"
-roll_number = "2308"
-voucher_number = "1008"
-full_name = "Irha Fatima"
-father_name = "Zameer Sadiq"
-father_cnic = "37402-0994332-1"
-contact_number = "34557261555"
-gender = "female"
-date_of_birth = "2022-03-15"
-date_of_admission = "2026-05-03"
-admission_class = "Play Group"
-current_class_id = null
-current_section_id = null
-address = "Kahuta"
-is_active = true
-created_at = "2026-08-07T11:41:21.29128+00:00"
-updated_at = "2026-08-08T08:38:09.533788+00:00"
+=== fee_vouchers ===
+id, branch_id, student_id, session_id, voucher_number, fee_month, due_date, current_fee, previous_balance, other_charges, discount, total_payable, amount_paid, remaining_balance, status, notes, is_deleted, deleted_by, deleted_at, created_by, created_at, updated_at
+
+=== fee_payments ===
+id, branch_id, voucher_id, student_id, amount, payment_date, payment_method, received_by, reference_number, remarks, created_at
+
+=== student_outstanding_balance ===
+id, branch_id, student_id, total_outstanding, last_payment_date, last_payment_amount, updated_at
+

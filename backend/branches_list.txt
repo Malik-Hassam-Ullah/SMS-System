@@ -1,2 +1,2 @@
 Branch: Main Campus | ID: bbbbbbbb-0000-0000-0000-000000000001
-Branch: Dhupri Campus | ID: ba530268-ceaa-4d3d-bf40-799f50aea53b
+Branch: Dupri Campus | ID: ba530268-ceaa-4d3d-bf40-799f50aea53b

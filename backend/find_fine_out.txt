@@ -1,0 +1,20 @@
+c:\Users\hassa\Downloads\SMS-System-main\frontend\src\pages\admin\academic\SubjectsPage.jsx:121: No subjects defined yet.
+c:\Users\hassa\Downloads\SMS-System-main\frontend\src\pages\admin\fees\VoucherDetailPage.jsx:157: const lateFeeEnabled = settings.lateFeeEnabled !== false; // default true
+c:\Users\hassa\Downloads\SMS-System-main\frontend\src\pages\admin\fees\VoucherDetailPage.jsx:158: const lateFeeAmount = lateFeeEnabled ? Number(settings.lateFeeAmount || 200) : 0;
+c:\Users\hassa\Downloads\SMS-System-main\frontend\src\pages\admin\fees\VoucherDetailPage.jsx:276: <span className="border-b border-black w-28 text-right font-bold">{lateFeeAmount.toLocaleString()}</span>
+c:\Users\hassa\Downloads\SMS-System-main\frontend\src\pages\admin\fees\VoucherDetailPage.jsx:280: <span className="border-b-2 border-black w-28 text-right font-bold">{(Number(voucher.total_payable || 0) + lateFeeAmount).toLocaleString()}</span>
+c:\Users\hassa\Downloads\SMS-System-main\frontend\src\pages\admin\SettingsPage.jsx:173: dateFormat: 'DD/MM/YYYY', timezone: 'Asia/Karachi', lateFeeEnabled: true,
+c:\Users\hassa\Downloads\SMS-System-main\frontend\src\pages\admin\SettingsPage.jsx:174: lateFeeAmount: 50, lateFeeAfterDays: 10, gracePeriodDays: 5, feeDueDay: '10',
+c:\Users\hassa\Downloads\SMS-System-main\frontend\src\pages\admin\SettingsPage.jsx:440: <ToggleSwitch enabled={local.lateFeeEnabled} onChange={v => update('lateFeeEnabled', v)} label="Enable Late Fee Charges" description="Charge an additional fee if paid after the due date" />
+c:\Users\hassa\Downloads\SMS-System-main\frontend\src\pages\admin\SettingsPage.jsx:442: <div className={`grid grid-cols-2 gap-4 ${!local.lateFeeEnabled ? 'opacity-50 pointer-events-none' : ''}`}>
+c:\Users\hassa\Downloads\SMS-System-main\frontend\src\pages\admin\SettingsPage.jsx:445: <input type="number" min="0" className="input" value={local.lateFeeAmount ?? 50} onChange={e => update('lateFeeAmount', Number(e.target.value))} />
+c:\Users\hassa\Downloads\SMS-System-main\frontend\src\pages\admin\SettingsPage.jsx:449: <input type="number" min="1" className="input" value={local.lateFeeAfterDays ?? 10} onChange={e => update('lateFeeAfterDays', Number(e.target.value))} />
+c:\Users\hassa\Downloads\SMS-System-main\frontend\src\pages\admin\SettingsPage.jsx:466: 📋 Summary: {local.lateFeeEnabled
+c:\Users\hassa\Downloads\SMS-System-main\frontend\src\pages\admin\SettingsPage.jsx:467: ? `${local.currency || 'PKR'} ${local.lateFeeAmount || 50} late fee charged after ${local.lateFeeAfterDays || 10} days. Grace period: ${local.gracePeriodDays || 5} days.`
+c:\Users\hassa\Downloads\SMS-System-main\frontend\src\pages\public\PublicVoucherPage.jsx:84: const lateFeeEnabled = settings.lateFeeEnabled !== false; // default true
+c:\Users\hassa\Downloads\SMS-System-main\frontend\src\pages\public\PublicVoucherPage.jsx:85: const lateFeeAmount = lateFeeEnabled ? Number(settings.lateFeeAmount || 200) : 0;
+c:\Users\hassa\Downloads\SMS-System-main\frontend\src\pages\public\PublicVoucherPage.jsx:196: <span className="border-b border-black w-28 text-right font-bold">{lateFeeAmount.toLocaleString()}</span>
+c:\Users\hassa\Downloads\SMS-System-main\frontend\src\pages\public\PublicVoucherPage.jsx:200: <span className="border-b-2 border-black w-28 text-right font-bold">{(Number(voucher.total_payable || 0) + lateFeeAmount).toLocaleString()}</span>
+c:\Users\hassa\Downloads\SMS-System-main\frontend\src\store\settings.store.js:29: lateFeeEnabled: true,
+c:\Users\hassa\Downloads\SMS-System-main\frontend\src\store\settings.store.js:30: lateFeeAmount: 50,
+c:\Users\hassa\Downloads\SMS-System-main\frontend\src\store\settings.store.js:31: lateFeeAfterDays: 10,
