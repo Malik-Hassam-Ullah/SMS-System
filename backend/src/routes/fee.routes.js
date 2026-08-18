@@ -120,7 +120,8 @@ router.get('/vouchers/:id', authenticate, requireRole('admin', 'accountant'), as
         sections ( id, name )
       ),
       academic_sessions ( id, name ),
-      fee_payments ( id, amount, payment_date, payment_method, reference_number, remarks )
+      fee_payments ( id, amount, payment_date, payment_method, reference_number, remarks ),
+      branches ( id, name, settings )
     `)
     .eq('id', req.params.id)
     .eq('branch_id', req.branchId)
@@ -661,6 +662,39 @@ router.post('/payments', authenticate, requireRole('admin', 'accountant'), async
     });
   }
 
+  // Fetch branch settings to check if autoWaiveLateFee is enabled
+  const { data: branch } = await supabaseAdmin
+    .from('branches')
+    .select('settings')
+    .eq('id', req.branchId)
+    .single();
+  const settings = branch?.settings || {};
+  const lateFeeEnabled = settings.lateFeeEnabled !== false;
+  const autoWaiveLateFee = settings.autoWaiveLateFee !== false;
+  const lateFeeAmount = lateFeeEnabled ? Number(settings.lateFeeAmount || 200) : 0;
+
+  let waivedAmount = 0;
+  const normalRemaining = voucher.total_payable - voucher.amount_paid - amount;
+
+  if (autoWaiveLateFee && lateFeeAmount > 0 && normalRemaining > 0) {
+    // Calculate how many months of fees are pending
+    const monthlyFee = Number(voucher.current_fee || 0);
+    let numMonths = 1;
+    if (monthlyFee > 0) {
+      numMonths = Math.ceil((monthlyFee + Number(voucher.previous_balance || 0)) / monthlyFee);
+    }
+    const totalFine = numMonths * lateFeeAmount;
+
+    // If the remaining balance is less than or equal to the total fine, we waive it!
+    if (normalRemaining <= totalFine) {
+      waivedAmount = normalRemaining;
+    }
+  }
+
+  const paymentRemarks = waivedAmount > 0
+    ? `${remarks || ''} (Auto-waived fine of PKR ${waivedAmount.toLocaleString()})`.trim()
+    : remarks;
+
   // Insert payment
   const { data: payment, error: payErr } = await supabaseAdmin
     .from('fee_payments')
@@ -673,7 +707,7 @@ router.post('/payments', authenticate, requireRole('admin', 'accountant'), async
       payment_method,
       received_by: req.profile.id,
       reference_number,
-      remarks,
+      remarks: paymentRemarks,
     })
     .select()
     .single();
@@ -682,20 +716,48 @@ router.post('/payments', authenticate, requireRole('admin', 'accountant'), async
 
   const newAmountPaid = voucher.amount_paid + amount;
   let status = voucher.status;
-  if (newAmountPaid >= voucher.total_payable) {
+  let updatedDiscount = Number(voucher.discount || 0);
+
+  if (waivedAmount > 0) {
+    updatedDiscount += waivedAmount;
     status = 'paid';
-  } else if (newAmountPaid > 0) {
-    status = 'partial';
+  } else {
+    if (newAmountPaid >= voucher.total_payable) {
+      status = 'paid';
+    } else if (newAmountPaid > 0) {
+      status = 'partial';
+    }
   }
 
-  // Update voucher amount_paid and status
+  // Update voucher amount_paid, discount, and status
   await supabaseAdmin
     .from('fee_vouchers')
     .update({
       amount_paid: newAmountPaid,
+      discount: updatedDiscount,
       status: status
     })
     .eq('id', voucher_id);
+
+  // Update outstanding balance in student_outstanding_balance table
+  const { data: balanceData } = await supabaseAdmin
+    .from('student_outstanding_balance')
+    .select('total_outstanding')
+    .eq('student_id', voucher.student_id)
+    .single();
+
+  if (balanceData) {
+    const reduction = amount + waivedAmount;
+    await supabaseAdmin
+      .from('student_outstanding_balance')
+      .update({
+        total_outstanding: Math.max(0, Number(balanceData.total_outstanding || 0) - reduction),
+        last_payment_date: payment_date || new Date().toISOString().split('T')[0],
+        last_payment_amount: amount,
+        updated_at: new Date().toISOString()
+      })
+      .eq('student_id', voucher.student_id);
+  }
 
   await logAudit(req, 'RECORD_PAYMENT', 'fees', payment.id, null, payment);
   res.status(201).json({ success: true, data: payment });

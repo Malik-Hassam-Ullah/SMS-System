@@ -37,16 +37,34 @@ export default function VouchersPage() {
     }
   });
 
+  const [settings, setSettings] = useState({});
+
   useEffect(() => {
-    const fetchClasses = async () => {
+    const fetchInitialData = async () => {
       try {
-        const res = await api.get('/classes');
-        setClasses(res.data || []);
+        const [classesRes, settingsRes] = await Promise.all([
+          api.get('/classes'),
+          api.get('/settings')
+        ]);
+        setClasses(classesRes.data || []);
+        const branchSettings = settingsRes.data || {};
+        setSettings(branchSettings);
+
+        // Update bulkUpdateForm with settings values if available
+        setBulkUpdateForm(prev => ({
+          ...prev,
+          paymentTerms: {
+            account_number: branchSettings.bankAccountNumber || 'PK26ALFH0201001006875700',
+            branch: branchSettings.bankBranch || 'Kahuta Branch/O201',
+            account_title: branchSettings.bankAccountTitle || 'THE SMART SCHOOL KAHUTA',
+            bank_name: branchSettings.bankName || 'BANK ALFALAH LTD'
+          }
+        }));
       } catch (err) {
         console.error(err);
       }
     };
-    fetchClasses();
+    fetchInitialData();
   }, []);
 
   const fetchVouchers = async () => {
@@ -199,7 +217,7 @@ ${publicLink}`;
       const year = new Date().getFullYear();
 
       // Top Headers
-      aoa.push([null, "                                                                                                        The Smart School Kahuta Campus"]);
+      aoa.push([null, `                                                                                                        ${settings.schoolName || "The Smart School Kahuta Campus"}`]);
       aoa.push([null, null, null, `                                                           Fee Detail for the Month of ${monthName} , ${year}`]);
 
       const headers = [
@@ -383,9 +401,9 @@ ${publicLink}`;
                     <td className="p-4 text-slate-600">{new Date(v.due_date).toLocaleDateString()}</td>
                     <td className="p-4">
                       <span className={`badge px-2.5 py-1 rounded-full text-xs font-semibold ${v.status === 'paid' ? 'bg-emerald-100 text-emerald-800' :
-                          v.status === 'partial' ? 'bg-amber-100 text-amber-800' :
-                            v.status === 'overdue' ? 'bg-rose-100 text-rose-800' :
-                              'bg-slate-100 text-slate-800'
+                        v.status === 'partial' ? 'bg-amber-100 text-amber-800' :
+                          v.status === 'overdue' ? 'bg-rose-100 text-rose-800' :
+                            'bg-slate-100 text-slate-800'
                         }`}>
                         {v.status === 'partial' ? 'PARTIAL PAID' : (v.status || 'unpaid').toUpperCase()}
                       </span>

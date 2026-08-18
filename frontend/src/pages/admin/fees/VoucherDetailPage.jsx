@@ -151,6 +151,12 @@ export default function VoucherDetailPage() {
     );
   }
 
+  const settings = voucher.branches?.settings || {};
+  const schoolName = settings.schoolName || "THE SMART SCHOOL";
+  const branchName = voucher.branches?.name || "KAHUTA";
+  const lateFeeEnabled = settings.lateFeeEnabled !== false; // default true
+  const lateFeeAmount = lateFeeEnabled ? Number(settings.lateFeeAmount || 200) : 0;
+
   return (
     <div className="p-6 max-w-5xl mx-auto">
       <div className="flex justify-between items-center mb-6 print:hidden">
@@ -204,7 +210,7 @@ export default function VoucherDetailPage() {
                 <div className="space-y-3 mb-6">
                   <div className="flex items-end gap-2">
                     <span className="font-bold w-28">The Smart School:</span>
-                    <span className="border-b border-black flex-1 text-center">KAHUTA</span>
+                    <span className="border-b border-black flex-1 text-center font-bold uppercase">{branchName}</span>
                     <span className="font-bold">Campus</span>
                   </div>
                   <div className="flex items-end gap-2">
@@ -267,11 +273,11 @@ export default function VoucherDetailPage() {
 
                 <div className="flex justify-between mb-1">
                   <span>Late Fee Charges</span>
-                  <span className="border-b border-black w-28 text-right font-bold">200</span>
+                  <span className="border-b border-black w-28 text-right font-bold">{lateFeeAmount.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between font-bold mb-12">
                   <span>After Due Date</span>
-                  <span className="border-b-2 border-black w-28 text-right font-bold">{(Number(voucher.total_payable || 0) + 200).toLocaleString()}</span>
+                  <span className="border-b-2 border-black w-28 text-right font-bold">{(Number(voucher.total_payable || 0) + lateFeeAmount).toLocaleString()}</span>
                 </div>
 
                 {/* Payment Terms */}

@@ -615,16 +615,25 @@ router.post('/students', authenticate, requireRole('admin'), upload.single('file
   const balancePayloads = [];
   const voucherPayloads = [];
 
-  // Fetch active session
-  const { data: activeSession } = await supabaseAdmin
-    .from('sessions')
-    .select('id')
-    .eq('branch_id', req.branchId)
-    .eq('is_current', true)
-    .maybeSingle();
+  // Fetch active session and branch settings
+  const [{ data: activeSession }, { data: branchData }] = await Promise.all([
+    supabaseAdmin
+      .from('sessions')
+      .select('id')
+      .eq('branch_id', req.branchId)
+      .eq('is_current', true)
+      .maybeSingle(),
+    supabaseAdmin
+      .from('branches')
+      .select('settings')
+      .eq('id', req.branchId)
+      .single()
+  ]);
 
+  const settings = branchData?.settings || {};
+  const dueDay = parseInt(settings.feeDueDay || '10', 10);
   const fee_month = new Date().toISOString().slice(0, 7);
-  const due_date = new Date(new Date().getFullYear(), new Date().getMonth(), 10).toISOString().split('T')[0];
+  const due_date = new Date(new Date().getFullYear(), new Date().getMonth(), dueDay).toISOString().split('T')[0];
 
   const recordMap = new Map(records.map(r => [String(r.registration_number).trim(), r]));
 

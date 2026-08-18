@@ -158,7 +158,21 @@ router.get('/report/student/:studentId', authenticate, asyncHandler(async (req, 
   const totalObtained = marksData?.reduce((s, m) => s + (m.marks_obtained || 0), 0) || 0;
   const totalMarks = marksData?.reduce((s, m) => s + m.total_marks, 0) || 0;
   const percentage = totalMarks > 0 ? ((totalObtained / totalMarks) * 100).toFixed(2) : 0;
-  const passed = marksData?.every(m => m.is_absent || (m.marks_obtained || 0) >= m.subjects?.pass_marks);
+
+  // Fetch branch settings for global passing marks percentage fallback
+  const { data: branchData } = await supabaseAdmin
+    .from('branches')
+    .select('settings')
+    .eq('id', req.branchId)
+    .single();
+  const settings = branchData?.settings || {};
+  const globalPassingPercent = parseFloat(settings.passingMarks || '40');
+
+  const passed = marksData?.every(m => {
+    if (m.is_absent) return false;
+    const passMarks = m.subjects?.pass_marks || (m.total_marks * globalPassingPercent / 100);
+    return (m.marks_obtained || 0) >= passMarks;
+  });
 
   res.json({
     success: true,

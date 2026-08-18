@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Search, Filter, Download, Loader2, CreditCard } from 'lucide-react';
 import api from '../../../lib/api';
 import * as XLSX from 'xlsx';
+import { useAuthStore } from '../../../store/auth.store';
 
 export default function PaymentsPage() {
+    const { user } = useAuthStore();
     const [payments, setPayments] = useState([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState('');
@@ -144,7 +146,7 @@ export default function PaymentsPage() {
   </style>
 </head>
 <body>
-  <h2>The Smart School Kahuta Campus</h2>
+  <h2>${user?.school?.name || "The Smart School"} ${user?.branch?.name || "Kahuta Campus"}</h2>
   <div class="subtitle">Daily Fee Collection Report &mdash; ${dateStr}</div>
   <table>
     <thead>

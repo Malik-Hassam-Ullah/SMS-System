@@ -77,9 +77,12 @@ export default function PublicVoucherPage() {
         );
     }
 
-    const schoolName = voucher.branches?.schools?.name || "THE SMART SCHOOL";
+    const settings = voucher.branches?.settings || {};
+    const schoolName = settings.schoolName || voucher.branches?.schools?.name || "THE SMART SCHOOL";
     const branchName = voucher.branches?.name || "KAHUTA CAMPUS";
     const logoUrl = voucher.branches?.schools?.logo_url || "/tss-logo.png";
+    const lateFeeEnabled = settings.lateFeeEnabled !== false; // default true
+    const lateFeeAmount = lateFeeEnabled ? Number(settings.lateFeeAmount || 200) : 0;
 
     return (
         <div className="min-h-screen bg-slate-100 py-8 px-4 print:bg-white print:py-0 print:px-0">
@@ -190,11 +193,11 @@ export default function PublicVoucherPage() {
 
                                     <div className="flex justify-between mb-1">
                                         <span>Late Fee Charges</span>
-                                        <span className="border-b border-black w-28 text-right font-bold">200</span>
+                                        <span className="border-b border-black w-28 text-right font-bold">{lateFeeAmount.toLocaleString()}</span>
                                     </div>
                                     <div className="flex justify-between font-bold mb-12">
                                         <span>After Due Date</span>
-                                        <span className="border-b-2 border-black w-28 text-right font-bold">{(Number(voucher.total_payable || 0) + 200).toLocaleString()}</span>
+                                        <span className="border-b-2 border-black w-28 text-right font-bold">{(Number(voucher.total_payable || 0) + lateFeeAmount).toLocaleString()}</span>
                                     </div>
 
                                     {/* Payment Terms */}

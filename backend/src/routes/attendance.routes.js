@@ -18,9 +18,9 @@ router.get('/', authenticate, asyncHandler(async (req, res) => {
     .order('date', { ascending: false });
 
   if (section_id) query = query.eq('section_id', section_id);
-  if (date)       query = query.eq('date', date);
-  if (from_date)  query = query.gte('date', from_date);
-  if (to_date)    query = query.lte('date', to_date);
+  if (date) query = query.eq('date', date);
+  if (from_date) query = query.gte('date', from_date);
+  if (to_date) query = query.lte('date', to_date);
 
   const { data, error } = await query;
   if (error) throw error;
@@ -37,8 +37,8 @@ router.post('/bulk', authenticate, requireRole('admin', 'teacher'), asyncHandler
 
   const payload = records.map(r => ({
     ...r,
-    branch_id:  req.branchId,
-    marked_by:  req.profile.id,
+    branch_id: req.branchId,
+    marked_by: req.profile.id,
   }));
 
   const { data, error } = await supabaseAdmin
@@ -60,8 +60,8 @@ router.get('/report', authenticate, asyncHandler(async (req, res) => {
     .eq('branch_id', req.branchId);
 
   if (section_id) query = query.eq('section_id', section_id);
-  if (from_date)  query = query.gte('date', from_date);
-  if (to_date)    query = query.lte('date', to_date);
+  if (from_date) query = query.gte('date', from_date);
+  if (to_date) query = query.lte('date', to_date);
 
   const { data, error } = await query;
   if (error) throw error;
@@ -80,10 +80,19 @@ router.get('/report', authenticate, asyncHandler(async (req, res) => {
     studentMap[sid][a.status]++;
   });
 
+  // Fetch branch settings for attendance certificate eligibility
+  const { data: branchData } = await supabaseAdmin
+    .from('branches')
+    .select('settings')
+    .eq('id', req.branchId)
+    .single();
+  const settings = branchData?.settings || {};
+  const minAttendance = parseFloat(settings.minAttendancePercent || '75') / 100;
+
   const report = Object.values(studentMap).map(s => ({
     ...s,
     percentage: s.total > 0 ? ((s.present / s.total) * 100).toFixed(1) : '0.0',
-    eligible_for_certificate: s.total > 0 && (s.present / s.total) >= 0.8,
+    eligible_for_certificate: s.total > 0 && (s.present / s.total) >= minAttendance,
   }));
 
   res.json({ success: true, data: report });

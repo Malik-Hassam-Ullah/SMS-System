@@ -3,10 +3,11 @@ import { Outlet, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import {
   Menu, X, LogOut, User, LayoutDashboard, Users, BookOpen, GraduationCap,
   CheckSquare, FileText, MessageSquare, Award, Shield, ChevronDown, ChevronRight,
-  School, Settings, CreditCard, DollarSign, List, UserPlus, Upload,
-  Library, Clock, BookMarked, Activity, Building2, UserCheck
+  School, CreditCard, DollarSign, List, UserPlus, Upload,
+  Library, Clock, BookMarked, Activity, Building2, UserCheck, Cog
 } from 'lucide-react';
 import { useAuthStore } from '../../store/auth.store';
+import { useSettingsStore } from '../../store/settings.store';
 import api from '../../lib/api';
 import { getInitials } from '../../utils/formatters';
 
@@ -64,6 +65,7 @@ export default function AppLayout() {
   const navigate = useNavigate();
   const location = useLocation();
   const { user, logout } = useAuthStore();
+  const { schoolName } = useSettingsStore();
 
   const handleLogout = async () => {
     try {
@@ -119,7 +121,7 @@ export default function AppLayout() {
         active={location.pathname.startsWith('/admin/fees')}
       >
         <NavItem to="/admin/fees/vouchers" label="Vouchers List" icon={FileText} onClick={closeSidebar} />
-        <NavItem to="/admin/fees/vouchers/generate" label="Generate" icon={Settings} onClick={closeSidebar} />
+        <NavItem to="/admin/fees/vouchers/generate" label="Generate" icon={Cog} onClick={closeSidebar} />
         <NavItem to="/admin/fees/collect" label="Collect Fee" icon={DollarSign} onClick={closeSidebar} />
         <NavItem to="/admin/fees/payments" label="Payments" icon={DollarSign} onClick={closeSidebar} />
         <NavItem to="/admin/fees/outstanding" label="Outstanding" icon={Activity} onClick={closeSidebar} />
@@ -128,9 +130,12 @@ export default function AppLayout() {
       </NavGroup>
 
       <NavItem to="/admin/messages" label="Messages" icon={MessageSquare} onClick={closeSidebar} />
-      <NavItem to="/admin/whatsapp-settings" label="WhatsApp Settings" icon={Settings} onClick={closeSidebar} />
+      <NavItem to="/admin/whatsapp-settings" label="WhatsApp Settings" icon={MessageSquare} onClick={closeSidebar} />
       <NavItem to="/admin/certificates" label="Certificates" icon={Award} onClick={closeSidebar} />
       <NavItem to="/admin/audit-logs" label="Audit Logs" icon={Shield} onClick={closeSidebar} />
+      <div className="pt-2 mt-2 border-t border-white/10">
+        <NavItem to="/admin/settings" label="Settings" icon={Cog} onClick={closeSidebar} />
+      </div>
     </>
   );
 
@@ -148,6 +153,9 @@ export default function AppLayout() {
         <NavItem to="/accountant/fees/outstanding" label="Outstanding" icon={Activity} onClick={closeSidebar} />
         <NavItem to="/accountant/fees/reports" label="Reports" icon={FileText} onClick={closeSidebar} />
       </NavGroup>
+      <div className="pt-2 mt-2 border-t border-white/10">
+        <NavItem to="/admin/settings" label="Settings" icon={Cog} onClick={closeSidebar} />
+      </div>
     </>
   );
 
@@ -163,6 +171,9 @@ export default function AppLayout() {
         <NavItem to="/teacher/marks/report" label="Report" icon={Activity} onClick={closeSidebar} />
       </NavGroup>
       <NavItem to="/teacher/attendance" label="Attendance" icon={CheckSquare} onClick={closeSidebar} />
+      <div className="pt-2 mt-2 border-t border-white/10">
+        <NavItem to="/admin/settings" label="Settings" icon={Cog} onClick={closeSidebar} />
+      </div>
     </>
   );
 
@@ -172,11 +183,14 @@ export default function AppLayout() {
       <NavItem to="/ceo/branches" label="Branches" icon={Building2} onClick={closeSidebar} />
       <NavItem to="/ceo/create-admin" label="Create Admin" icon={UserPlus} onClick={closeSidebar} />
       <NavItem to="/ceo/teachers" label="Teachers" icon={GraduationCap} onClick={closeSidebar} />
+      <div className="pt-2 mt-2 border-t border-white/10">
+        <NavItem to="/admin/settings" label="Settings" icon={Cog} onClick={closeSidebar} />
+      </div>
     </>
   );
 
   return (
-    <div className="flex h-screen overflow-hidden bg-slate-50 text-slate-900 font-sans">
+    <div className="layout-root flex h-screen overflow-hidden bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans transition-colors duration-300">
       {/* Mobile Sidebar Overlay */}
       {sidebarOpen && (
         <div
@@ -192,11 +206,13 @@ export default function AppLayout() {
       >
         <div className="flex items-center justify-between h-20 px-6 border-b border-white/10 bg-slate-900/50 backdrop-blur-xl">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center shadow-lg shadow-primary-500/30">
-              <School className="w-5 h-5 text-white" />
+            <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center shadow-lg overflow-hidden p-1">
+              <img src="/tss-logo.png" alt="Logo" className="w-full h-full object-contain" />
             </div>
             <div>
-              <h1 className="text-lg font-black tracking-wide text-white">{user?.school?.name || 'SMS Platform'}</h1>
+              <h1 className="text-lg font-black tracking-wide text-white">
+                {schoolName || user?.school?.name || 'SMS Platform'}
+              </h1>
               <p className="text-xs text-primary-200 font-medium tracking-wider uppercase">{user?.branch?.name || 'Main Branch'}</p>
             </div>
           </div>
@@ -230,10 +246,10 @@ export default function AppLayout() {
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Topbar */}
-        <header className="h-16 flex items-center justify-between px-4 sm:px-6 lg:px-8 border-b border-slate-200 bg-white/80 backdrop-blur-md z-30 shadow-sm">
+        <header className="h-16 flex items-center justify-between px-4 sm:px-6 lg:px-8 border-b border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/95 backdrop-blur-md z-30 shadow-sm">
           <div className="flex items-center gap-4">
             <button
-              className="p-2 -ml-2 rounded-md text-slate-500 hover:bg-slate-100 hover:text-slate-700 lg:hidden"
+              className="p-2 -ml-2 rounded-md text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200 lg:hidden"
               onClick={() => setSidebarOpen(true)}
             >
               <Menu className="w-6 h-6" />
@@ -245,7 +261,7 @@ export default function AppLayout() {
 
           <div className="flex items-center gap-4 relative">
             <button
-              className="flex items-center gap-2 p-1.5 rounded-full hover:bg-slate-100 transition-colors focus:outline-none"
+              className="flex items-center gap-2 p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-none"
               onClick={() => setDropdownOpen(!dropdownOpen)}
             >
               <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center text-white text-sm font-bold shadow-sm">
@@ -257,14 +273,14 @@ export default function AppLayout() {
             {dropdownOpen && (
               <>
                 <div className="fixed inset-0 z-40" onClick={() => setDropdownOpen(false)}></div>
-                <div className="absolute right-0 top-12 mt-2 w-56 rounded-xl shadow-lg bg-white border border-slate-200 ring-1 ring-black ring-opacity-5 py-1 z-50 overflow-hidden">
-                  <div className="px-4 py-3 border-b border-slate-100 bg-slate-50">
-                    <p className="text-sm font-semibold text-slate-800 truncate">{user?.full_name || 'Admin User'}</p>
+                <div className="absolute right-0 top-12 mt-2 w-56 rounded-xl shadow-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 ring-1 ring-black ring-opacity-5 py-1 z-50 overflow-hidden">
+                  <div className="px-4 py-3 border-b border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/60">
+                    <p className="text-sm font-semibold text-slate-800 dark:text-slate-100 truncate">{user?.full_name || 'Admin User'}</p>
                     <p className="text-xs text-slate-500 truncate mt-0.5">{user?.email || 'admin@school.com'}</p>
                   </div>
                   <div className="py-1">
                     <button
-                      className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2 transition-colors"
+                      className="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 flex items-center gap-2 transition-colors"
                       onClick={() => { setDropdownOpen(false); navigate('/profile'); }}
                     >
                       <User className="w-4 h-4 text-slate-400" /> Profile
@@ -285,7 +301,7 @@ export default function AppLayout() {
         </header>
 
         {/* Main Outlet */}
-        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 relative bg-slate-50/50">
+        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 relative bg-slate-50/50 dark:bg-slate-950">
           <Outlet />
         </main>
       </div>
