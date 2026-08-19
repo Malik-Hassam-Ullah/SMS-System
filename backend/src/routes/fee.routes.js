@@ -890,8 +890,8 @@ router.get('/export-monthly-excel', authenticate, requireRole('admin', 'accounta
     .select(`
       *,
       students (
-        id, full_name, registration_number, roll_number, father_name,
-        father_cnic, contact_number, gender, date_of_birth, admission_date, address,
+        id, full_name, registration_number, roll_number, voucher_number, father_name,
+        father_cnic, contact_number, gender, date_of_birth, date_of_admission, admission_class, address,
         classes ( id, name ),
         sections ( id, name )
       ),
@@ -902,7 +902,10 @@ router.get('/export-monthly-excel', authenticate, requireRole('admin', 'accounta
     .eq('is_deleted', false)
     .order('voucher_number', { ascending: true });
 
-  if (error) throw error;
+  if (error) {
+    console.error('Export excel error:', error);
+    throw error;
+  }
 
   // Group vouchers by Class & Section
   const gradeMap = new Map();
@@ -1052,8 +1055,8 @@ router.get('/export-monthly-excel', authenticate, requireRole('admin', 'accounta
         s.contact_number || '',
         s.gender || 'M',
         s.date_of_birth || '',
-        s.admission_date || '',
-        s.classes?.name || gradeKey,
+        s.date_of_admission || '',
+        s.admission_class || s.classes?.name || gradeKey,
         s.address || ''
       ]);
     });

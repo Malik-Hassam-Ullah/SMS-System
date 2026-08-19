@@ -208,7 +208,18 @@ ${publicLink}`;
         params: { month },
         responseType: 'blob'
       });
-      const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
+      // If server returned error JSON wrapped in blob
+      if (response.data?.type === 'application/json') {
+        const text = await response.data.text();
+        const json = JSON.parse(text);
+        throw new Error(json.message || 'Export error');
+      }
+
+      const blob = response.data instanceof Blob
+        ? response.data
+        : new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
@@ -220,7 +231,7 @@ ${publicLink}`;
       setShowExportModal(false);
     } catch (err) {
       console.error('Failed to export monthly fee file:', err);
-      alert('Failed to export Monthly Fee Excel file');
+      alert(err.message || 'Failed to export Monthly Fee Excel file');
     } finally {
       setExportingExcel(false);
     }

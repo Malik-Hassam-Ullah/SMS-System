@@ -46,7 +46,13 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => {
     // Automatically unwrap the standard backend wrapper { success: true, data: ... }
-    if (response.data && typeof response.data === 'object' && 'success' in response.data && 'data' in response.data) {
+    if (
+      response.data &&
+      typeof response.data === 'object' &&
+      !(response.data instanceof Blob) &&
+      'success' in response.data &&
+      'data' in response.data
+    ) {
       const originalData = response.data;
       response.data = originalData.data;
       if (originalData.pagination) {
