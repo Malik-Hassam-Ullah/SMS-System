@@ -1,0 +1,148 @@
+﻿ M backend/branches_list.txt
+ M backend/check_columns.js
+ M backend/cols_out.txt
+ M backend/src/app.js
+ M backend/src/routes/attendance.routes.js
+ M backend/src/routes/fee.routes.js
+ M backend/src/routes/import.routes.js
+ M backend/src/routes/marks.routes.js
+ M backend/src/routes/public.routes.js
+ D backend/update_log.txt
+ D backend/whatsapp-session/session/CertificateRevocation/10718/LICENSE
+ D backend/whatsapp-session/session/CertificateRevocation/10718/_metadata/verified_contents.json
+ D backend/whatsapp-session/session/CertificateRevocation/10718/crl-set
+ D backend/whatsapp-session/session/CertificateRevocation/10718/manifest.json
+ M backend/whatsapp-session/session/Default/Cache/Cache_Data/sqldb0
+ M backend/whatsapp-session/session/Default/Cache/Cache_Data/sqldb0-wal
+ M backend/whatsapp-session/session/Default/Cache/Cache_Data/sqldb1
+ M backend/whatsapp-session/session/Default/Cache/Cache_Data/sqldb1-wal
+ M backend/whatsapp-session/session/Default/Cache/Cache_Data/sqldb2
+ M backend/whatsapp-session/session/Default/Cache/Cache_Data/sqldb2-wal
+ M backend/whatsapp-session/session/Default/Cache/No_Vary_Search/snapshot.baf
+ M "backend/whatsapp-session/session/Default/Code Cache/pc/5bb[a`6`2`2e2.ue5-ba-[[u0@;`2.db"
+ M "backend/whatsapp-session/session/Default/Code Cache/pc/5bb[a`6`2`2e2.ue5-ba-[[u0@;`2.journal"
+ M backend/whatsapp-session/session/Default/DIPS-wal
+ M backend/whatsapp-session/session/Default/DawnGraphiteCache/data_1
+ M backend/whatsapp-session/session/Default/DawnWebGPUCache/data_1
+ M "backend/whatsapp-session/session/Default/Extension State/LOG"
+ M "backend/whatsapp-session/session/Default/Extension State/LOG.old"
+ M "backend/whatsapp-session/session/Default/GCM Store/LOG"
+ M "backend/whatsapp-session/session/Default/GCM Store/LOG.old"
+ M backend/whatsapp-session/session/Default/GPUCache/data_1
+ M backend/whatsapp-session/session/Default/History
+ M backend/whatsapp-session/session/Default/History-journal
+ D backend/whatsapp-session/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000249.ldb
+ D backend/whatsapp-session/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000250.ldb
+ D backend/whatsapp-session/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000251.ldb
+ D backend/whatsapp-session/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000252.ldb
+ D backend/whatsapp-session/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000253.ldb
+ D backend/whatsapp-session/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000256.ldb
+ D backend/whatsapp-session/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000257.ldb
+ D backend/whatsapp-session/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000258.ldb
+ D backend/whatsapp-session/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000259.ldb
+ D backend/whatsapp-session/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000260.ldb
+ D backend/whatsapp-session/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000261.ldb
+ M backend/whatsapp-session/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/LOG
+ M backend/whatsapp-session/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/LOG.old
+ M backend/whatsapp-session/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+ D "backend/whatsapp-session/session/Default/Local Storage/leveldb/000003.ldb"
+ D "backend/whatsapp-session/session/Default/Local Storage/leveldb/000007.ldb"
+ D "backend/whatsapp-session/session/Default/Local Storage/leveldb/000009.ldb"
+ M "backend/whatsapp-session/session/Default/Local Storage/leveldb/LOG"
+ M "backend/whatsapp-session/session/Default/Local Storage/leveldb/LOG.old"
+ M "backend/whatsapp-session/session/Default/Local Storage/leveldb/MANIFEST-000001"
+ M backend/whatsapp-session/session/Default/Network/Cookies
+ M backend/whatsapp-session/session/Default/Network/Cookies-journal
+ M "backend/whatsapp-session/session/Default/Network/Network Persistent State"
+ M "backend/whatsapp-session/session/Default/Network/Reporting and NEL"
+ M backend/whatsapp-session/session/Default/Network/TransportSecurity
+ M backend/whatsapp-session/session/Default/Preferences
+ M "backend/whatsapp-session/session/Default/Secure Preferences"
+ M "backend/whatsapp-session/session/Default/Service Worker/CacheStorage/0bf6ab7f94a21cdc9c1649f884333ec20f40a544/d4d16db9-69b1-413b-b0ab-7c37d302aac3/index-dir/the-real-index"
+ M "backend/whatsapp-session/session/Default/Service Worker/CacheStorage/0bf6ab7f94a21cdc9c1649f884333ec20f40a544/d9d30eff-f3c9-4a4e-9d8d-b34167357480/6ea66fa5b36b4157_0"
+ M "backend/whatsapp-session/session/Default/Service Worker/CacheStorage/0bf6ab7f94a21cdc9c1649f884333ec20f40a544/d9d30eff-f3c9-4a4e-9d8d-b34167357480/e6039a61e4d2a504_0"
+ M "backend/whatsapp-session/session/Default/Service Worker/CacheStorage/0bf6ab7f94a21cdc9c1649f884333ec20f40a544/d9d30eff-f3c9-4a4e-9d8d-b34167357480/index-dir/the-real-index"
+ M "backend/whatsapp-session/session/Default/Service Worker/CacheStorage/0bf6ab7f94a21cdc9c1649f884333ec20f40a544/index.txt"
+ M "backend/whatsapp-session/session/Default/Service Worker/Database/LOG"
+ M "backend/whatsapp-session/session/Default/Service Worker/Database/LOG.old"
+ D "backend/whatsapp-session/session/Default/Service Worker/ScriptCache/6fc459ba53cb570a_0"
+ D "backend/whatsapp-session/session/Default/Service Worker/ScriptCache/6fc459ba53cb570a_1"
+ D "backend/whatsapp-session/session/Default/Service Worker/ScriptCache/91baa182c7a11977_0"
+ D "backend/whatsapp-session/session/Default/Service Worker/ScriptCache/91baa182c7a11977_1"
+ M "backend/whatsapp-session/session/Default/Service Worker/ScriptCache/index-dir/the-real-index"
+ M "backend/whatsapp-session/session/Default/Session Storage/LOG"
+ M "backend/whatsapp-session/session/Default/Session Storage/LOG.old"
+ D backend/whatsapp-session/session/Default/Sessions/Tabs_13431344825209122
+ D backend/whatsapp-session/session/Default/Sessions/Tabs_13431354753652098
+ M "backend/whatsapp-session/session/Default/Site Characteristics Database/LOG"
+ M "backend/whatsapp-session/session/Default/Site Characteristics Database/LOG.old"
+ M "backend/whatsapp-session/session/Default/Sync Data/LevelDB/LOG"
+ M "backend/whatsapp-session/session/Default/Sync Data/LevelDB/LOG.old"
+ M "backend/whatsapp-session/session/Default/Web Data"
+ M backend/whatsapp-session/session/Default/WebStorage/QuotaManager
+ M backend/whatsapp-session/session/Default/WebStorage/QuotaManager-journal
+ M backend/whatsapp-session/session/Default/passkey_enclave_state
+ M backend/whatsapp-session/session/Default/shared_proto_db/LOG
+ M backend/whatsapp-session/session/Default/shared_proto_db/LOG.old
+ M backend/whatsapp-session/session/Default/shared_proto_db/MANIFEST-000001
+ M backend/whatsapp-session/session/Default/shared_proto_db/metadata/LOG
+ M backend/whatsapp-session/session/Default/shared_proto_db/metadata/LOG.old
+ M backend/whatsapp-session/session/DevToolsActivePort
+ M "backend/whatsapp-session/session/Local State"
+ M backend/whatsapp-session/session/Variations
+ M backend/whatsapp-session/session/first_party_sets.db
+ M backend/whatsapp-session/session/segmentation_platform/ukm_db
+ M backend/whatsapp_log.txt
+ M frontend/src/App.jsx
+ M frontend/src/components/layout/AppLayout.jsx
+ M frontend/src/index.css
+ M frontend/src/pages/admin/certificates/CertificatesPage.jsx
+ M frontend/src/pages/admin/fees/PaymentsPage.jsx
+ M frontend/src/pages/admin/fees/VoucherDetailPage.jsx
+ M frontend/src/pages/admin/fees/VouchersPage.jsx
+ M frontend/src/pages/auth/LoginPage.jsx
+ M frontend/src/pages/public/PublicVoucherPage.jsx
+ M frontend/tailwind.config.js
+?? backend/.wwebjs_cache/2.3000.1045323241.html
+?? backend/.wwebjs_cache/2.3000.1045325264.html
+?? backend/.wwebjs_cache/2.3000.1045340097.html
+?? backend/.wwebjs_cache/2.3000.1045418364.html
+?? backend/.wwebjs_cache/2.3000.1045424503.html
+?? backend/.wwebjs_cache/2.3000.1045428348.html
+?? backend/.wwebjs_cache/2.3000.1045450295.html
+?? backend/check_db_triggers.js
+?? backend/find_fine.js
+?? backend/find_fine_all.js
+?? backend/find_fine_front.js
+?? backend/find_fine_out.txt
+?? backend/get_student_columns.js
+?? backend/migrations/
+?? backend/src/routes/settings.routes.js
+?? backend/student_cols_out.txt
+?? backend/whatsapp-session/session/CertificateRevocation/10722/
+?? backend/whatsapp-session/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000406.ldb
+?? backend/whatsapp-session/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000407.ldb
+?? backend/whatsapp-session/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000408.ldb
+?? backend/whatsapp-session/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000409.ldb
+?? backend/whatsapp-session/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000410.ldb
+?? backend/whatsapp-session/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000411.ldb
+?? "backend/whatsapp-session/session/Default/Local Storage/leveldb/000027.ldb"
+?? backend/whatsapp-session/session/Default/MediaDeviceSalts
+?? backend/whatsapp-session/session/Default/MediaDeviceSalts-journal
+?? "backend/whatsapp-session/session/Default/Service Worker/CacheStorage/0bf6ab7f94a21cdc9c1649f884333ec20f40a544/d4d16db9-69b1-413b-b0ab-7c37d302aac3/183ba547765ecc16_0"
+?? "backend/whatsapp-session/session/Default/Service Worker/CacheStorage/0bf6ab7f94a21cdc9c1649f884333ec20f40a544/d4d16db9-69b1-413b-b0ab-7c37d302aac3/22e3209470ea842d_0"
+?? "backend/whatsapp-session/session/Default/Service Worker/CacheStorage/0bf6ab7f94a21cdc9c1649f884333ec20f40a544/d4d16db9-69b1-413b-b0ab-7c37d302aac3/55099a5dfae8afd5_0"
+?? "backend/whatsapp-session/session/Default/Service Worker/CacheStorage/0bf6ab7f94a21cdc9c1649f884333ec20f40a544/d4d16db9-69b1-413b-b0ab-7c37d302aac3/8af948cbee20dd41_0"
+?? "backend/whatsapp-session/session/Default/Service Worker/CacheStorage/0bf6ab7f94a21cdc9c1649f884333ec20f40a544/d4d16db9-69b1-413b-b0ab-7c37d302aac3/e769aa50ca71cdbf_0"
+?? "backend/whatsapp-session/session/Default/Service Worker/ScriptCache/1a5e629c40eeff8e_0"
+?? "backend/whatsapp-session/session/Default/Service Worker/ScriptCache/1a5e629c40eeff8e_1"
+?? "backend/whatsapp-session/session/Default/Service Worker/ScriptCache/a46fc2cb518ae280_0"
+?? "backend/whatsapp-session/session/Default/Service Worker/ScriptCache/a46fc2cb518ae280_1"
+?? backend/whatsapp-session/session/Default/Sessions/Tabs_13431540088297544
+?? backend/whatsapp-session/session/Default/Sessions/Tabs_13431544834359895
+?? backend/whatsapp-session/session/Default/shared_proto_db/000005.ldb
+?? backend/whatsapp-session/session/lockfile
+?? frontend/src/components/ThemeProvider.jsx
+?? frontend/src/pages/admin/SettingsPage.jsx
+?? frontend/src/store/settings.store.js
+?? git_status.txt
