@@ -136,7 +136,7 @@ export default function CeoDashboard() {
               All Systems Operational
             </div>
             <h1 className="text-3xl sm:text-4xl font-black tracking-tight">
-              Executive Command Center
+              Welcome to The Smart School Kahuta Campus
             </h1>
             <p className="text-slate-400 text-sm sm:text-base max-w-xl">
               Real-time performance, operational health, and financial growth across all campuses.
