@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, FileText, Users, Loader2, Check, AlertCircle, Send, MessageCircle, Mail, ChevronDown, ChevronUp } from 'lucide-react';
+import { Search, FileText, Users, Loader2, Check, AlertCircle, Send, MessageCircle, Mail, ChevronDown, ChevronUp, Download } from 'lucide-react';
 import api from '../../../lib/api';
 
 export default function GenerateVoucherPage() {
@@ -174,6 +174,33 @@ export default function GenerateVoucherPage() {
     } finally { setGenerating(false); }
   };
 
+  const [downloadingExcel, setDownloadingExcel] = useState(false);
+
+  const handleDownloadMonthlyExcel = async (targetMonth) => {
+    const month = targetMonth || bulkForm.fee_month || new Date().toISOString().slice(0, 7);
+    setDownloadingExcel(true);
+    try {
+      const response = await api.get('/fees/export-monthly-excel', {
+        params: { month },
+        responseType: 'blob'
+      });
+      const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Fee Challan with data file ${month}.xlsx`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (err) {
+      console.error('Download failed:', err);
+      alert('Failed to download Monthly Fee Excel file');
+    } finally {
+      setDownloadingExcel(false);
+    }
+  };
+
   const totalPayable = (fee, prev, charges, disc) =>
     Math.max(0, Number(fee || 0) + Number(prev || 0) + Number(charges || 0) - Number(disc || 0));
 
@@ -181,9 +208,20 @@ export default function GenerateVoucherPage() {
 
   return (
     <div className="p-6 max-w-5xl mx-auto space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-slate-800">Generate Fee Vouchers</h1>
-        <p className="text-slate-500 mt-1">Create fee vouchers for students. Previous balance is auto-included.</p>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-800">Generate Fee Vouchers</h1>
+          <p className="text-slate-500 mt-1">Create fee vouchers for students. Previous balance is auto-included.</p>
+        </div>
+        <button
+          type="button"
+          onClick={() => handleDownloadMonthlyExcel(bulkForm.fee_month)}
+          disabled={downloadingExcel}
+          className="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white text-sm font-bold rounded-xl shadow-md shadow-emerald-600/20 transition-all cursor-pointer disabled:opacity-50"
+        >
+          {downloadingExcel ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+          {downloadingExcel ? 'Exporting...' : '📊 Export Monthly Fee File (.xlsx)'}
+        </button>
       </div>
 
       {/* Mode Toggle */}
@@ -421,17 +459,28 @@ export default function GenerateVoucherPage() {
       {/* Result */}
       {result && (
         <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-6">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center">
-              <Check className="text-white" size={22} />
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center shrink-0">
+                <Check className="text-white" size={22} />
+              </div>
+              <div>
+                <p className="font-bold text-emerald-800 text-lg">Vouchers Generated Successfully!</p>
+                <p className="text-emerald-600 text-sm">
+                  {result.summary?.created} voucher(s) created
+                  {result.summary?.skipped > 0 && `, ${result.summary.skipped} skipped (already existed)`}
+                </p>
+              </div>
             </div>
-            <div>
-              <p className="font-bold text-emerald-800 text-lg">Vouchers Generated Successfully!</p>
-              <p className="text-emerald-600 text-sm">
-                {result.summary?.created} voucher(s) created
-                {result.summary?.skipped > 0 && `, ${result.summary.skipped} skipped (already existed)`}
-              </p>
-            </div>
+            <button
+              type="button"
+              onClick={() => handleDownloadMonthlyExcel(mode === 'bulk' ? bulkForm.fee_month : singleForm.fee_month)}
+              disabled={downloadingExcel}
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-700 hover:bg-emerald-800 active:scale-95 text-white text-sm font-bold rounded-xl shadow-lg shadow-emerald-700/30 transition-all cursor-pointer disabled:opacity-50"
+            >
+              {downloadingExcel ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+              {downloadingExcel ? 'Generating File...' : '📥 Download Monthly Fee File Excel (.xlsx)'}
+            </button>
           </div>
           {result.data && result.data.length > 0 && (
             <div className="overflow-x-auto rounded-lg border border-emerald-200 bg-white max-h-90 overflow-y-auto">

@@ -196,120 +196,33 @@ ${publicLink}`;
     }
   }, [page]);
 
-  const exportToExcel = async () => {
+  const [showExportModal, setShowExportModal] = useState(false);
+  const [exportMonth, setExportMonth] = useState(new Date().toISOString().slice(0, 7));
+  const [exportingExcel, setExportingExcel] = useState(false);
+
+  const handleDownloadMonthlyExcel = async (targetMonth) => {
+    const month = targetMonth || exportMonth || new Date().toISOString().slice(0, 7);
+    setExportingExcel(true);
     try {
-      // Fetch all vouchers for export
-      const res = await api.get('/fees/vouchers', { params: { limit: 10000 } });
-      let allVouchers = res.data || [];
-
-      // Group by Class and Section
-      const grouped = {};
-      allVouchers.forEach(v => {
-        const className = v.students?.classes?.name || 'Unknown Class';
-        const sectionName = v.students?.sections?.name || 'Unknown Section';
-        const groupKey = `${className}/${sectionName}`;
-        if (!grouped[groupKey]) grouped[groupKey] = [];
-        grouped[groupKey].push(v);
+      const response = await api.get('/fees/export-monthly-excel', {
+        params: { month },
+        responseType: 'blob'
       });
-
-      // Sort groups alphabetically
-      const sortedGroupKeys = Object.keys(grouped).sort();
-
-      const aoa = [];
-      const monthName = new Date().toLocaleString('default', { month: 'long' });
-      const year = new Date().getFullYear();
-
-      // Top Headers
-      aoa.push([null, `                                                                                                        ${settings.schoolName || "The Smart School Kahuta Campus"}`]);
-      aoa.push([null, null, null, `                                                           Fee Detail for the Month of ${monthName} , ${year}`]);
-
-      const headers = [
-        'Sr.', 'V.no', 'Roll.No', 'Name', '', 'New Fee', 'Annual Charges', 'Reg; Charges',
-        'Previous Balance', 'Total Fee', 'Cash Deposit', 'Bank Deposit',
-        'Deposit Date', 'Current Balance', 'Sibling Detail', 'Current Balance', 'Discount Detail'
-      ];
-
-      sortedGroupKeys.forEach((key, index) => {
-        if (index > 0) {
-          aoa.push([]); // Empty row
-          aoa.push([]); // Empty row
-        }
-
-        // Group Header
-        aoa.push([null, `                                   Grade:   ${key}`]);
-        aoa.push(headers);
-
-        let totals = {
-          newFee: 0, annual: 0, reg: 0, prev: 0, totalFee: 0,
-          cash: 0, bank: 0, currentBal1: 0, currentBal2: 0, discount: 0
-        };
-
-        // Sort students within group by Roll Number
-        const students = grouped[key].sort((a, b) => {
-          const rollA = a.students?.roll_number || '';
-          const rollB = b.students?.roll_number || '';
-          return rollA.localeCompare(rollB, undefined, { numeric: true });
-        });
-
-        students.forEach((v, i) => {
-          const currentFee = Number(v.current_fee || 0);
-          const otherCharges = Number(v.other_charges || 0);
-          const previousBalance = Number(v.previous_balance || 0);
-          const discount = Number(v.discount || 0);
-          const totalPayable = currentFee + previousBalance + otherCharges - discount;
-
-          totals.newFee += currentFee;
-          totals.annual += otherCharges;
-          totals.prev += previousBalance;
-          totals.totalFee += totalPayable;
-          totals.discount += discount;
-
-          aoa.push([
-            i + 1,
-            v.voucher_number,
-            v.students?.roll_number || '-',
-            v.students?.full_name || 'N/A',
-            null, // Empty column
-            currentFee,
-            otherCharges || null,
-            null, // Reg Charge
-            previousBalance,
-            totalPayable,
-            null, // Cash Deposit
-            null, // Bank Deposit
-            null, // Deposit Date
-            null, // Current Balance 1
-            null, // Sibling Detail
-            null, // Current Balance 2
-            discount || null
-          ]);
-        });
-
-        // Totals Row
-        aoa.push([
-          students.length, null, null, "     Total", null,
-          totals.newFee, totals.annual, totals.reg, totals.prev, totals.totalFee,
-          null, null, null, null, null, null, totals.discount || null
-        ]);
-      });
-
-      const ws = XLSX.utils.aoa_to_sheet(aoa);
-
-      // Auto-size columns slightly to match layout
-      const colWidths = [
-        { wch: 5 }, { wch: 10 }, { wch: 10 }, { wch: 25 }, { wch: 2 },
-        { wch: 10 }, { wch: 15 }, { wch: 12 }, { wch: 15 }, { wch: 12 },
-        { wch: 12 }, { wch: 12 }, { wch: 12 }, { wch: 15 }, { wch: 15 },
-        { wch: 15 }, { wch: 15 }
-      ];
-      ws['!cols'] = colWidths;
-
-      const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, `Monthly Fee File ${monthName.substring(0, 3)} ,${year}`);
-      XLSX.writeFile(wb, `Monthly Fee File ${monthName} ,${year}.xlsx`);
+      const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Fee Challan with data file ${month}.xlsx`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+      setShowExportModal(false);
     } catch (err) {
-      console.error("Failed to export vouchers:", err);
-      alert("Failed to export vouchers. Please try again.");
+      console.error('Failed to export monthly fee file:', err);
+      alert('Failed to export Monthly Fee Excel file');
+    } finally {
+      setExportingExcel(false);
     }
   };
 
@@ -317,15 +230,15 @@ ${publicLink}`;
     <div className="p-6">
       <div className="page-header flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold ">Fee Vouchers</h1>
-        <div className="flex gap-3">
+        <div className="flex gap-3 flex-wrap">
           <button onClick={() => setShowBulkWhatsAppModal(true)} className="btn-secondary flex items-center gap-2 bg-green-50 text-green-700 border border-green-200 hover:bg-green-100 px-4 py-2 rounded-lg font-medium transition-colors">
             <MessageSquare size={18} /> Send WhatsApp
           </button>
           <button onClick={() => setShowBulkUpdateModal(true)} className="btn-secondary flex items-center gap-2 bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100 px-4 py-2 rounded-lg font-medium transition-colors">
             <Settings size={18} /> Bulk Update
           </button>
-          <button onClick={exportToExcel} className="btn-secondary flex items-center gap-2 bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 px-4 py-2 rounded-lg font-medium transition-colors">
-            <Download size={18} /> Export Excel
+          <button onClick={() => setShowExportModal(true)} className="btn-secondary flex items-center gap-2 bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 px-4 py-2 rounded-lg font-medium transition-colors">
+            <Download size={18} /> 📊 Export Monthly Fee File (.xlsx)
           </button>
           <Link to="/admin/fees/generate" className="btn-primary flex items-center gap-2">
             <Plus size={18} /> Generate Voucher
@@ -630,6 +543,52 @@ ${publicLink}`;
                   disabled={sendingBulkWhatsApp}
                 >
                   {sendingBulkWhatsApp ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Send Vouchers'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Export Monthly Fee File Modal */}
+      {showExportModal && (
+        <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white p-6 w-full max-w-md rounded-2xl shadow-2xl border border-slate-200">
+            <h2 className="text-xl font-bold mb-2 text-slate-900 flex items-center gap-2">
+              <Download className="text-emerald-600" /> Export Monthly Fee Excel
+            </h2>
+            <p className="text-sm text-slate-500 mb-5">
+              Generates the complete <strong>Monthly Fee File</strong> and <strong>Data File</strong> sheets formatted identically to the school's master Excel record.
+            </p>
+
+            <form onSubmit={(e) => { e.preventDefault(); handleDownloadMonthlyExcel(exportMonth); }} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1">Select Fee Month <span className="text-red-500">*</span></label>
+                <input
+                  type="month"
+                  className="input w-full"
+                  value={exportMonth}
+                  onChange={e => setExportMonth(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="flex justify-end gap-3 pt-4 border-t border-slate-100 mt-6">
+                <button
+                  type="button"
+                  className="px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-lg transition-colors font-medium"
+                  onClick={() => setShowExportModal(false)}
+                  disabled={exportingExcel}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="btn-primary flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 border-emerald-600"
+                  disabled={exportingExcel}
+                >
+                  {exportingExcel ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+                  {exportingExcel ? 'Generating...' : 'Download (.xlsx)'}
                 </button>
               </div>
             </form>

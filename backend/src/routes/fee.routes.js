@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const xlsx = require('xlsx');
 const { supabaseAdmin } = require('../config/supabase');
 const { authenticate, requireRole } = require('../middleware/auth.middleware');
 const { asyncHandler } = require('../middleware/error.middleware');
@@ -857,6 +858,217 @@ router.get('/reports/monthly-summary', authenticate, requireRole('admin', 'accou
     success: true,
     data: Object.entries(summary).map(([month, amount]) => ({ month, amount })),
   });
+}));
+
+// GET /api/fees/export-monthly-excel - Generate and download exact TSS Monthly Fee File & Data File
+router.get('/export-monthly-excel', authenticate, requireRole('admin', 'accountant'), asyncHandler(async (req, res) => {
+  const { month } = req.query;
+  const targetMonth = month || new Date().toISOString().slice(0, 7);
+  const branchId = req.branchId;
+
+  const monthNames = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+
+  const [yearStr, mStr] = targetMonth.split('-');
+  const monthName = monthNames[parseInt(mStr, 10) - 1] || 'Monthly';
+  const year = yearStr || new Date().getFullYear();
+
+  // Fetch branch details
+  const { data: branch } = await supabaseAdmin
+    .from('branches')
+    .select('name, schools ( name )')
+    .eq('id', branchId)
+    .single();
+
+  const schoolTitle = `${branch?.schools?.name || 'The Smart School'} ${branch?.name || 'Kahuta Campus'}`;
+
+  // Fetch all vouchers for this month with student and payment details
+  const { data: vouchers, error } = await supabaseAdmin
+    .from('fee_vouchers')
+    .select(`
+      *,
+      students (
+        id, full_name, registration_number, roll_number, father_name,
+        father_cnic, contact_number, gender, date_of_birth, admission_date, address,
+        classes ( id, name ),
+        sections ( id, name )
+      ),
+      fee_payments ( id, amount, payment_method, payment_date )
+    `)
+    .eq('branch_id', branchId)
+    .eq('fee_month', targetMonth)
+    .eq('is_deleted', false)
+    .order('voucher_number', { ascending: true });
+
+  if (error) throw error;
+
+  // Group vouchers by Class & Section
+  const gradeMap = new Map();
+
+  (vouchers || []).forEach(v => {
+    const className = v.students?.classes?.name || 'General';
+    const sectionName = v.students?.sections?.name || 'A';
+    const gradeKey = `${className}/${sectionName}`;
+
+    if (!gradeMap.has(gradeKey)) {
+      gradeMap.set(gradeKey, []);
+    }
+    gradeMap.get(gradeKey).push(v);
+  });
+
+  const wb = xlsx.utils.book_new();
+
+  // ── Sheet 1: Monthly Fee File [Month] ,[Year] ───────────────────
+  const sheet1Rows = [];
+  sheet1Rows.push([null, `                                                                                                        ${schoolTitle}`]);
+  sheet1Rows.push([null, null, null, `                                                           Fee Detail for the Month of ${monthName} , ${year}`]);
+
+  gradeMap.forEach((voucherList, gradeKey) => {
+    sheet1Rows.push([null, `                                   Grade:   ${gradeKey}`]);
+    sheet1Rows.push([
+      'Sr.', 'V.no', 'Roll.No', 'Name', null, 'New Fee', 'Annual Charges', 'Reg; Charges',
+      'Previous Balance', 'Total Fee', 'Cash Deposit', 'Bank Deposit', 'Deposit Date',
+      'Current Balance', 'Sibling Detail', 'Current Balance', 'Discount Detail'
+    ]);
+
+    let sumNewFee = 0;
+    let sumAnnual = 0;
+    let sumReg = 0;
+    let sumPrev = 0;
+    let sumTotal = 0;
+    let sumCash = 0;
+    let sumBank = 0;
+    let sumBal = 0;
+
+    voucherList.forEach((v, idx) => {
+      const newFee = Number(v.current_fee || 0);
+      const otherCharges = Number(v.other_charges || 0);
+      const discount = Number(v.discount || 0);
+      const prevBal = Number(v.previous_balance || 0);
+      const totalFee = Number(v.total_payable || (newFee + prevBal + otherCharges - discount));
+
+      const cashPaid = (v.fee_payments || [])
+        .filter(p => p.payment_method?.toLowerCase() === 'cash')
+        .reduce((sum, p) => sum + Number(p.amount || 0), 0);
+
+      const bankPaid = (v.fee_payments || [])
+        .filter(p => p.payment_method?.toLowerCase() !== 'cash')
+        .reduce((sum, p) => sum + Number(p.amount || 0), 0);
+
+      const totalPaid = Number(v.amount_paid || (cashPaid + bankPaid));
+      const effectiveCash = cashPaid || (v.payment_method?.toLowerCase() === 'cash' ? totalPaid : (totalPaid > 0 && bankPaid === 0 ? totalPaid : 0));
+      const effectiveBank = bankPaid || (v.payment_method?.toLowerCase() === 'bank' ? totalPaid : 0);
+      const currentBal = Math.max(0, totalFee - totalPaid);
+
+      const lastPayment = (v.fee_payments || [])[v.fee_payments?.length - 1];
+      const depositDate = v.payment_date || lastPayment?.payment_date || null;
+
+      sumNewFee += newFee;
+      sumPrev += prevBal;
+      sumTotal += totalFee;
+      sumCash += effectiveCash;
+      sumBank += effectiveBank;
+      sumBal += currentBal;
+
+      sheet1Rows.push([
+        idx + 1,
+        v.voucher_number || '',
+        v.students?.roll_number || '',
+        v.students?.full_name || '',
+        null,
+        newFee,
+        otherCharges > 0 ? otherCharges : null,
+        null,
+        prevBal,
+        totalFee,
+        effectiveCash > 0 ? effectiveCash : (totalPaid === 0 ? 0 : null),
+        effectiveBank > 0 ? effectiveBank : null,
+        depositDate,
+        currentBal,
+        null,
+        currentBal,
+        discount > 0 ? `Discount PKR ${discount}` : null
+      ]);
+    });
+
+    // Subtotal row for this grade
+    sheet1Rows.push([
+      voucherList.length,
+      null,
+      null,
+      '     Total',
+      null,
+      sumNewFee,
+      sumAnnual,
+      sumReg,
+      sumPrev,
+      sumTotal,
+      sumCash,
+      sumBank,
+      0,
+      sumBal,
+      0,
+      sumBal
+    ]);
+    sheet1Rows.push([]);
+  });
+
+  const ws1 = xlsx.utils.aoa_to_sheet(sheet1Rows);
+  const sheetName1 = `Monthly Fee File ${monthName} ,${year}`.slice(0, 31);
+  xlsx.utils.book_append_sheet(wb, ws1, sheetName1);
+
+  // ── Sheet 2: Data File ─────────────────────────────────────────
+  const sheet2Rows = [];
+  sheet2Rows.push([`                                                                                                        ${schoolTitle}`, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 'Class/Section', 'Sr.No From ', 'Sr.No To ']);
+  sheet2Rows.push([null, null, null, ` Fee Detail for the Month ${monthName}, ${year}`]);
+
+  gradeMap.forEach((voucherList, gradeKey) => {
+    sheet2Rows.push([`                                   Grade:   ${gradeKey} `]);
+    sheet2Rows.push([
+      'V.No', 'Roll No.', 'Name', 'Fee', 'Annual Charges', 'Reg; Charges', 'Previous Balance', 'Total Fee',
+      'Reg:NO', 'Father Name', 'Father CNIC', 'Contact No. 1', 'Gander', 'Date of Birth', 'Date of admission', 'Admission in Class', 'Address'
+    ]);
+
+    voucherList.forEach(v => {
+      const s = v.students || {};
+      const fee = Number(v.current_fee || 0);
+      const prev = Number(v.previous_balance || 0);
+      const total = Number(v.total_payable || (fee + prev));
+
+      sheet2Rows.push([
+        v.voucher_number || '',
+        s.roll_number || '',
+        s.full_name || '',
+        fee,
+        Number(v.other_charges || 0) || null,
+        null,
+        prev,
+        total,
+        s.registration_number || '',
+        s.father_name || '',
+        s.father_cnic || '',
+        s.contact_number || '',
+        s.gender || 'M',
+        s.date_of_birth || '',
+        s.admission_date || '',
+        s.classes?.name || gradeKey,
+        s.address || ''
+      ]);
+    });
+    sheet2Rows.push([]);
+  });
+
+  const ws2 = xlsx.utils.aoa_to_sheet(sheet2Rows);
+  xlsx.utils.book_append_sheet(wb, ws2, 'Data File ');
+
+  const buffer = xlsx.write(wb, { type: 'buffer', bookType: 'xlsx' });
+
+  const fileName = `Fee Challan with data file ${monthName} ,${year}.xlsx`;
+  res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+  res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
+  res.send(buffer);
 }));
 
 module.exports = router;
