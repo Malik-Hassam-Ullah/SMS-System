@@ -3,17 +3,41 @@ import { useNavigate } from 'react-router-dom';
 import {
   Building2, Users, IndianRupee, ShieldCheck, Loader2,
   ArrowUpRight, TrendingUp, Activity, Plus, UserPlus,
-  Settings, Calendar, Search, CheckCircle2, ArrowRight
+  Settings, Calendar, Search, CheckCircle2, ArrowRight,
+  BarChart2, LineChart, PieChart as PieIcon
 } from 'lucide-react';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid,
   Tooltip as RechartsTooltip, ResponsiveContainer,
-  PieChart, Pie, Cell
+  PieChart, Pie, Cell, ComposedChart, Line, AreaChart, Area
 } from 'recharts';
 import { getDashboardStats, getBranches, getUsers } from '../../api';
 import { useAuthStore } from '../../store/auth.store';
 
 const COLORS = ['#6366f1', '#d946ef', '#10b981', '#f59e0b', '#3b82f6'];
+
+// Premium Custom Tooltip
+const CustomTooltip = ({ active, payload, label }) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-slate-950/95 backdrop-blur-md border border-slate-800 p-4 rounded-2xl shadow-2xl text-white text-xs space-y-2">
+        <p className="font-bold text-slate-300 border-b border-slate-800 pb-1.5 mb-1.5">{label}</p>
+        {payload.map((p, idx) => (
+          <div key={idx} className="flex items-center justify-between gap-6">
+            <div className="flex items-center gap-2">
+              <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: p.color || p.fill }}></div>
+              <span className="text-slate-400 font-medium">{p.name}:</span>
+            </div>
+            <span className="font-mono font-bold text-white">
+              {p.name === 'Revenue' ? `PKR ${p.value.toLocaleString()}` : `${p.value.toLocaleString()} Students`}
+            </span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+  return null;
+};
 
 export default function CeoDashboard() {
   const { user } = useAuthStore();
@@ -28,6 +52,7 @@ export default function CeoDashboard() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [activeChartTab, setActiveChartTab] = useState('combined'); // 'combined', 'revenue', 'students'
 
   // Live clock
   useEffect(() => {
@@ -73,14 +98,10 @@ export default function CeoDashboard() {
     );
   }
 
-  const branchRevenueData = branchStats.map(b => ({
+  const chartData = branchStats.map(b => ({
     name: b.name,
-    revenue: b.revenue
-  }));
-
-  const studentDistribution = branchStats.map(b => ({
-    name: b.name,
-    value: b.studentCount
+    Revenue: b.revenue,
+    Students: b.studentCount
   }));
 
   const filteredBranches = branchStats.filter(b =>
@@ -206,63 +227,130 @@ export default function CeoDashboard() {
 
       </div>
 
-      {/* Analytics Charts Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      {/* Redesigned Analytics Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-        {/* Chart 1: Branch Revenue Comparison */}
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-          <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-            <h3 className="font-bold text-slate-800 text-lg flex items-center gap-2">
-              <TrendingUp className="text-emerald-500 w-5 h-5" /> Branch Revenue Comparison
-            </h3>
+        {/* Left Card: Financial & Student Analytics (Composed/Area/Bar Chart) */}
+        <div className="lg:col-span-2 bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+          <div className="p-6 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-50/30">
+            <div className="space-y-1">
+              <h3 className="font-bold text-slate-800 text-lg flex items-center gap-2">
+                <TrendingUp className="text-indigo-600 w-5 h-5" /> Branch Performance Analytics
+              </h3>
+              <p className="text-xs text-slate-500">Compare financial collection and student strength across campuses</p>
+            </div>
+
+            {/* Interactive Chart Tabs */}
+            <div className="flex bg-slate-100 p-1 rounded-xl border border-slate-200/50 self-start sm:self-auto">
+              <button
+                onClick={() => setActiveChartTab('combined')}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${activeChartTab === 'combined'
+                    ? 'bg-white text-indigo-600 shadow-sm'
+                    : 'text-slate-600 hover:text-slate-900'
+                  }`}
+              >
+                <Activity className="w-3.5 h-3.5" /> Combined
+              </button>
+              <button
+                onClick={() => setActiveChartTab('revenue')}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${activeChartTab === 'revenue'
+                    ? 'bg-white text-emerald-600 shadow-sm'
+                    : 'text-slate-600 hover:text-slate-900'
+                  }`}
+              >
+                <IndianRupee className="w-3.5 h-3.5" /> Revenue
+              </button>
+              <button
+                onClick={() => setActiveChartTab('students')}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${activeChartTab === 'students'
+                    ? 'bg-white text-indigo-600 shadow-sm'
+                    : 'text-slate-600 hover:text-slate-900'
+                  }`}
+              >
+                <Users className="w-3.5 h-3.5" /> Students
+              </button>
+            </div>
           </div>
-          <div className="p-6 h-[350px] w-full">
-            {branchRevenueData.length > 0 ? (
+
+          <div className="p-6 h-[380px] w-full flex-grow">
+            {chartData.length > 0 ? (
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={branchRevenueData} layout="vertical" margin={{ top: 0, right: 30, left: 20, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="#f1f5f9" />
-                  <XAxis type="number" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} />
-                  <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12, fontWeight: 500 }} />
-                  <RechartsTooltip
-                    contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.1)' }}
-                    formatter={(value) => [`PKR ${value.toLocaleString()}`, 'Revenue']}
-                    cursor={{ fill: '#f8fafc' }}
-                  />
-                  <Bar dataKey="revenue" fill="#10b981" radius={[0, 6, 6, 0]} barSize={28}>
-                    {branchRevenueData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                    ))}
-                  </Bar>
-                </BarChart>
+                {activeChartTab === 'combined' ? (
+                  <ComposedChart data={chartData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
+                    <defs>
+                      <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#10b981" stopOpacity={0.8} />
+                        <stop offset="95%" stopColor="#10b981" stopOpacity={0.2} />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                    <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 11, fontWeight: 500 }} />
+                    <YAxis yAxisId="left" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 11 }} />
+                    <YAxis yAxisId="right" orientation="right" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 11 }} />
+                    <RechartsTooltip content={<CustomTooltip />} />
+                    <Bar yAxisId="left" dataKey="Revenue" fill="url(#colorRevenue)" name="Revenue" radius={[6, 6, 0, 0]} barSize={36} />
+                    <Line yAxisId="right" type="monotone" dataKey="Students" stroke="#6366f1" strokeWidth={3} name="Students" dot={{ r: 5, strokeWidth: 2, fill: '#fff' }} activeDot={{ r: 7 }} />
+                  </ComposedChart>
+                ) : activeChartTab === 'revenue' ? (
+                  <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
+                    <defs>
+                      <linearGradient id="colorRevenueOnly" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#10b981" stopOpacity={0.4} />
+                        <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                    <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 11, fontWeight: 500 }} />
+                    <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 11 }} />
+                    <RechartsTooltip content={<CustomTooltip />} />
+                    <Area type="monotone" dataKey="Revenue" stroke="#10b981" strokeWidth={3} fillOpacity={1} fill="url(#colorRevenueOnly)" name="Revenue" dot={{ r: 4, strokeWidth: 2, fill: '#fff' }} />
+                  </AreaChart>
+                ) : (
+                  <BarChart data={chartData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
+                    <defs>
+                      <linearGradient id="colorStudentsOnly" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#6366f1" stopOpacity={0.8} />
+                        <stop offset="95%" stopColor="#6366f1" stopOpacity={0.2} />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                    <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 11, fontWeight: 500 }} />
+                    <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 11 }} />
+                    <RechartsTooltip content={<CustomTooltip />} />
+                    <Bar dataKey="Students" fill="url(#colorStudentsOnly)" name="Students" radius={[6, 6, 0, 0]} barSize={40} />
+                  </BarChart>
+                )}
               </ResponsiveContainer>
             ) : (
               <div className="flex flex-col items-center justify-center h-full text-slate-400">
                 <Activity className="w-12 h-12 mb-2 stroke-1" />
-                <p className="text-sm">No branch revenue data available.</p>
+                <p className="text-sm">No analytics data available.</p>
               </div>
             )}
           </div>
         </div>
 
-        {/* Chart 2: Student Distribution */}
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-          <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+        {/* Right Card: Modern Donut Chart with Center Text & Progress Legend */}
+        <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+          <div className="p-6 border-b border-slate-100 bg-slate-50/50">
             <h3 className="font-bold text-slate-800 text-lg flex items-center gap-2">
-              <Users className="text-indigo-500 w-5 h-5" /> Student Distribution
+              <PieIcon className="text-indigo-600 w-5 h-5" /> Student Distribution
             </h3>
           </div>
-          <div className="p-6 h-[350px] w-full flex flex-col sm:flex-row items-center justify-center relative gap-6">
-            {studentDistribution.length > 0 && studentDistribution.some(d => d.value > 0) ? (
+
+          <div className="p-6 flex-grow flex flex-col items-center justify-center gap-6">
+            {chartData.length > 0 && stats.totalStudents > 0 ? (
               <>
-                <div className="w-full sm:w-1/2 h-full">
+                {/* Donut Chart with Center Text */}
+                <div className="relative w-full h-[200px] flex items-center justify-center">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
                         data={studentDistribution}
                         cx="50%"
                         cy="50%"
-                        innerRadius={70}
-                        outerRadius={100}
+                        innerRadius={65}
+                        outerRadius={85}
                         paddingAngle={4}
                         dataKey="value"
                         stroke="none"
@@ -271,27 +359,44 @@ export default function CeoDashboard() {
                           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
                       </Pie>
-                      <RechartsTooltip
-                        contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.1)' }}
-                      />
+                      <RechartsTooltip content={<CustomTooltip />} />
                     </PieChart>
                   </ResponsiveContainer>
+                  <div className="absolute flex flex-col items-center justify-center pointer-events-none">
+                    <span className="text-3xl font-black text-slate-900 tracking-tight">{stats.totalStudents.toLocaleString()}</span>
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Total Students</span>
+                  </div>
                 </div>
 
-                <div className="w-full sm:w-1/2 flex flex-col gap-3">
-                  {studentDistribution.map((entry, index) => (
-                    <div key={entry.name} className="flex items-center justify-between p-2.5 rounded-xl hover:bg-slate-50 transition-colors">
-                      <div className="flex items-center gap-2.5">
-                        <div className="w-3.5 h-3.5 rounded-full shrink-0" style={{ backgroundColor: COLORS[index % COLORS.length] }}></div>
-                        <span className="text-sm font-semibold text-slate-700">{entry.name}</span>
+                {/* Progress Bar Legend */}
+                <div className="w-full flex flex-col gap-3.5">
+                  {studentDistribution.map((entry, index) => {
+                    const percentage = stats.totalStudents > 0 ? Math.round((entry.value / stats.totalStudents) * 100) : 0;
+                    return (
+                      <div key={entry.name} className="space-y-1.5">
+                        <div className="flex items-center justify-between text-xs font-semibold">
+                          <div className="flex items-center gap-2">
+                            <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: COLORS[index % COLORS.length] }}></div>
+                            <span className="text-slate-700">{entry.name}</span>
+                          </div>
+                          <span className="text-slate-900 font-bold">{entry.value} ({percentage}%)</span>
+                        </div>
+                        <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                          <div
+                            className="h-full rounded-full transition-all duration-500"
+                            style={{
+                              width: `${percentage}%`,
+                              backgroundColor: COLORS[index % COLORS.length]
+                            }}
+                          ></div>
+                        </div>
                       </div>
-                      <span className="text-sm font-bold text-slate-900 bg-slate-100 px-2 py-0.5 rounded-md">{entry.value} Students</span>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </>
             ) : (
-              <div className="flex flex-col items-center justify-center h-full text-slate-400">
+              <div className="flex flex-col items-center justify-center h-full text-slate-400 py-12">
                 <Users className="w-12 h-12 mb-2 stroke-1" />
                 <p className="text-sm">No student distribution data available.</p>
               </div>
