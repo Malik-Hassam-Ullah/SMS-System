@@ -75,6 +75,8 @@ export default function AppLayout() {
   const location = useLocation();
   const { user, logout } = useAuthStore();
   const { schoolName } = useSettingsStore();
+  const sidebarTheme = useSettingsStore(s => s.sidebarTheme);
+  const currentSidebarTheme = getSidebarTheme(sidebarTheme);
 
   const handleLogout = async () => {
     try {
