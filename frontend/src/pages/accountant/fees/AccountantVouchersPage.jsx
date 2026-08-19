@@ -1,6 +1,6 @@
 import React from 'react';
-import GenerateVoucherPage from '../../admin/fees/GenerateVoucherPage';
+import VouchersPage from '../../admin/fees/VouchersPage';
 
 export default function AccountantVouchersPage() {
-  return <GenerateVoucherPage />;
+  return <VouchersPage />;
 }

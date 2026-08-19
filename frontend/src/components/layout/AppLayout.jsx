@@ -148,8 +148,10 @@ export default function AppLayout() {
         label="Fees"
         active={location.pathname.startsWith('/accountant/fees')}
       >
-        <NavItem to="/accountant/fees/vouchers" label="Generate Vouchers" icon={FileText} onClick={closeSidebar} />
-        <NavItem to="/accountant/fees/payments" label="Collect Payment" icon={DollarSign} onClick={closeSidebar} />
+        <NavItem to="/accountant/fees/vouchers" label="Vouchers List" icon={FileText} onClick={closeSidebar} />
+        <NavItem to="/accountant/fees/vouchers/generate" label="Generate" icon={Cog} onClick={closeSidebar} />
+        <NavItem to="/accountant/fees/collect" label="Collect Fee" icon={DollarSign} onClick={closeSidebar} />
+        <NavItem to="/accountant/fees/payments" label="Payments" icon={DollarSign} onClick={closeSidebar} />
         <NavItem to="/accountant/fees/outstanding" label="Outstanding" icon={Activity} onClick={closeSidebar} />
         <NavItem to="/accountant/fees/reports" label="Reports" icon={FileText} onClick={closeSidebar} />
       </NavGroup>

@@ -203,7 +203,9 @@ export default function App() {
                             <Route path="students" element={<Suspense fallback={<PageLoader />}><AccountantStudentsPage /></Suspense>} />
                             <Route path="students/:id" element={<Suspense fallback={<PageLoader />}><StudentDetailPage /></Suspense>} />
                             <Route path="fees/vouchers" element={<Suspense fallback={<PageLoader />}><AccountantVouchersPage /></Suspense>} />
+                            <Route path="fees/vouchers/generate" element={<Suspense fallback={<PageLoader />}><GenerateVoucherPage /></Suspense>} />
                             <Route path="fees/vouchers/:id" element={<Suspense fallback={<PageLoader />}><VoucherDetailPage /></Suspense>} />
+                            <Route path="fees/collect" element={<Suspense fallback={<PageLoader />}><CollectFeePage /></Suspense>} />
                             <Route path="fees/payments" element={<Suspense fallback={<PageLoader />}><AccountantPaymentsPage /></Suspense>} />
                             <Route path="fees/outstanding" element={<Suspense fallback={<PageLoader />}><AccountantOutstandingPage /></Suspense>} />
                             <Route path="fees/reports" element={<Suspense fallback={<PageLoader />}><AccountantReportsPage /></Suspense>} />

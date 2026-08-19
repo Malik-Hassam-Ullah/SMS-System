@@ -3,8 +3,11 @@ import { Link } from 'react-router-dom';
 import { Search, Plus, Filter, Eye, Printer, Download, Loader2, FileText, Settings, MessageSquare } from 'lucide-react';
 import api from '../../../lib/api';
 import * as XLSX from 'xlsx';
+import { useAuthStore } from '../../../store/auth.store';
 
 export default function VouchersPage() {
+  const { user } = useAuthStore();
+  const isAccountant = user?.role === 'accountant';
   const [vouchers, setVouchers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -412,7 +415,7 @@ ${publicLink}`;
                       <button onClick={() => handleSendSingleWhatsApp(v)} className="text-green-600 hover:text-green-700 p-1 bg-green-50 rounded" title="Send via WhatsApp">
                         <MessageSquare size={18} />
                       </button>
-                      <Link to={`/admin/fees/vouchers/${v.id}`} className="text-blue-500 hover:text-blue-600 p-1 bg-blue-50 rounded">
+                      <Link to={isAccountant ? `/accountant/fees/vouchers/${v.id}` : `/admin/fees/vouchers/${v.id}`} className="text-blue-500 hover:text-blue-600 p-1 bg-blue-50 rounded">
                         <Eye size={18} />
                       </Link>
                       <button
