@@ -19,6 +19,7 @@ export default function ThemeProvider({ children }) {
     const darkMode = useSettingsStore(s => s.darkMode);
     const fontSize = useSettingsStore(s => s.fontSize);
     const colorScheme = useSettingsStore(s => s.colorScheme);
+    const sidebarTheme = useSettingsStore(s => s.sidebarTheme);
     const sessionTimeout = useSettingsStore(s => s.sessionTimeout);
     const user = useAuthStore(s => s.user);
     const logout = useAuthStore(s => s.logout);
@@ -59,6 +60,12 @@ export default function ThemeProvider({ children }) {
         const html = document.documentElement;
         html.setAttribute('data-color-scheme', colorScheme || 'indigo');
     }, [colorScheme]);
+
+    // ── Sidebar Theme ──────────────────────────────────────────────
+    useEffect(() => {
+        const html = document.documentElement;
+        html.setAttribute('data-sidebar-theme', sidebarTheme || 'midnight');
+    }, [sidebarTheme]);
 
     // ── 2. Font Size ───────────────────────────────────────────────
     useEffect(() => {

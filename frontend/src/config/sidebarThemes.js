@@ -1,0 +1,172 @@
+/**
+ * Centralized Sidebar Theme Definitions
+ * Curated for high contrast, stunning aesthetics, and crystal-clear readability.
+ */
+
+export const SIDEBAR_THEMES = [
+  {
+    id: 'midnight',
+    name: 'Midnight Slate',
+    description: 'Deep modern slate navy with icy crystal accents (Default)',
+    swatchBg: 'from-slate-900 via-slate-900 to-slate-950',
+    primaryColor: '#6366f1',
+    // Sidebar styles
+    asideBg: 'bg-slate-900 border-r border-white/5',
+    headerBg: 'bg-slate-900/80 border-b border-white/10 text-white',
+    subtitleText: 'text-primary-300 font-medium',
+    navDefault: 'text-slate-400 hover:text-white hover:bg-white/10',
+    navActive: 'bg-gradient-to-r from-primary-600 to-accent-600 text-white shadow-lg shadow-primary-500/25 border border-white/10 font-bold',
+    groupDefault: 'text-slate-400 hover:text-white hover:bg-white/5',
+    groupActive: 'bg-white/10 text-white border border-white/5',
+    groupChevron: 'text-slate-400',
+    divider: 'border-white/10',
+    profileCard: 'bg-gradient-to-b from-white/[0.08] to-white/[0.03] border-white/10 shadow-xl shadow-black/20',
+    profileTopAccent: 'from-transparent via-primary-400/40 to-transparent',
+    profileName: 'text-white',
+    profileSub: 'text-slate-400',
+    roleBadge: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/25',
+    powerButton: 'bg-gradient-to-br from-rose-500 via-red-600 to-rose-700 hover:from-rose-600 hover:to-red-800 text-white shadow-lg shadow-rose-600/30'
+  },
+  {
+    id: 'ocean',
+    name: 'Royal Ocean Navy',
+    description: 'Deep royal maritime blue with electric cyan highlights',
+    swatchBg: 'from-[#0b192e] via-[#0f2444] to-[#071324]',
+    primaryColor: '#06b6d4',
+    // Sidebar styles
+    asideBg: 'bg-[#0b192e] border-r border-cyan-500/15',
+    headerBg: 'bg-[#0b192e]/95 border-b border-cyan-500/15 text-white',
+    subtitleText: 'text-cyan-300 font-medium',
+    navDefault: 'text-cyan-100/70 hover:text-white hover:bg-cyan-500/10',
+    navActive: 'bg-gradient-to-r from-blue-600 via-cyan-600 to-teal-500 text-white shadow-lg shadow-cyan-500/25 border border-cyan-400/30 font-bold',
+    groupDefault: 'text-cyan-100/70 hover:text-white hover:bg-cyan-500/10',
+    groupActive: 'bg-cyan-950/70 text-cyan-200 border border-cyan-500/25',
+    groupChevron: 'text-cyan-300/70',
+    divider: 'border-cyan-500/15',
+    profileCard: 'bg-gradient-to-b from-cyan-950/40 to-slate-900/60 border-cyan-500/20 shadow-xl shadow-black/30',
+    profileTopAccent: 'from-transparent via-cyan-400/40 to-transparent',
+    profileName: 'text-white',
+    profileSub: 'text-cyan-200/80',
+    roleBadge: 'bg-cyan-500/20 text-cyan-300 border-cyan-400/30',
+    powerButton: 'bg-gradient-to-br from-rose-500 via-red-600 to-rose-700 hover:from-rose-600 hover:to-red-800 text-white shadow-lg shadow-rose-600/30'
+  },
+  {
+    id: 'emerald',
+    name: 'Imperial Emerald',
+    description: 'Rich dark forest green with glowing mint accents',
+    swatchBg: 'from-[#052219] via-[#083326] to-[#031913]',
+    primaryColor: '#10b981',
+    // Sidebar styles
+    asideBg: 'bg-[#052219] border-r border-emerald-500/15',
+    headerBg: 'bg-[#052219]/95 border-b border-emerald-500/15 text-white',
+    subtitleText: 'text-emerald-300 font-medium',
+    navDefault: 'text-emerald-100/70 hover:text-white hover:bg-emerald-500/10',
+    navActive: 'bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 text-white shadow-lg shadow-emerald-500/25 border border-emerald-400/30 font-bold',
+    groupDefault: 'text-emerald-100/70 hover:text-white hover:bg-emerald-500/10',
+    groupActive: 'bg-emerald-950/70 text-emerald-200 border border-emerald-500/25',
+    groupChevron: 'text-emerald-300/70',
+    divider: 'border-emerald-500/15',
+    profileCard: 'bg-gradient-to-b from-emerald-950/50 to-slate-950/60 border-emerald-500/20 shadow-xl shadow-black/30',
+    profileTopAccent: 'from-transparent via-emerald-400/40 to-transparent',
+    profileName: 'text-white',
+    profileSub: 'text-emerald-200/80',
+    roleBadge: 'bg-emerald-500/20 text-emerald-300 border-emerald-400/30',
+    powerButton: 'bg-gradient-to-br from-rose-500 via-red-600 to-rose-700 hover:from-rose-600 hover:to-red-800 text-white shadow-lg shadow-rose-600/30'
+  },
+  {
+    id: 'purple',
+    name: 'Royal Velvet Plum',
+    description: 'Opulent deep violet with vibrant lilac & fuchsia illumination',
+    swatchBg: 'from-[#1a0c2e] via-[#241040] to-[#120720]',
+    primaryColor: '#a855f7',
+    // Sidebar styles
+    asideBg: 'bg-[#1a0c2e] border-r border-purple-500/15',
+    headerBg: 'bg-[#1a0c2e]/95 border-b border-purple-500/15 text-white',
+    subtitleText: 'text-purple-300 font-medium',
+    navDefault: 'text-purple-100/70 hover:text-white hover:bg-purple-500/10',
+    navActive: 'bg-gradient-to-r from-purple-600 via-fuchsia-600 to-pink-500 text-white shadow-lg shadow-purple-500/25 border border-purple-400/30 font-bold',
+    groupDefault: 'text-purple-100/70 hover:text-white hover:bg-purple-500/10',
+    groupActive: 'bg-purple-950/70 text-purple-200 border border-purple-500/25',
+    groupChevron: 'text-purple-300/70',
+    divider: 'border-purple-500/15',
+    profileCard: 'bg-gradient-to-b from-purple-950/50 to-slate-950/60 border-purple-500/20 shadow-xl shadow-black/30',
+    profileTopAccent: 'from-transparent via-purple-400/40 to-transparent',
+    profileName: 'text-white',
+    profileSub: 'text-purple-200/80',
+    roleBadge: 'bg-purple-500/20 text-purple-300 border-purple-400/30',
+    powerButton: 'bg-gradient-to-br from-rose-500 via-red-600 to-rose-700 hover:from-rose-600 hover:to-red-800 text-white shadow-lg shadow-rose-600/30'
+  },
+  {
+    id: 'crimson',
+    name: 'Burgundy Crimson',
+    description: 'Executive wine maroon with rose gold accents',
+    swatchBg: 'from-[#280812] via-[#380e1b] to-[#1a040b]',
+    primaryColor: '#f43f5e',
+    // Sidebar styles
+    asideBg: 'bg-[#280812] border-r border-rose-500/15',
+    headerBg: 'bg-[#280812]/95 border-b border-rose-500/15 text-white',
+    subtitleText: 'text-rose-300 font-medium',
+    navDefault: 'text-rose-100/70 hover:text-white hover:bg-rose-500/10',
+    navActive: 'bg-gradient-to-r from-rose-600 via-red-600 to-pink-500 text-white shadow-lg shadow-rose-500/25 border border-rose-400/30 font-bold',
+    groupDefault: 'text-rose-100/70 hover:text-white hover:bg-rose-500/10',
+    groupActive: 'bg-rose-950/70 text-rose-200 border border-rose-500/25',
+    groupChevron: 'text-rose-300/70',
+    divider: 'border-rose-500/15',
+    profileCard: 'bg-gradient-to-b from-rose-950/50 to-slate-950/60 border-rose-500/20 shadow-xl shadow-black/30',
+    profileTopAccent: 'from-transparent via-rose-400/40 to-transparent',
+    profileName: 'text-white',
+    profileSub: 'text-rose-200/80',
+    roleBadge: 'bg-rose-500/20 text-rose-300 border-rose-400/30',
+    powerButton: 'bg-gradient-to-br from-rose-500 via-red-600 to-rose-700 hover:from-rose-600 hover:to-red-800 text-white shadow-lg shadow-rose-600/30'
+  },
+  {
+    id: 'carbon',
+    name: 'Obsidian Jet Black',
+    description: 'Pure stealth carbon dark with crisp high-contrast white text',
+    swatchBg: 'from-[#09090b] via-[#111115] to-[#040405]',
+    primaryColor: '#ffffff',
+    // Sidebar styles
+    asideBg: 'bg-[#09090b] border-r border-white/10',
+    headerBg: 'bg-[#09090b]/95 border-b border-white/10 text-white',
+    subtitleText: 'text-zinc-400 font-medium',
+    navDefault: 'text-zinc-400 hover:text-white hover:bg-white/10',
+    navActive: 'bg-gradient-to-r from-zinc-800 to-zinc-700 text-white shadow-lg shadow-black/50 border border-zinc-500/40 font-bold',
+    groupDefault: 'text-zinc-400 hover:text-white hover:bg-white/10',
+    groupActive: 'bg-zinc-900 text-zinc-100 border border-zinc-700/50',
+    groupChevron: 'text-zinc-400',
+    divider: 'border-white/10',
+    profileCard: 'bg-gradient-to-b from-zinc-900 to-black border-zinc-800 shadow-xl',
+    profileTopAccent: 'from-transparent via-zinc-400/30 to-transparent',
+    profileName: 'text-white',
+    profileSub: 'text-zinc-400',
+    roleBadge: 'bg-zinc-800 text-zinc-300 border-zinc-600',
+    powerButton: 'bg-gradient-to-br from-rose-500 via-red-600 to-rose-700 hover:from-rose-600 hover:to-red-800 text-white shadow-lg shadow-rose-600/30'
+  },
+  {
+    id: 'cleanLight',
+    name: 'Executive Pearl Light',
+    description: 'Crisp light porcelain finish with crisp slate text & bright blue active items',
+    swatchBg: 'from-[#f8fafc] via-[#f1f5f9] to-[#e2e8f0]',
+    primaryColor: '#2563eb',
+    // Sidebar styles
+    asideBg: 'bg-slate-100 border-r border-slate-300/80',
+    headerBg: 'bg-white/95 border-b border-slate-200 text-slate-900',
+    subtitleText: 'text-blue-600 font-semibold',
+    navDefault: 'text-slate-600 hover:text-slate-950 hover:bg-slate-200/80',
+    navActive: 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/25 border border-blue-600/30 font-bold',
+    groupDefault: 'text-slate-600 hover:text-slate-950 hover:bg-slate-200/80',
+    groupActive: 'bg-slate-200/90 text-slate-950 border border-slate-300 font-semibold',
+    groupChevron: 'text-slate-500',
+    divider: 'border-slate-300/70',
+    profileCard: 'bg-white border-slate-300/80 shadow-md',
+    profileTopAccent: 'from-transparent via-blue-500/40 to-transparent',
+    profileName: 'text-slate-900',
+    profileSub: 'text-slate-500 font-mono',
+    roleBadge: 'bg-blue-50 text-blue-700 border-blue-200',
+    powerButton: 'bg-gradient-to-br from-rose-500 via-red-600 to-rose-700 hover:from-rose-600 hover:to-red-800 text-white shadow-md shadow-rose-600/30'
+  }
+];
+
+export const getSidebarTheme = (themeId) => {
+  return SIDEBAR_THEMES.find(t => t.id === themeId) || SIDEBAR_THEMES[0];
+};

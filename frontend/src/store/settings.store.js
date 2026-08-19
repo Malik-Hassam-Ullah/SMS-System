@@ -10,6 +10,7 @@ export const useSettingsStore = create(
             fontSize: 'medium', // small | medium | large
             language: 'en', // en | ur
             colorScheme: 'indigo', // indigo | blue | emerald | rose | amber
+            sidebarTheme: 'midnight', // midnight | ocean | emerald | purple | crimson | carbon | cleanLight
 
             // Notifications
             emailNotifications: true,
@@ -47,6 +48,7 @@ export const useSettingsStore = create(
             setFontSize: (val) => set({ fontSize: val }),
             setLanguage: (val) => set({ language: val }),
             setColorScheme: (val) => set({ colorScheme: val }),
+            setSidebarTheme: (val) => set({ sidebarTheme: val }),
             updateSettings: (updates) => set((state) => ({ ...state, ...updates })),
         }),
         {

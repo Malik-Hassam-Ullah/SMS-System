@@ -7,6 +7,7 @@ import {
 import toast from 'react-hot-toast';
 import { useSettingsStore } from '../../store/settings.store';
 import { useAuthStore } from '../../store/auth.store';
+import { SIDEBAR_THEMES } from '../../config/sidebarThemes';
 import api from '../../lib/api';
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -115,7 +116,12 @@ export default function SettingsPage() {
         }
     }, [visibleTabs, activeTab]);
 
-    const update = (key, value) => setLocal(prev => ({ ...prev, [key]: value }));
+    const update = (key, value) => {
+        setLocal(prev => ({ ...prev, [key]: value }));
+        if (['darkMode', 'fontSize', 'colorScheme', 'sidebarTheme', 'language'].includes(key)) {
+            store.updateSettings({ [key]: value });
+        }
+    };
 
     const toggleWorkingDay = (day) => {
         const days = local.workingDays || [];
@@ -143,7 +149,7 @@ export default function SettingsPage() {
         load();
     }, []); // eslint-disable-line
 
-    // Live preview: apply dark mode + font size + color scheme immediately on change
+    // Live preview: apply dark mode + font size + color scheme + sidebar theme immediately on change
     useEffect(() => {
         const html = document.documentElement;
         const isDark = local.darkMode === true || local.darkMode === 'true' || (local.darkMode === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
@@ -157,7 +163,8 @@ export default function SettingsPage() {
         const sizeMap = { small: '13px', medium: '15px', large: '17px' };
         html.style.fontSize = sizeMap[local.fontSize] || '15px';
         html.setAttribute('data-color-scheme', local.colorScheme || 'indigo');
-    }, [local.darkMode, local.fontSize, local.colorScheme]);
+        html.setAttribute('data-sidebar-theme', local.sidebarTheme || 'midnight');
+    }, [local.darkMode, local.fontSize, local.colorScheme, local.sidebarTheme]);
 
     // ── Save ──────────────────────────────────────────────────────
     const handleSave = async () => {
@@ -356,6 +363,63 @@ export default function SettingsPage() {
                                         ))}
                                     </div>
                                     <p className="text-xs text-slate-400 mt-2">Color scheme applies instantly across the platform</p>
+                                </div>
+
+                                <div className="mb-6 py-4 border-t border-slate-100">
+                                    <div className="mb-3">
+                                        <p className="text-sm font-semibold text-slate-700">🎨 Sidebar Color Theme (سائیڈ بار کا رنگ)</p>
+                                        <p className="text-xs text-slate-400 mt-0.5">Select a luxury color theme for the sidebar menu with guaranteed text readability</p>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                                        {SIDEBAR_THEMES.map(theme => {
+                                            const isSelected = (local.sidebarTheme || 'midnight') === theme.id;
+                                            return (
+                                                <button
+                                                    key={theme.id}
+                                                    type="button"
+                                                    onClick={() => update('sidebarTheme', theme.id)}
+                                                    className={`group text-left p-3.5 rounded-2xl border-2 transition-all duration-200 relative overflow-hidden flex flex-col justify-between cursor-pointer ${
+                                                        isSelected
+                                                            ? 'border-primary-500 bg-primary-50/40 ring-2 ring-primary-500/20 shadow-md scale-[1.01]'
+                                                            : 'border-slate-200 bg-white hover:border-slate-300 hover:shadow-sm'
+                                                    }`}
+                                                >
+                                                    {/* Mini Mockup Bar */}
+                                                    <div className={`w-full h-12 rounded-xl bg-gradient-to-r ${theme.swatchBg} p-2 flex items-center justify-between border border-black/10 shadow-inner mb-2.5`}>
+                                                        <div className="flex items-center gap-2">
+                                                            <div className="w-5 h-5 rounded-lg bg-white/20 flex items-center justify-center text-[10px] text-white font-bold">
+                                                                S
+                                                            </div>
+                                                            <div className="w-16 h-2 rounded bg-white/30"></div>
+                                                        </div>
+                                                        <div className="w-4 h-4 rounded-full bg-rose-500 shadow-sm flex items-center justify-center">
+                                                            <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="flex items-start justify-between gap-2">
+                                                        <div>
+                                                            <p className={`text-xs font-bold ${isSelected ? 'text-primary-700 font-extrabold' : 'text-slate-800'}`}>
+                                                                {theme.name}
+                                                            </p>
+                                                            <p className="text-[11px] text-slate-500 line-clamp-1 mt-0.5">
+                                                                {theme.description}
+                                                            </p>
+                                                        </div>
+                                                        {isSelected && (
+                                                            <span className="w-5 h-5 rounded-full bg-primary-600 text-white flex items-center justify-center shrink-0 shadow-sm">
+                                                                <Check className="w-3 h-3 stroke-[3]" />
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                    <p className="text-xs text-slate-400 mt-2.5 flex items-center gap-1.5">
+                                        <Check className="w-3.5 h-3.5 text-emerald-500" /> Changes apply instantly with clear contrast & readable typography.
+                                    </p>
                                 </div>
 
                                 <div className="mb-6 py-4 border-t border-slate-100">

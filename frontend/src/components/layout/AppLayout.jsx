@@ -8,28 +8,34 @@ import {
 } from 'lucide-react';
 import { useAuthStore } from '../../store/auth.store';
 import { useSettingsStore } from '../../store/settings.store';
+import { getSidebarTheme, SIDEBAR_THEMES } from '../../config/sidebarThemes';
 import api from '../../lib/api';
 import { getInitials } from '../../utils/formatters';
 
-const NavItem = ({ icon: Icon, label, to, end = false, onClick }) => (
-  <NavLink
-    to={to}
-    end={end}
-    onClick={onClick}
-    className={({ isActive }) =>
-      `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 cursor-pointer ${isActive
-        ? 'bg-gradient-to-r from-primary-600 to-accent-600 text-white shadow-lg shadow-primary-500/25 border border-white/10'
-        : 'text-slate-400 hover:text-white hover:bg-white/5'
-      }`
-    }
-  >
-    <Icon className="w-5 h-5" />
-    <span>{label}</span>
-  </NavLink>
-);
+const SidebarThemeContext = React.createContext(SIDEBAR_THEMES[0]);
+
+const NavItem = ({ icon: Icon, label, to, end = false, onClick }) => {
+  const theme = React.useContext(SidebarThemeContext);
+  return (
+    <NavLink
+      to={to}
+      end={end}
+      onClick={onClick}
+      className={({ isActive }) =>
+        `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer ${
+          isActive ? theme.navActive : theme.navDefault
+        }`
+      }
+    >
+      <Icon className="w-5 h-5 shrink-0" />
+      <span className="truncate">{label}</span>
+    </NavLink>
+  );
+};
 
 const NavGroup = ({ icon: Icon, label, children, active }) => {
   const [isOpen, setIsOpen] = useState(active);
+  const theme = React.useContext(SidebarThemeContext);
 
   useEffect(() => {
     if (active) setIsOpen(true);
@@ -39,19 +45,22 @@ const NavGroup = ({ icon: Icon, label, children, active }) => {
     <div className="mb-1">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`w-full flex items-center justify-between px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-300 ${active
-          ? 'bg-white/10 text-white border border-white/5'
-          : 'text-slate-400 hover:bg-white/5 hover:text-white'
-          }`}
+        className={`w-full flex items-center justify-between px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 ${
+          active ? theme.groupActive : theme.groupDefault
+        }`}
       >
-        <div className="flex items-center gap-3">
-          <Icon className="w-5 h-5" />
-          <span>{label}</span>
+        <div className="flex items-center gap-3 truncate">
+          <Icon className="w-5 h-5 shrink-0" />
+          <span className="truncate">{label}</span>
         </div>
-        {isOpen ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+        {isOpen ? (
+          <ChevronDown className={`w-4 h-4 shrink-0 ${theme.groupChevron}`} />
+        ) : (
+          <ChevronRight className={`w-4 h-4 shrink-0 ${theme.groupChevron}`} />
+        )}
       </button>
       {isOpen && (
-        <div className="ml-8 mt-1 space-y-1">
+        <div className="ml-5 pl-2.5 mt-1 space-y-1 border-l border-white/10">
           {children}
         </div>
       )}
@@ -211,80 +220,85 @@ export default function AppLayout() {
       )}
 
       {/* Sidebar */}
-      <aside
-        className={`fixed inset-y-0 left-0 z-50 w-72 bg-slate-900 border-r border-white/5 shadow-2xl transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-auto flex flex-col ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+      <SidebarThemeContext.Provider value={currentSidebarTheme}>
+        <aside
+          className={`fixed inset-y-0 left-0 z-50 w-72 ${currentSidebarTheme.asideBg} shadow-2xl transform transition-all duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-auto flex flex-col ${
+            sidebarOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
-      >
-        <div className="flex items-center justify-between h-20 px-6 border-b border-white/10 bg-slate-900/50 backdrop-blur-xl">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center shadow-lg overflow-hidden p-1">
-              <img src="/tss-logo.png" alt="Logo" className="w-full h-full object-contain" />
-            </div>
-            <div>
-              <h1 className="text-lg font-black tracking-wide text-white">
-                {schoolName || user?.school?.name || 'SMS Platform'}
-              </h1>
-              <p className="text-xs text-primary-200 font-medium tracking-wider uppercase">{user?.branch?.name || 'Main Branch'}</p>
-            </div>
-          </div>
-          <button className="p-2 rounded-lg text-slate-400 hover:bg-white/10 hover:text-white lg:hidden transition-colors" onClick={closeSidebar}>
-            <X className="w-5 h-5" />
-          </button>
-        </div>
-
-        <div className="flex-1 overflow-y-auto px-4 py-6 space-y-1.5 custom-scrollbar">
-          {user?.role === 'ceo' && renderCeoNav()}
-          {user?.role === 'admin' && renderAdminNav()}
-          {user?.role === 'accountant' && renderAccountantNav()}
-          {user?.role === 'teacher' && renderTeacherNav()}
-        </div>
-
-        {/* Unique Executive Glass Profile & Power Logout Card */}
-        <div className="p-3 m-3">
-          <div className="relative group overflow-hidden bg-gradient-to-b from-white/[0.08] to-white/[0.03] backdrop-blur-xl border border-white/10 hover:border-white/20 rounded-2xl p-3.5 shadow-xl shadow-black/20 transition-all duration-300">
-            {/* Top subtle light accent */}
-            <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary-400/40 to-transparent"></div>
-
-            <div className="flex items-center justify-between gap-3">
-              {/* Left: User Avatar with Live Online Pulse */}
-              <div className="relative shrink-0">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary-600 via-indigo-500 to-accent-400 flex items-center justify-center text-white font-black text-sm shadow-md shadow-primary-500/20 border border-white/20">
-                  {getInitials(user?.full_name)}
-                </div>
-                {/* Live Status Pulse */}
-                <span className="absolute -bottom-0.5 -right-0.5 flex h-3 w-3">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500 border-2 border-slate-900"></span>
-                </span>
+        >
+          <div className={`flex items-center justify-between h-20 px-6 backdrop-blur-xl ${currentSidebarTheme.headerBg}`}>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center shadow-lg overflow-hidden p-1 border border-black/10">
+                <img src="/tss-logo.png" alt="Logo" className="w-full h-full object-contain" />
               </div>
-
-              {/* Center: User Details */}
-              <div className="flex-1 min-w-0">
-                <p className="text-xs font-black text-white truncate tracking-wide">
-                  {user?.full_name || 'Admin User'}
+              <div>
+                <h1 className="text-lg font-black tracking-wide truncate">
+                  {schoolName || user?.school?.name || 'SMS Platform'}
+                </h1>
+                <p className={`text-xs font-medium tracking-wider uppercase ${currentSidebarTheme.subtitleText}`}>
+                  {user?.branch?.name || 'Main Branch'}
                 </p>
-                <div className="flex items-center gap-1.5 mt-0.5">
-                  <span className="inline-flex items-center px-1.5 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-emerald-500/15 text-emerald-400 border border-emerald-500/25">
-                    {user?.role === 'admin' ? 'Campus Officer' : user?.role === 'ceo' ? 'Executive CEO' : user?.role === 'accountant' ? 'Accountant' : 'Faculty'}
-                  </span>
-                  <span className="text-[10px] font-mono text-slate-400 truncate">
-                    {user?.branch?.code || '02-01-070'}
+              </div>
+            </div>
+            <button className="p-2 rounded-lg text-slate-400 hover:bg-white/10 hover:text-white lg:hidden transition-colors" onClick={closeSidebar}>
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          <div className="flex-1 overflow-y-auto px-4 py-6 space-y-1.5 custom-scrollbar">
+            {user?.role === 'ceo' && renderCeoNav()}
+            {user?.role === 'admin' && renderAdminNav()}
+            {user?.role === 'accountant' && renderAccountantNav()}
+            {user?.role === 'teacher' && renderTeacherNav()}
+          </div>
+
+          {/* Unique Executive Glass Profile & Power Logout Card */}
+          <div className="p-3 m-3">
+            <div className={`relative group overflow-hidden backdrop-blur-xl border rounded-2xl p-3.5 transition-all duration-300 ${currentSidebarTheme.profileCard}`}>
+              {/* Top subtle light accent */}
+              <div className={`absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r ${currentSidebarTheme.profileTopAccent}`}></div>
+
+              <div className="flex items-center justify-between gap-3">
+                {/* Left: User Avatar with Live Online Pulse */}
+                <div className="relative shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary-600 via-indigo-500 to-accent-400 flex items-center justify-center text-white font-black text-sm shadow-md shadow-primary-500/20 border border-white/20">
+                    {getInitials(user?.full_name)}
+                  </div>
+                  {/* Live Status Pulse */}
+                  <span className="absolute -bottom-0.5 -right-0.5 flex h-3 w-3">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500 border-2 border-slate-900"></span>
                   </span>
                 </div>
-              </div>
 
-              {/* Right: Futuristic Glowing Red Power Button */}
-              <button
-                onClick={handleLogout}
-                title="Sign Out / Logout"
-                className="relative shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-rose-500 via-red-600 to-rose-700 hover:from-rose-600 hover:to-red-800 text-white flex items-center justify-center shadow-lg shadow-rose-600/30 hover:shadow-rose-600/50 hover:scale-105 active:scale-95 transition-all duration-200 border border-rose-400/30 group/btn focus:outline-none focus:ring-2 focus:ring-rose-400/50"
-              >
-                <Power className="w-5 h-5 stroke-[2.5] text-white group-hover/btn:rotate-90 group-hover/btn:scale-110 transition-all duration-300" />
-              </button>
+                {/* Center: User Details */}
+                <div className="flex-1 min-w-0">
+                  <p className={`text-xs font-black truncate tracking-wide ${currentSidebarTheme.profileName}`}>
+                    {user?.full_name || 'Admin User'}
+                  </p>
+                  <div className="flex items-center gap-1.5 mt-0.5">
+                    <span className={`inline-flex items-center px-1.5 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider border ${currentSidebarTheme.roleBadge}`}>
+                      {user?.role === 'admin' ? 'Campus Officer' : user?.role === 'ceo' ? 'Executive CEO' : user?.role === 'accountant' ? 'Accountant' : 'Faculty'}
+                    </span>
+                    <span className={`text-[10px] font-mono truncate ${currentSidebarTheme.profileSub}`}>
+                      {user?.branch?.code || '02-01-070'}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Right: Futuristic Glowing Red Power Button */}
+                <button
+                  onClick={handleLogout}
+                  title="Sign Out / Logout"
+                  className={`relative shrink-0 w-10 h-10 rounded-xl flex items-center justify-center hover:scale-105 active:scale-95 transition-all duration-200 border border-rose-400/30 group/btn focus:outline-none focus:ring-2 focus:ring-rose-400/50 cursor-pointer ${currentSidebarTheme.powerButton}`}
+                >
+                  <Power className="w-5 h-5 stroke-[2.5] text-white group-hover/btn:rotate-90 group-hover/btn:scale-110 transition-all duration-300" />
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      </aside>
+        </aside>
+      </SidebarThemeContext.Provider>
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
