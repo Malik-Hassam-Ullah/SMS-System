@@ -141,7 +141,6 @@ export default function AppLayout() {
         <NavItem to="/admin/fees/payments" label="Payments" icon={DollarSign} onClick={closeSidebar} />
         <NavItem to="/admin/fees/outstanding" label="Outstanding" icon={Activity} onClick={closeSidebar} />
         <NavItem to="/admin/fees/structures" label="Fee Structures" icon={CreditCard} onClick={closeSidebar} />
-        <NavItem to="/admin/fees/reports" label="Reports" icon={FileText} onClick={closeSidebar} />
       </NavGroup>
 
       <NavItem to="/admin/messages" label="Messages" icon={MessageSquare} onClick={closeSidebar} />
@@ -167,7 +166,6 @@ export default function AppLayout() {
         <NavItem to="/accountant/fees/collect" label="Collect Fee" icon={DollarSign} onClick={closeSidebar} />
         <NavItem to="/accountant/fees/payments" label="Payments" icon={DollarSign} onClick={closeSidebar} />
         <NavItem to="/accountant/fees/outstanding" label="Outstanding" icon={Activity} onClick={closeSidebar} />
-        <NavItem to="/accountant/fees/reports" label="Reports" icon={FileText} onClick={closeSidebar} />
       </NavGroup>
       <NavItem to="/accountant/expenses" label="Expenses" icon={Receipt} onClick={closeSidebar} />
       <SidebarDivider />
