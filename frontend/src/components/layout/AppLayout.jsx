@@ -14,6 +14,11 @@ import { getInitials } from '../../utils/formatters';
 
 const SidebarThemeContext = React.createContext(SIDEBAR_THEMES[0]);
 
+const SidebarDivider = () => {
+  const theme = React.useContext(SidebarThemeContext);
+  return <div className={`pt-2 mt-2 border-t ${theme.divider || 'border-white/10'}`} />;
+};
+
 const NavItem = ({ icon: Icon, label, to, end = false, onClick }) => {
   const theme = React.useContext(SidebarThemeContext);
   return (
@@ -60,7 +65,7 @@ const NavGroup = ({ icon: Icon, label, children, active }) => {
         )}
       </button>
       {isOpen && (
-        <div className="ml-5 pl-2.5 mt-1 space-y-1 border-l border-white/10">
+        <div className={`ml-5 pl-2.5 mt-1 space-y-1 border-l ${theme.groupBorder || 'border-white/10'}`}>
           {children}
         </div>
       )}
@@ -144,9 +149,8 @@ export default function AppLayout() {
       <NavItem to="/admin/whatsapp-settings" label="WhatsApp Settings" icon={MessageSquare} onClick={closeSidebar} />
       <NavItem to="/admin/certificates" label="Certificates" icon={Award} onClick={closeSidebar} />
       <NavItem to="/admin/audit-logs" label="Audit Logs" icon={Shield} onClick={closeSidebar} />
-      <div className="pt-2 mt-2 border-t border-white/10">
-        <NavItem to="/admin/settings" label="Settings" icon={Cog} onClick={closeSidebar} />
-      </div>
+      <SidebarDivider />
+      <NavItem to="/admin/settings" label="Settings" icon={Cog} onClick={closeSidebar} />
     </>
   );
 
@@ -167,9 +171,8 @@ export default function AppLayout() {
         <NavItem to="/accountant/fees/reports" label="Reports" icon={FileText} onClick={closeSidebar} />
       </NavGroup>
       <NavItem to="/accountant/expenses" label="Expenses" icon={Receipt} onClick={closeSidebar} />
-      <div className="pt-2 mt-2 border-t border-white/10">
-        <NavItem to="/accountant/settings" label="Settings" icon={Cog} onClick={closeSidebar} />
-      </div>
+      <SidebarDivider />
+      <NavItem to="/accountant/settings" label="Settings" icon={Cog} onClick={closeSidebar} />
     </>
   );
 
@@ -185,9 +188,8 @@ export default function AppLayout() {
         <NavItem to="/teacher/marks/report" label="Report" icon={Activity} onClick={closeSidebar} />
       </NavGroup>
       <NavItem to="/teacher/attendance" label="Attendance" icon={CheckSquare} onClick={closeSidebar} />
-      <div className="pt-2 mt-2 border-t border-white/10">
-        <NavItem to="/teacher/settings" label="Settings" icon={Cog} onClick={closeSidebar} />
-      </div>
+      <SidebarDivider />
+      <NavItem to="/teacher/settings" label="Settings" icon={Cog} onClick={closeSidebar} />
     </>
   );
 
@@ -205,9 +207,8 @@ export default function AppLayout() {
         <NavItem to="/ceo/payroll" label="Payroll & Salary" icon={IndianRupee} onClick={closeSidebar} />
       </NavGroup>
       <NavItem to="/ceo/expenses" label="Expenses & Approvals" icon={Receipt} onClick={closeSidebar} />
-      <div className="pt-2 mt-2 border-t border-white/10">
-        <NavItem to="/ceo/settings" label="Settings" icon={Cog} onClick={closeSidebar} />
-      </div>
+      <SidebarDivider />
+      <NavItem to="/ceo/settings" label="Settings" icon={Cog} onClick={closeSidebar} />
     </>
   );
 
@@ -234,7 +235,7 @@ export default function AppLayout() {
                 <img src="/tss-logo.png" alt="Logo" className="w-full h-full object-contain" />
               </div>
               <div>
-                <h1 className="text-lg font-black tracking-wide truncate">
+                <h1 className={`text-lg font-black tracking-wide truncate ${currentSidebarTheme.titleText || 'text-white'}`}>
                   {schoolName || user?.school?.name || 'SMS Platform'}
                 </h1>
                 <p className={`text-xs font-medium tracking-wider uppercase ${currentSidebarTheme.subtitleText}`}>
@@ -242,7 +243,7 @@ export default function AppLayout() {
                 </p>
               </div>
             </div>
-            <button className="p-2 rounded-lg text-slate-400 hover:bg-white/10 hover:text-white lg:hidden transition-colors" onClick={closeSidebar}>
+            <button className="p-2 rounded-lg opacity-75 hover:opacity-100 hover:bg-black/10 lg:hidden transition-colors" onClick={closeSidebar}>
               <X className="w-5 h-5" />
             </button>
           </div>

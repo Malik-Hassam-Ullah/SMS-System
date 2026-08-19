@@ -367,8 +367,8 @@ export default function SettingsPage() {
 
                                 <div className="mb-6 py-4 border-t border-slate-100">
                                     <div className="mb-3">
-                                        <p className="text-sm font-semibold text-slate-700">🎨 Sidebar Color Theme (سائیڈ بار کا رنگ)</p>
-                                        <p className="text-xs text-slate-400 mt-0.5">Select a luxury color theme for the sidebar menu with guaranteed text readability</p>
+                                        <p className="text-sm font-semibold text-slate-700">🎨 Sidebar Color Theme</p>
+                                        <p className="text-xs text-slate-400 mt-0.5">Select a luxury color theme for the navigation sidebar with guaranteed contrast in both Light & Dark modes</p>
                                     </div>
 
                                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
