@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, User, FileText, Activity, BookOpen, Pencil, Plus, Loader2, AlertCircle, Eye } from 'lucide-react';
 import api from '@/api';
+import { useAuthStore } from '@/store/auth.store';
 
 const StudentDetailPage = () => {
+    const { user } = useAuthStore();
+    const isAccountant = user?.role === 'accountant';
     const { id } = useParams();
     const [student, setStudent] = useState(null);
     const [activeTab, setActiveTab] = useState('profile');
@@ -131,20 +134,22 @@ const StudentDetailPage = () => {
     return (
         <div className="p-6">
             <div className="page-header mb-6 flex items-center gap-4">
-                <Link to="/admin/students" className="p-2 text-slate-500 hover: rounded-md hover:bg-white transition-colors">
+                <Link to={isAccountant ? "/accountant/students" : "/admin/students"} className="p-2 text-slate-500 hover: rounded-md hover:bg-white transition-colors">
                     <ArrowLeft size={20} />
                 </Link>
                 <div className="flex-1">
                     <h1 className="text-2xl font-bold ">Student Details</h1>
                     <p className="text-slate-500">{student.registration_number || 'N/A'} — {student.full_name || 'Unnamed'}</p>
                 </div>
-                <Link
-                    to={`/admin/students/${id}/edit`}
-                    className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-sm font-medium"
-                >
-                    <Pencil size={16} />
-                    Edit Student
-                </Link>
+                {!isAccountant && (
+                    <Link
+                        to={`/admin/students/${id}/edit`}
+                        className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-sm font-medium"
+                    >
+                        <Pencil size={16} />
+                        Edit Student
+                    </Link>
+                )}
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -359,7 +364,7 @@ const StudentDetailPage = () => {
                                                                     </span>
                                                                 </td>
                                                                 <td className="p-4 text-right">
-                                                                    <Link to={`/admin/fees/voucher/${v.id}`} className="inline-flex items-center gap-1 text-blue-600 hover:text-blue-700 font-semibold bg-blue-50 px-2.5 py-1.5 rounded-lg text-xs" title="View Details">
+                                                                    <Link to={isAccountant ? `/accountant/fees/vouchers/${v.id}` : `/admin/fees/voucher/${v.id}`} className="inline-flex items-center gap-1 text-blue-600 hover:text-blue-700 font-semibold bg-blue-50 px-2.5 py-1.5 rounded-lg text-xs" title="View Details">
                                                                         <Eye size={14} /> View
                                                                     </Link>
                                                                 </td>

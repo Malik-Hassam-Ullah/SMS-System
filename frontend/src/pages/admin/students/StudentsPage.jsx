@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Plus, Upload, Eye, Trash2, Filter, Pencil, MessageSquare } from 'lucide-react';
 import api from '@/api';
+import { useAuthStore } from '@/store/auth.store';
 
 const StudentsPage = () => {
+  const { user } = useAuthStore();
+  const isAccountant = user?.role === 'accountant';
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -175,25 +178,29 @@ const StudentsPage = () => {
             />
             Show Inactive
           </label>
-          {!showInactive && students.length > 0 && (
-            <button
-              onClick={handleClearAllStudents}
-              disabled={loading}
-              className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-600 border border-red-200 rounded-md hover:bg-red-100 disabled:opacity-50 transition-colors"
-              title="Deactivate all student records for this branch"
-            >
-              <Trash2 size={18} />
-              Deactivate All
-            </button>
+          {!isAccountant && (
+            <>
+              {!showInactive && students.length > 0 && (
+                <button
+                  onClick={handleClearAllStudents}
+                  disabled={loading}
+                  className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-600 border border-red-200 rounded-md hover:bg-red-100 disabled:opacity-50 transition-colors"
+                  title="Deactivate all student records for this branch"
+                >
+                  <Trash2 size={18} />
+                  Deactivate All
+                </button>
+              )}
+              <Link to="/admin/students/import" className="btn-secondary flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-md hover:bg-slate-50">
+                <Upload size={18} />
+                Import CSV
+              </Link>
+              <Link to="/admin/students/add" className="btn-primary flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                <Plus size={18} />
+                Add Student
+              </Link>
+            </>
           )}
-          <Link to="/admin/students/import" className="btn-secondary flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-md hover:bg-slate-50">
-            <Upload size={18} />
-            Import CSV
-          </Link>
-          <Link to="/admin/students/add" className="btn-primary flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
-            <Plus size={18} />
-            Add Student
-          </Link>
         </div>
       </div>
 
@@ -325,15 +332,19 @@ const StudentsPage = () => {
                           <button onClick={() => handleSendSingleWhatsApp(student)} className="p-1.5 text-slate-400 hover:text-green-600 rounded hover:bg-slate-100 transition-colors" title="Send WhatsApp">
                             <MessageSquare size={16} />
                           </button>
-                          <Link to={`/admin/students/${student.id}`} className="p-1.5 text-slate-400 hover:text-blue-600 rounded hover:bg-slate-100 transition-colors" title="View Details">
+                          <Link to={isAccountant ? `/accountant/students/${student.id}` : `/admin/students/${student.id}`} className="p-1.5 text-slate-400 hover:text-blue-600 rounded hover:bg-slate-100 transition-colors" title="View Details">
                             <Eye size={16} />
                           </Link>
-                          <Link to={`/admin/students/${student.id}/edit`} className="p-1.5 text-slate-400 hover:text-green-600 rounded hover:bg-slate-100 transition-colors" title="Edit Student">
-                            <Pencil size={16} />
-                          </Link>
-                          <button onClick={() => handleDelete(student.id)} className="p-1.5 text-slate-400 hover:text-red-600 rounded hover:bg-slate-100 transition-colors" title="Deactivate">
-                            <Trash2 size={16} />
-                          </button>
+                          {!isAccountant && (
+                            <>
+                              <Link to={`/admin/students/${student.id}/edit`} className="p-1.5 text-slate-400 hover:text-green-600 rounded hover:bg-slate-100 transition-colors" title="Edit Student">
+                                <Pencil size={16} />
+                              </Link>
+                              <button onClick={() => handleDelete(student.id)} className="p-1.5 text-slate-400 hover:text-red-600 rounded hover:bg-slate-100 transition-colors" title="Deactivate">
+                                <Trash2 size={16} />
+                              </button>
+                            </>
+                          )}
                         </div>
                       </td>
                     </tr>

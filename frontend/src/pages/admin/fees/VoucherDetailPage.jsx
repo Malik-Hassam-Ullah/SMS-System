@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Printer, ArrowLeft, CreditCard, Download, Loader2, AlertCircle } from 'lucide-react';
 import api from '../../../lib/api';
+import { useAuthStore } from '../../../store/auth.store';
 
 export default function VoucherDetailPage() {
+  const { user } = useAuthStore();
+  const isAccountant = user?.role === 'accountant';
   const { id } = useParams();
   const [voucher, setVoucher] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -161,7 +164,7 @@ export default function VoucherDetailPage() {
     <div className="p-6 max-w-5xl mx-auto">
       <div className="flex justify-between items-center mb-6 print:hidden">
         <div className="flex items-center gap-4">
-          <Link to="/admin/fees/vouchers" className="p-2 bg-white hover:bg-slate-50 text-slate-600 rounded-full shadow-sm">
+          <Link to={isAccountant ? "/accountant/fees/vouchers" : "/admin/fees/vouchers"} className="p-2 bg-white hover:bg-slate-50 text-slate-600 rounded-full shadow-sm">
             <ArrowLeft size={20} />
           </Link>
           <h1 className="text-2xl font-bold text-slate-900">Voucher Details</h1>

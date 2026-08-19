@@ -201,7 +201,9 @@ export default function App() {
                             <Route index element={<Navigate to="dashboard" replace />} />
                             <Route path="dashboard" element={<Suspense fallback={<PageLoader />}><AccountantDashboard /></Suspense>} />
                             <Route path="students" element={<Suspense fallback={<PageLoader />}><AccountantStudentsPage /></Suspense>} />
+                            <Route path="students/:id" element={<Suspense fallback={<PageLoader />}><StudentDetailPage /></Suspense>} />
                             <Route path="fees/vouchers" element={<Suspense fallback={<PageLoader />}><AccountantVouchersPage /></Suspense>} />
+                            <Route path="fees/vouchers/:id" element={<Suspense fallback={<PageLoader />}><VoucherDetailPage /></Suspense>} />
                             <Route path="fees/payments" element={<Suspense fallback={<PageLoader />}><AccountantPaymentsPage /></Suspense>} />
                             <Route path="fees/outstanding" element={<Suspense fallback={<PageLoader />}><AccountantOutstandingPage /></Suspense>} />
                             <Route path="fees/reports" element={<Suspense fallback={<PageLoader />}><AccountantReportsPage /></Suspense>} />
