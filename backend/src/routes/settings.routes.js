@@ -23,9 +23,10 @@ router.get('/', authenticate, asyncHandler(async (req, res) => {
 }));
 
 // ── PUT /api/settings ─────────────────────────────────────────────────────────
-// Saves settings to branches.settings JSONB column
-router.put('/', authenticate, requireRole('admin', 'ceo'), asyncHandler(async (req, res) => {
+// Saves settings to branches.settings JSONB column with role-based restrictions
+router.put('/', authenticate, requireRole('admin', 'ceo', 'accountant', 'teacher'), asyncHandler(async (req, res) => {
     const updates = req.body;
+    const role = req.profile?.role;
 
     // Remove frontend-only UI preferences (these stay in localStorage)
     const {
@@ -33,6 +34,38 @@ router.put('/', authenticate, requireRole('admin', 'ceo'), asyncHandler(async (r
         setDarkMode, setFontSize, setLanguage, setColorScheme, setSidebarCollapsed, updateSettings,
         ...backendSettings
     } = updates;
+
+    // Define allowed keys per role
+    const allowedKeysByRole = {
+        ceo: null, // null means all keys allowed
+        admin: null,
+        accountant: [
+            'lateFeeEnabled', 'lateFeeAmount', 'lateFeeAfterDays', 'gracePeriodDays', 'feeDueDay', 'autoWaiveLateFee',
+            'printHeaderEnabled', 'printFooterEnabled', 'printWatermark', 'paperSize', 'printFooterText',
+            'emailNotifications', 'smsNotifications', 'feeAlerts'
+        ],
+        teacher: [
+            'attendanceTime', 'workingDays', 'minAttendancePercent', 'lateMarkMinutes',
+            'passingMarks', 'maxMarks', 'gradingSystem',
+            'emailNotifications', 'smsNotifications', 'attendanceAlerts', 'resultAlerts'
+        ]
+    };
+
+    const allowedKeys = allowedKeysByRole[role];
+    let filteredSettings = {};
+
+    if (allowedKeys === null) {
+        filteredSettings = backendSettings;
+    } else if (Array.isArray(allowedKeys)) {
+        // Only keep allowed keys
+        allowedKeys.forEach(key => {
+            if (backendSettings[key] !== undefined) {
+                filteredSettings[key] = backendSettings[key];
+            }
+        });
+    } else {
+        return res.status(403).json({ success: false, message: 'Unauthorized to update settings' });
+    }
 
     // Fetch current settings to merge
     const { data: current } = await supabaseAdmin
@@ -43,9 +76,9 @@ router.put('/', authenticate, requireRole('admin', 'ceo'), asyncHandler(async (r
 
     const merged = {
         ...(current?.settings || getDefaults()),
-        ...backendSettings,
+        ...filteredSettings,
         updatedAt: new Date().toISOString(),
-        updatedBy: req.profile?.full_name || 'Admin',
+        updatedBy: req.profile?.full_name || role || 'System',
     };
 
     const { error } = await supabaseAdmin

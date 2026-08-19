@@ -150,6 +150,7 @@ export default function App() {
                             <Route path="teachers" element={<Suspense fallback={<PageLoader />}><TeachersPage /></Suspense>} />
                             <Route path="teachers/:id" element={<Suspense fallback={<PageLoader />}><TeacherDetailPage /></Suspense>} />
                             <Route path="payroll" element={<Suspense fallback={<PageLoader />}><CeoPayrollPage /></Suspense>} />
+                            <Route path="settings" element={<Suspense fallback={<PageLoader />}><SettingsPage /></Suspense>} />
                         </Route>
 
                         {/* Admin */}
@@ -204,6 +205,7 @@ export default function App() {
                             <Route path="fees/payments" element={<Suspense fallback={<PageLoader />}><AccountantPaymentsPage /></Suspense>} />
                             <Route path="fees/outstanding" element={<Suspense fallback={<PageLoader />}><AccountantOutstandingPage /></Suspense>} />
                             <Route path="fees/reports" element={<Suspense fallback={<PageLoader />}><AccountantReportsPage /></Suspense>} />
+                            <Route path="settings" element={<Suspense fallback={<PageLoader />}><SettingsPage /></Suspense>} />
                         </Route>
 
                         {/* Teacher */}
@@ -217,6 +219,7 @@ export default function App() {
                             <Route path="marks/entry" element={<Suspense fallback={<PageLoader />}><MarksEntryPage /></Suspense>} />
                             <Route path="marks/report" element={<Suspense fallback={<PageLoader />}><TeacherMarksReport /></Suspense>} />
                             <Route path="attendance" element={<Suspense fallback={<PageLoader />}><TeacherAttendance /></Suspense>} />
+                            <Route path="settings" element={<Suspense fallback={<PageLoader />}><SettingsPage /></Suspense>} />
                         </Route>
 
                         {/* Fallback */}

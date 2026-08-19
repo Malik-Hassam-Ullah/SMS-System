@@ -154,7 +154,7 @@ export default function AppLayout() {
         <NavItem to="/accountant/fees/reports" label="Reports" icon={FileText} onClick={closeSidebar} />
       </NavGroup>
       <div className="pt-2 mt-2 border-t border-white/10">
-        <NavItem to="/admin/settings" label="Settings" icon={Cog} onClick={closeSidebar} />
+        <NavItem to="/accountant/settings" label="Settings" icon={Cog} onClick={closeSidebar} />
       </div>
     </>
   );
@@ -172,7 +172,7 @@ export default function AppLayout() {
       </NavGroup>
       <NavItem to="/teacher/attendance" label="Attendance" icon={CheckSquare} onClick={closeSidebar} />
       <div className="pt-2 mt-2 border-t border-white/10">
-        <NavItem to="/admin/settings" label="Settings" icon={Cog} onClick={closeSidebar} />
+        <NavItem to="/teacher/settings" label="Settings" icon={Cog} onClick={closeSidebar} />
       </div>
     </>
   );
@@ -191,7 +191,7 @@ export default function AppLayout() {
         <NavItem to="/ceo/payroll" label="Payroll & Salary" icon={IndianRupee} onClick={closeSidebar} />
       </NavGroup>
       <div className="pt-2 mt-2 border-t border-white/10">
-        <NavItem to="/admin/settings" label="Settings" icon={Cog} onClick={closeSidebar} />
+        <NavItem to="/ceo/settings" label="Settings" icon={Cog} onClick={closeSidebar} />
       </div>
     </>
   );

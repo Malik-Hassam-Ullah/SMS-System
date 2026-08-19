@@ -93,6 +93,28 @@ export default function SettingsPage() {
     const [saving, setSaving] = useState(false);
     const [dbWarning, setDbWarning] = useState('');
 
+    const getVisibleTabs = () => {
+        const role = user?.role;
+        if (role === 'ceo' || role === 'admin') {
+            return tabs;
+        }
+        if (role === 'accountant') {
+            return tabs.filter(t => ['appearance', 'notifications', 'fees', 'print', 'security'].includes(t.id));
+        }
+        if (role === 'teacher') {
+            return tabs.filter(t => ['appearance', 'notifications', 'attendance', 'academic', 'security'].includes(t.id));
+        }
+        return [tabs[0]]; // fallback to appearance only
+    };
+
+    const visibleTabs = getVisibleTabs();
+
+    useEffect(() => {
+        if (visibleTabs.length > 0 && !visibleTabs.some(t => t.id === activeTab)) {
+            setActiveTab(visibleTabs[0].id);
+        }
+    }, [visibleTabs, activeTab]);
+
     const update = (key, value) => setLocal(prev => ({ ...prev, [key]: value }));
 
     const toggleWorkingDay = (day) => {
@@ -272,7 +294,7 @@ export default function SettingsPage() {
                 {/* Tabs */}
                 <div className="w-52 flex-shrink-0">
                     <div className="bg-white/80 backdrop-blur-md border border-white/50 rounded-2xl p-2 shadow-premium">
-                        {tabs.map(tab => (
+                        {visibleTabs.map(tab => (
                             <button
                                 key={tab.id}
                                 onClick={() => setActiveTab(tab.id)}
