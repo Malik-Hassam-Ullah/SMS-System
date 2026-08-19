@@ -18,6 +18,7 @@ const CeoDashboard = lazy(() => import('./pages/ceo/CeoDashboard'));
 const BranchesPage = lazy(() => import('./pages/ceo/BranchesPage'));
 const CreateAdminPage = lazy(() => import('./pages/ceo/CreateAdminPage'));
 const CeoPayrollPage = lazy(() => import('./pages/ceo/CeoPayrollPage'));
+const CeoExpensesPage = lazy(() => import('./pages/ceo/CeoExpensesPage'));
 
 // Admin
 const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
@@ -58,6 +59,7 @@ const AccountantVouchersPage = lazy(() => import('./pages/accountant/fees/Accoun
 const AccountantPaymentsPage = lazy(() => import('./pages/accountant/fees/AccountantPaymentsPage'));
 const AccountantOutstandingPage = lazy(() => import('./pages/accountant/fees/AccountantOutstandingPage'));
 const AccountantReportsPage = lazy(() => import('./pages/accountant/fees/AccountantReportsPage'));
+const AccountantExpensesPage = lazy(() => import('./pages/accountant/AccountantExpensesPage'));
 
 // Teacher
 const TeacherDashboard = lazy(() => import('./pages/teacher/TeacherDashboard'));
@@ -150,6 +152,7 @@ export default function App() {
                             <Route path="teachers" element={<Suspense fallback={<PageLoader />}><TeachersPage /></Suspense>} />
                             <Route path="teachers/:id" element={<Suspense fallback={<PageLoader />}><TeacherDetailPage /></Suspense>} />
                             <Route path="payroll" element={<Suspense fallback={<PageLoader />}><CeoPayrollPage /></Suspense>} />
+                            <Route path="expenses" element={<Suspense fallback={<PageLoader />}><CeoExpensesPage /></Suspense>} />
                             <Route path="settings" element={<Suspense fallback={<PageLoader />}><SettingsPage /></Suspense>} />
                         </Route>
 
@@ -209,6 +212,7 @@ export default function App() {
                             <Route path="fees/payments" element={<Suspense fallback={<PageLoader />}><AccountantPaymentsPage /></Suspense>} />
                             <Route path="fees/outstanding" element={<Suspense fallback={<PageLoader />}><AccountantOutstandingPage /></Suspense>} />
                             <Route path="fees/reports" element={<Suspense fallback={<PageLoader />}><AccountantReportsPage /></Suspense>} />
+                            <Route path="expenses" element={<Suspense fallback={<PageLoader />}><AccountantExpensesPage /></Suspense>} />
                             <Route path="settings" element={<Suspense fallback={<PageLoader />}><SettingsPage /></Suspense>} />
                         </Route>
 

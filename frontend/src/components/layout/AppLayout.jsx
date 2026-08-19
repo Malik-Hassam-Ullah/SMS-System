@@ -4,7 +4,7 @@ import {
   Menu, X, LogOut, User, LayoutDashboard, Users, BookOpen, GraduationCap,
   CheckSquare, FileText, MessageSquare, Award, Shield, ChevronDown, ChevronRight,
   School, CreditCard, DollarSign, List, UserPlus, Upload,
-  Library, Clock, BookMarked, Activity, Building2, UserCheck, Cog, IndianRupee
+  Library, Clock, BookMarked, Activity, Building2, UserCheck, Cog, IndianRupee, Receipt
 } from 'lucide-react';
 import { useAuthStore } from '../../store/auth.store';
 import { useSettingsStore } from '../../store/settings.store';
@@ -155,6 +155,7 @@ export default function AppLayout() {
         <NavItem to="/accountant/fees/outstanding" label="Outstanding" icon={Activity} onClick={closeSidebar} />
         <NavItem to="/accountant/fees/reports" label="Reports" icon={FileText} onClick={closeSidebar} />
       </NavGroup>
+      <NavItem to="/accountant/expenses" label="Expenses" icon={Receipt} onClick={closeSidebar} />
       <div className="pt-2 mt-2 border-t border-white/10">
         <NavItem to="/accountant/settings" label="Settings" icon={Cog} onClick={closeSidebar} />
       </div>
@@ -192,6 +193,7 @@ export default function AppLayout() {
         <NavItem to="/ceo/teachers" end label="List" icon={List} onClick={closeSidebar} />
         <NavItem to="/ceo/payroll" label="Payroll & Salary" icon={IndianRupee} onClick={closeSidebar} />
       </NavGroup>
+      <NavItem to="/ceo/expenses" label="Expenses & Approvals" icon={Receipt} onClick={closeSidebar} />
       <div className="pt-2 mt-2 border-t border-white/10">
         <NavItem to="/ceo/settings" label="Settings" icon={Cog} onClick={closeSidebar} />
       </div>
