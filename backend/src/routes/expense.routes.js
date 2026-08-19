@@ -58,6 +58,25 @@ router.get('/', authenticate, requireRole('ceo', 'admin', 'accountant'), asyncHa
 
   const { data, error, count } = await query;
   if (error) {
+    if (error.code === 'PGRST205') {
+      return res.json({
+        success: true,
+        data: [],
+        summary: {
+          totalApproved: 0,
+          totalPending: 0,
+          totalRejected: 0,
+          pendingCount: 0,
+          approvedCount: 0,
+          thisMonthApproved: 0,
+          categoryBreakdown: {}
+        },
+        pagination: { page: parseInt(page), limit: parseInt(limit), total: 0 },
+        tableMissing: true,
+        message: "The 'expenses' table has not been created in Supabase yet. Please run the SQL in Supabase SQL Editor."
+      });
+    }
+
     // If foreign key naming mismatch, fallback to simpler select
     const fallbackQuery = supabaseAdmin
       .from('expenses')
@@ -73,7 +92,18 @@ router.get('/', authenticate, requireRole('ceo', 'admin', 'accountant'), asyncHa
     if (to_date) fallbackQuery.lte('expense_date', to_date);
 
     const fallbackRes = await fallbackQuery;
-    if (fallbackRes.error) throw fallbackRes.error;
+    if (fallbackRes.error) {
+      if (fallbackRes.error.code === 'PGRST205') {
+        return res.json({
+          success: true,
+          data: [],
+          summary: { totalApproved: 0, totalPending: 0, totalRejected: 0, pendingCount: 0, approvedCount: 0, thisMonthApproved: 0, categoryBreakdown: {} },
+          pagination: { page: 1, limit: 50, total: 0 },
+          tableMissing: true
+        });
+      }
+      throw fallbackRes.error;
+    }
     
     return res.json({
       success: true,
@@ -213,7 +243,15 @@ router.post('/', authenticate, requireRole('ceo', 'admin', 'accountant'), asyncH
     .select('*, branches(id, name, code)')
     .single();
 
-  if (error) throw error;
+  if (error) {
+    if (error.code === 'PGRST205') {
+      return res.status(400).json({
+        success: false,
+        message: "Database table 'expenses' has not been created yet in Supabase. Please run the SQL script in Supabase SQL Editor."
+      });
+    }
+    throw error;
+  }
 
   await logAudit({
     user_id: req.profile.id,

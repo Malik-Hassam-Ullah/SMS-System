@@ -62,6 +62,8 @@ export default function CeoExpensesPage() {
     });
     const [formError, setFormError] = useState('');
 
+    const [tableMissing, setTableMissing] = useState(false);
+
     useEffect(() => {
         fetchBranches();
     }, []);
@@ -96,6 +98,11 @@ export default function CeoExpensesPage() {
                 limit: 200
             };
             const res = await api.get('/expenses', { params });
+            if (res?.data?.tableMissing) {
+                setTableMissing(true);
+            } else {
+                setTableMissing(false);
+            }
             const list = res?.data?.data ?? res?.data ?? [];
             setExpenses(Array.isArray(list) ? list : []);
             if (res?.data?.summary) {

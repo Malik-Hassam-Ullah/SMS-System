@@ -53,6 +53,8 @@ export default function AccountantExpensesPage() {
         description: ''
     });
 
+    const [tableMissing, setTableMissing] = useState(false);
+
     useEffect(() => {
         fetchExpenses();
     }, [statusFilter, categoryFilter]);
@@ -67,6 +69,11 @@ export default function AccountantExpensesPage() {
                 limit: 100
             };
             const res = await api.get('/expenses', { params });
+            if (res?.data?.tableMissing) {
+                setTableMissing(true);
+            } else {
+                setTableMissing(false);
+            }
             const list = res?.data?.data ?? res?.data ?? [];
             setExpenses(Array.isArray(list) ? list : []);
             if (res?.data?.summary) {
