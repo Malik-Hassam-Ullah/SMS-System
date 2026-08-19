@@ -139,7 +139,7 @@ export default function CeoDashboard() {
               {getGreeting()}, {user?.full_name || 'Owner'}
             </h1>
             <p className="text-slate-400 text-sm sm:text-base max-w-xl">
-              Here is the real-time performance and financial overview of your school network.
+              Welcome back! Monitor your school network's real-time performance, operational health, and financial growth. Empowering leadership to make data-driven decisions for a brighter educational future.
             </p>
           </div>
 
