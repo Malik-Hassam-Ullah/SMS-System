@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import {
   ArrowLeft, User, BookOpen, ChevronDown, ChevronRight,
   Loader2, Award, IndianRupee, Printer, CheckCircle2,
-  AlertCircle, X, Edit2, DollarSign
+  AlertCircle, X, Edit2, DollarSign, Calendar, Clock
 } from 'lucide-react';
 import api from '@/api';
 import { useAuthStore } from '@/store/auth.store';
@@ -34,6 +34,11 @@ const TeacherDetailPage = () => {
   const [baseSalaryInput, setBaseSalaryInput] = useState('');
   const [showSlipModal, setShowSlipModal] = useState(false);
   const [slipPayroll, setSlipPayroll] = useState(null);
+
+  // Attendance States
+  const [attendanceHistory, setAttendanceHistory] = useState([]);
+  const [loadingAttendance, setLoadingAttendance] = useState(false);
+  const [attendanceMonth, setAttendanceMonth] = useState('2026-08');
 
   useEffect(() => {
     const fetchTeacher = async () => {
@@ -121,6 +126,31 @@ const TeacherDetailPage = () => {
     }
   }, [activeTab]);
 
+  // Fetch Attendance History
+  useEffect(() => {
+    const fetchAttendance = async () => {
+      if (activeTab !== 'attendance' || !teacher) return;
+      setLoadingAttendance(true);
+      try {
+        const year = attendanceMonth.split('-')[0];
+        const month = attendanceMonth.split('-')[1];
+        const fromDate = `${year}-${month}-01`;
+        const lastDay = new Date(Number(year), Number(month), 0).getDate();
+        const toDate = `${year}-${month}-${lastDay}`;
+
+        const res = await api.get('/staff-attendance', {
+          params: { staff_id: id, from_date: fromDate, to_date: toDate, branch_id: teacher.branch_id }
+        });
+        setAttendanceHistory(res.data?.data || []);
+      } catch (err) {
+        console.error("Failed to fetch attendance history:", err);
+      } finally {
+        setLoadingAttendance(false);
+      }
+    };
+    fetchAttendance();
+  }, [activeTab, attendanceMonth, id, teacher]);
+
   const handleExpandAssignment = async (assignment) => {
     if (expandedAssignment === assignment.id) {
       setExpandedAssignment(null);
@@ -162,7 +192,6 @@ const TeacherDetailPage = () => {
     setBaseSalary(newBase);
     localStorage.setItem(`teacher_base_salary_${id}`, newBase.toString());
 
-    // Update pending payrolls with new base salary
     const updatedPayrolls = payrolls.map(p => {
       if (p.status === 'pending') {
         return {
@@ -206,6 +235,24 @@ const TeacherDetailPage = () => {
     setAllowanceInput('');
     setDeductionInput('');
   };
+
+  // Calculate Attendance Summary Stats
+  const getAttendanceSummary = () => {
+    const summary = { present: 0, absent: 0, late: 0, leave: 0, total: 0, percentage: '0.0' };
+    attendanceHistory.forEach(r => {
+      summary.total++;
+      if (r.status === 'present') summary.present++;
+      else if (r.status === 'absent') summary.absent++;
+      else if (r.status === 'late') summary.late++;
+      else if (r.status === 'leave') summary.leave++;
+    });
+    if (summary.total > 0) {
+      summary.percentage = ((summary.present / summary.total) * 100).toFixed(1);
+    }
+    return summary;
+  };
+
+  const attSummary = getAttendanceSummary();
 
   if (loading) return <div className="p-6 flex justify-center"><Loader2 className="w-8 h-8 animate-spin text-blue-500" /></div>;
   if (!teacher) return <div className="p-6 text-red-400">Teacher not found</div>;
@@ -274,6 +321,14 @@ const TeacherDetailPage = () => {
               >
                 <BookOpen size={18} /> Assigned Classes & Marks
               </button>
+              {currentUser?.role === 'ceo' && (
+                <button
+                  onClick={() => setActiveTab('attendance')}
+                  className={`flex items-center gap-2 px-6 py-4 text-sm font-medium transition-colors ${activeTab === 'attendance' ? 'text-indigo-600 border-b-2 border-indigo-600 bg-white' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-100/50'}`}
+                >
+                  <Calendar size={18} /> Attendance History
+                </button>
+              )}
               {currentUser?.role === 'ceo' && (
                 <button
                   onClick={() => setActiveTab('payroll')}
@@ -413,6 +468,101 @@ const TeacherDetailPage = () => {
                       <p className="text-sm">Assignments can be managed by the CEO.</p>
                     </div>
                   )}
+                </div>
+              )}
+
+              {/* Attendance History Tab (CEO Only) */}
+              {activeTab === 'attendance' && currentUser?.role === 'ceo' && (
+                <div className="animate-in fade-in slide-in-from-bottom-2 duration-300 space-y-6">
+
+                  {/* Month Selector & Stats */}
+                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                    <div className="flex items-center gap-2">
+                      <label className="text-sm font-bold text-slate-600">Select Month:</label>
+                      <input
+                        type="month"
+                        value={attendanceMonth}
+                        onChange={(e) => setAttendanceMonth(e.target.value)}
+                        className="input py-1.5 text-sm w-44 border-slate-300 shadow-sm bg-white cursor-pointer"
+                      />
+                    </div>
+                    {/* Stats Summary */}
+                    {attendanceHistory.length > 0 && (
+                      <div className="flex flex-wrap gap-3 text-xs font-bold">
+                        <span className="bg-emerald-50 text-emerald-700 border border-emerald-100 px-2.5 py-1 rounded-lg">Present: {attSummary.present}</span>
+                        <span className="bg-rose-50 text-rose-700 border border-rose-100 px-2.5 py-1 rounded-lg">Absent: {attSummary.absent}</span>
+                        <span className="bg-amber-50 text-amber-700 border border-amber-100 px-2.5 py-1 rounded-lg">Late: {attSummary.late}</span>
+                        <span className="bg-blue-50 text-blue-700 border border-blue-100 px-2.5 py-1 rounded-lg">Leave: {attSummary.leave}</span>
+                        <span className="bg-indigo-50 text-indigo-700 border border-indigo-100 px-2.5 py-1 rounded-lg">Rate: {attSummary.percentage}%</span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Attendance Records Table */}
+                  {loadingAttendance ? (
+                    <div className="flex justify-center p-12"><Loader2 className="animate-spin text-indigo-500 w-8 h-8" /></div>
+                  ) : attendanceHistory.length === 0 ? (
+                    <div className="text-center py-12 text-slate-500 border-2 border-dashed border-slate-200 rounded-xl bg-slate-50">
+                      <Calendar className="w-12 h-12 text-slate-300 mx-auto mb-3" />
+                      <p className="font-medium text-lg">No attendance records found for this month.</p>
+                      <p className="text-sm">Attendance can be marked by the branch Administrator.</p>
+                    </div>
+                  ) : (
+                    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-left text-sm whitespace-nowrap">
+                          <thead className="bg-slate-50 text-slate-500 font-semibold border-b border-slate-200">
+                            <tr>
+                              <th className="px-5 py-3">Date</th>
+                              <th className="px-5 py-3">Status</th>
+                              <th className="px-5 py-3">Check In</th>
+                              <th className="px-5 py-3">Check Out</th>
+                              <th className="px-5 py-3">Remarks</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-slate-100">
+                            {attendanceHistory.sort((a, b) => new Date(b.date) - new Date(a.date)).map((r, idx) => (
+                              <tr key={idx} className="hover:bg-slate-50/30 transition-colors">
+                                <td className="px-5 py-4 font-bold text-slate-800">{new Date(r.date).toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' })}</td>
+                                <td className="px-5 py-4">
+                                  {r.status === 'present' && (
+                                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-100">
+                                      Present
+                                    </span>
+                                  )}
+                                  {r.status === 'absent' && (
+                                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-100">
+                                      Absent
+                                    </span>
+                                  )}
+                                  {r.status === 'late' && (
+                                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-100">
+                                      Late
+                                    </span>
+                                  )}
+                                  {r.status === 'leave' && (
+                                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-100">
+                                      Leave
+                                    </span>
+                                  )}
+                                </td>
+                                <td className="px-5 py-4 text-slate-600 font-mono flex items-center gap-1">
+                                  <Clock className="w-3.5 h-3.5 text-slate-400" /> {r.check_in || '--:--'}
+                                </td>
+                                <td className="px-5 py-4 text-slate-600 font-mono">
+                                  {r.check_out || '--:--'}
+                                </td>
+                                <td className="px-5 py-4 text-slate-500 italic">
+                                  {r.remarks || 'No remarks'}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  )}
+
                 </div>
               )}
 

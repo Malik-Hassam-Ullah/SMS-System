@@ -1,38 +1,81 @@
 const express = require('express');
 const router = express.Router();
+const fs = require('fs');
+const path = require('path');
+const { v4: uuidv4 } = require('uuid');
 const { supabaseAdmin } = require('../config/supabase');
 const { authenticate, requireRole } = require('../middleware/auth.middleware');
 const { asyncHandler } = require('../middleware/error.middleware');
 
+const FILE_PATH = path.join(__dirname, '../../staff_attendance.json');
+
+// Helper functions to read/write JSON file
+function readRecords() {
+    if (!fs.existsSync(FILE_PATH)) {
+        return [];
+    }
+    try {
+        return JSON.parse(fs.readFileSync(FILE_PATH, 'utf8'));
+    } catch (e) {
+        console.error('Failed to read staff attendance JSON:', e);
+        return [];
+    }
+}
+
+function writeRecords(records) {
+    try {
+        fs.writeFileSync(FILE_PATH, JSON.stringify(records, null, 2), 'utf8');
+    } catch (e) {
+        console.error('Failed to write staff attendance JSON:', e);
+    }
+}
+
 // GET /api/staff-attendance — get staff attendance records for a date
-router.get('/', authenticate, requireRole('admin', 'accountant'), asyncHandler(async (req, res) => {
+router.get('/', authenticate, requireRole('admin', 'accountant', 'ceo'), asyncHandler(async (req, res) => {
     const { date, from_date, to_date, staff_id } = req.query;
+    const branchId = req.branchId || req.query.branch_id;
 
-    let query = supabaseAdmin
-        .from('staff_attendance')
-        .select(`
-      *,
-      user_profiles ( id, full_name, role, employee_code, phone )
-    `)
-        .eq('branch_id', req.branchId)
-        .order('date', { ascending: false });
+    let records = readRecords();
 
-    if (date) query = query.eq('date', date);
-    if (from_date) query = query.gte('date', from_date);
-    if (to_date) query = query.lte('date', to_date);
-    if (staff_id) query = query.eq('staff_id', staff_id);
+    // Filter by branch
+    if (branchId) {
+        records = records.filter(r => r.branch_id === branchId);
+    }
 
-    const { data, error } = await query;
+    // Filter by query params
+    if (date) records = records.filter(r => r.date === date);
+    if (from_date) records = records.filter(r => r.date >= from_date);
+    if (to_date) records = records.filter(r => r.date <= to_date);
+    if (staff_id) records = records.filter(r => r.staff_id === staff_id);
+
+    // Fetch user profiles to attach
+    const { data: profiles, error } = await supabaseAdmin
+        .from('user_profiles')
+        .select('id, full_name, role, employee_code, phone');
+
     if (error) throw error;
-    res.json({ success: true, data });
+
+    const profileMap = {};
+    profiles?.forEach(p => {
+        profileMap[p.id] = p;
+    });
+
+    const enrichedRecords = records.map(r => ({
+        ...r,
+        user_profiles: profileMap[r.staff_id] || null
+    }));
+
+    res.json({ success: true, data: enrichedRecords });
 }));
 
 // GET /api/staff-attendance/staff — get all staff (teachers + admin) for this branch
-router.get('/staff', authenticate, requireRole('admin', 'accountant'), asyncHandler(async (req, res) => {
+router.get('/staff', authenticate, requireRole('admin', 'accountant', 'ceo'), asyncHandler(async (req, res) => {
+    const branchId = req.branchId || req.query.branch_id;
+
     const { data, error } = await supabaseAdmin
         .from('user_profiles')
         .select('id, full_name, role, employee_code, phone, gender')
-        .eq('branch_id', req.branchId)
+        .eq('branch_id', branchId)
         .in('role', ['teacher', 'admin', 'accountant'])
         .eq('is_active', true)
         .order('full_name');
@@ -42,8 +85,9 @@ router.get('/staff', authenticate, requireRole('admin', 'accountant'), asyncHand
 }));
 
 // POST /api/staff-attendance/bulk — mark attendance for multiple staff
-router.post('/bulk', authenticate, requireRole('admin'), asyncHandler(async (req, res) => {
+router.post('/bulk', authenticate, requireRole('admin', 'ceo'), asyncHandler(async (req, res) => {
     const { records, date } = req.body; // records: [{ staff_id, status, check_in, check_out, remarks }]
+    const branchId = req.branchId || req.body.branch_id;
 
     if (!Array.isArray(records) || records.length === 0) {
         return res.status(400).json({ success: false, message: 'Attendance records array required' });
@@ -51,49 +95,82 @@ router.post('/bulk', authenticate, requireRole('admin'), asyncHandler(async (req
     if (!date) {
         return res.status(400).json({ success: false, message: 'Date is required' });
     }
+    if (!branchId) {
+        return res.status(400).json({ success: false, message: 'Branch ID is required' });
+    }
 
-    const payload = records.map(r => ({
-        branch_id: req.branchId,
-        staff_id: r.staff_id,
-        date: date,
-        status: r.status,
-        check_in: r.check_in || null,
-        check_out: r.check_out || null,
-        remarks: r.remarks || null,
-        marked_by: req.profile.id,
-    }));
+    let allRecords = readRecords();
 
-    const { data, error } = await supabaseAdmin
-        .from('staff_attendance')
-        .upsert(payload, { onConflict: 'staff_id,date' })
-        .select();
+    const updatedRecords = [];
 
-    if (error) throw error;
-    res.status(201).json({ success: true, data, count: data.length });
+    records.forEach(r => {
+        const existingIdx = allRecords.findIndex(rec => rec.staff_id === r.staff_id && rec.date === date);
+
+        const payload = {
+            id: existingIdx >= 0 ? allRecords[existingIdx].id : uuidv4(),
+            branch_id: branchId,
+            staff_id: r.staff_id,
+            date: date,
+            status: r.status,
+            check_in: r.check_in || null,
+            check_out: r.check_out || null,
+            remarks: r.remarks || null,
+            marked_by: req.profile.id,
+            created_at: existingIdx >= 0 ? allRecords[existingIdx].created_at : new Date().toISOString(),
+            updated_at: new Date().toISOString()
+        };
+
+        if (existingIdx >= 0) {
+            allRecords[existingIdx] = payload;
+        } else {
+            allRecords.push(payload);
+        }
+        updatedRecords.push(payload);
+    });
+
+    writeRecords(allRecords);
+
+    res.status(201).json({ success: true, data: updatedRecords, count: updatedRecords.length });
 }));
 
 // GET /api/staff-attendance/report — monthly summary per staff member
-router.get('/report', authenticate, requireRole('admin', 'accountant'), asyncHandler(async (req, res) => {
+router.get('/report', authenticate, requireRole('admin', 'accountant', 'ceo'), asyncHandler(async (req, res) => {
     const { from_date, to_date } = req.query;
+    const branchId = req.branchId || req.query.branch_id;
 
-    let query = supabaseAdmin
-        .from('staff_attendance')
-        .select('staff_id, status, date, user_profiles(id, full_name, role, employee_code)')
-        .eq('branch_id', req.branchId);
+    if (!branchId) {
+        return res.status(400).json({ success: false, message: 'Branch ID is required' });
+    }
 
-    if (from_date) query = query.gte('date', from_date);
-    if (to_date) query = query.lte('date', to_date);
+    let records = readRecords();
 
-    const { data, error } = await query;
+    // Filter by branch and date range
+    records = records.filter(r => r.branch_id === branchId);
+    if (from_date) records = records.filter(r => r.date >= from_date);
+    if (to_date) records = records.filter(r => r.date <= to_date);
+
+    // Fetch user profiles
+    const { data: profiles, error } = await supabaseAdmin
+        .from('user_profiles')
+        .select('id, full_name, role, employee_code, phone')
+        .eq('branch_id', branchId);
+
     if (error) throw error;
+
+    const profileMap = {};
+    profiles?.forEach(p => {
+        profileMap[p.id] = p;
+    });
 
     // Aggregate by staff member
     const staffMap = {};
-    data?.forEach(a => {
+    records.forEach(a => {
         const sid = a.staff_id;
+        if (!profileMap[sid]) return; // Skip if profile not found or not in this branch
+
         if (!staffMap[sid]) {
             staffMap[sid] = {
-                staff: a.user_profiles,
+                staff: profileMap[sid],
                 total: 0, present: 0, absent: 0, late: 0, leave: 0,
             };
         }

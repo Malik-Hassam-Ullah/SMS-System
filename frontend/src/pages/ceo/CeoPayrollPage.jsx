@@ -3,11 +3,33 @@ import { useNavigate } from 'react-router-dom';
 import {
     IndianRupee, Search, Filter, Loader2, CheckCircle2,
     AlertCircle, Printer, Edit2, X, Users, Building2,
-    ArrowRight, DollarSign, TrendingUp, Check
+    ArrowRight, DollarSign, TrendingUp, Calendar as CalendarIcon
 } from 'lucide-react';
 import { getBranches, getUsers } from '../../api';
+import api from '@/lib/api';
 
 const COLORS = ['#6366f1', '#d946ef', '#10b981', '#f59e0b', '#3b82f6'];
+
+// Helper to convert month name to date range
+const getMonthDateRange = (monthStr) => {
+    const parts = monthStr.split(' ');
+    const monthName = parts[0];
+    const year = parts[1];
+
+    const monthMap = {
+        'January': '01', 'February': '02', 'March': '03', 'April': '04',
+        'May': '05', 'June': '06', 'July': '07', 'August': '08',
+        'September': '09', 'October': '10', 'November': '11', 'December': '12'
+    };
+
+    const monthNum = monthMap[monthName] || '09';
+    const fromDate = `${year}-${monthNum}-01`;
+
+    const lastDay = new Date(Number(year), Number(monthNum), 0).getDate();
+    const toDate = `${year}-${monthNum}-${lastDay}`;
+
+    return { fromDate, toDate };
+};
 
 export default function CeoPayrollPage() {
     const navigate = useNavigate();
@@ -18,6 +40,7 @@ export default function CeoPayrollPage() {
     const [branchFilter, setBranchFilter] = useState('');
     const [statusFilter, setStatusFilter] = useState('');
     const [selectedMonth, setSelectedMonth] = useState('September 2026');
+    const [attendanceReports, setAttendanceReports] = useState({});
 
     // Modal States
     const [showPayModal, setShowPayModal] = useState(false);
@@ -45,19 +68,15 @@ export default function CeoPayrollPage() {
                 ]);
                 setBranches(branchesData || []);
 
-                // Filter only teachers
                 const teacherUsers = (usersData || []).filter(u => u.role === 'teacher');
 
-                // Enhance teachers with their payroll data from localStorage
                 const enhancedTeachers = teacherUsers.map(t => {
-                    // Load Base Salary
                     let base = localStorage.getItem(`teacher_base_salary_${t.id}`);
                     if (!base) {
                         base = '45000';
                         localStorage.setItem(`teacher_base_salary_${t.id}`, '45000');
                     }
 
-                    // Load Payrolls
                     let payrolls = localStorage.getItem(`teacher_payrolls_${t.id}`);
                     if (!payrolls) {
                         payrolls = [
@@ -114,7 +133,47 @@ export default function CeoPayrollPage() {
         loadData();
     }, []);
 
-    // Filtered teachers list based on search, branch, status, and selected month
+    // Fetch Attendance Reports for the selected month
+    useEffect(() => {
+        const fetchAttendance = async () => {
+            try {
+                const { fromDate, toDate } = getMonthDateRange(selectedMonth);
+                const branchesToFetch = branchFilter ? [branchFilter] : branches.map(b => b.id);
+                const reports = {};
+
+                await Promise.all(branchesToFetch.map(async (bId) => {
+                    try {
+                        const res = await api.get('/staff-attendance/report', {
+                            params: { from_date: fromDate, to_date: toDate, branch_id: bId }
+                        });
+                        if (res.data?.success && res.data?.data) {
+                            res.data.data.forEach(item => {
+                                reports[item.staff.id] = {
+                                    present: item.present,
+                                    absent: item.absent,
+                                    late: item.late,
+                                    leave: item.leave,
+                                    total: item.total,
+                                    percentage: item.percentage
+                                };
+                            });
+                        }
+                    } catch (e) {
+                        console.error(`Failed to fetch attendance report for branch ${bId}:`, e);
+                    }
+                }));
+
+                setAttendanceReports(reports);
+            } catch (err) {
+                console.error('Failed to fetch attendance reports:', err);
+            }
+        };
+
+        if (branches.length > 0) {
+            fetchAttendance();
+        }
+    }, [selectedMonth, branchFilter, branches]);
+
     const filteredTeachers = teachers.filter(t => {
         const matchesSearch =
             t.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -122,14 +181,12 @@ export default function CeoPayrollPage() {
 
         const matchesBranch = !branchFilter || t.branch_id === branchFilter;
 
-        // Find payroll for selected month
         const monthPayroll = t.payrolls.find(p => p.month === selectedMonth);
         const matchesStatus = !statusFilter || (monthPayroll && monthPayroll.status === statusFilter);
 
         return matchesSearch && matchesBranch && matchesStatus;
     });
 
-    // Calculate summary stats for the selected month
     const getStats = () => {
         let totalPayroll = 0;
         let paidCount = 0;
@@ -156,13 +213,11 @@ export default function CeoPayrollPage() {
 
     const stats = getStats();
 
-    // Handle Base Salary Update
     const handleUpdateBaseSalary = (e) => {
         e.preventDefault();
         const newBase = Number(baseSalaryInput);
         if (isNaN(newBase) || newBase <= 0) return;
 
-        // Update state
         const updatedTeachers = teachers.map(t => {
             if (t.id === selectedTeacher.id) {
                 localStorage.setItem(`teacher_base_salary_${t.id}`, newBase.toString());
@@ -192,7 +247,6 @@ export default function CeoPayrollPage() {
         setShowBaseSalaryModal(false);
     };
 
-    // Handle Pay Salary
     const handlePaySalary = (e) => {
         e.preventDefault();
         const allowances = Number(allowanceInput) || 0;
@@ -349,6 +403,7 @@ export default function CeoPayrollPage() {
                             <tr>
                                 <th className="px-6 py-4">Teacher Name</th>
                                 <th className="px-6 py-4">Branch</th>
+                                <th className="px-6 py-4">Attendance ({selectedMonth.split(' ')[0]})</th>
                                 <th className="px-6 py-4">Base Salary</th>
                                 <th className="px-6 py-4">Allowances</th>
                                 <th className="px-6 py-4">Deductions</th>
@@ -367,6 +422,7 @@ export default function CeoPayrollPage() {
                                         netSalary: t.baseSalary,
                                         status: 'pending'
                                     };
+                                    const att = attendanceReports[t.id] || { present: 0, absent: 0, late: 0, leave: 0, percentage: '0.0', total: 0 };
                                     return (
                                         <tr key={t.id} className="hover:bg-slate-50/50 transition-colors">
                                             <td className="px-6 py-4">
@@ -375,6 +431,23 @@ export default function CeoPayrollPage() {
                                             </td>
                                             <td className="px-6 py-4 text-slate-600 font-medium">
                                                 {t.branches?.name || 'Unassigned'}
+                                            </td>
+                                            {/* Attendance Column */}
+                                            <td className="px-6 py-4">
+                                                {att.total > 0 ? (
+                                                    <div className="space-y-1">
+                                                        <div className="flex items-center gap-1.5 text-xs font-bold">
+                                                            <span className="text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded">P:{att.present}</span>
+                                                            <span className="text-rose-600 bg-rose-50 px-1.5 py-0.5 rounded">A:{att.absent}</span>
+                                                            <span className="text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded">L:{att.late}</span>
+                                                        </div>
+                                                        <div className="text-[10px] text-slate-400 font-semibold">
+                                                            Attendance Rate: <span className={Number(att.percentage) >= 80 ? 'text-emerald-600 font-bold' : 'text-rose-600 font-bold'}>{att.percentage}%</span>
+                                                        </div>
+                                                    </div>
+                                                ) : (
+                                                    <span className="text-xs text-slate-400 italic">No records marked</span>
+                                                )}
                                             </td>
                                             <td className="px-6 py-4 text-slate-600 font-mono">
                                                 PKR {p.baseSalary.toLocaleString()}
@@ -449,7 +522,7 @@ export default function CeoPayrollPage() {
                                 })
                             ) : (
                                 <tr>
-                                    <td colSpan="8" className="text-center py-10 text-slate-400 font-medium">No teachers found matching your filters.</td>
+                                    <td colSpan="9" className="text-center py-10 text-slate-400 font-medium">No teachers found matching your filters.</td>
                                 </tr>
                             )}
                         </tbody>
