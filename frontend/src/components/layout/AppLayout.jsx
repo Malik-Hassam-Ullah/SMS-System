@@ -75,7 +75,6 @@ const NavGroup = ({ icon: Icon, label, children, active }) => {
 
 export default function AppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const { user, logout } = useAuthStore();
@@ -305,60 +304,19 @@ export default function AppLayout() {
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        {/* Topbar */}
-        <header className="h-16 flex items-center justify-between px-4 sm:px-6 lg:px-8 border-b border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/95 backdrop-blur-md z-30 shadow-sm">
-          <div className="flex items-center gap-4">
-            <button
-              className="p-2 -ml-2 rounded-md text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200 lg:hidden"
-              onClick={() => setSidebarOpen(true)}
-            >
-              <Menu className="w-6 h-6" />
-            </button>
-            <div className="page-header m-0 p-0 border-none bg-transparent">
-              {/* Contextual title handled in pages */}
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4 relative">
-            <button
-              className="flex items-center gap-2 p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-none"
-              onClick={() => setDropdownOpen(!dropdownOpen)}
-            >
-              <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center text-white text-sm font-bold shadow-sm">
-                {getInitials(user?.full_name)}
-              </div>
-              <ChevronDown className="w-4 h-4 text-slate-500 hidden sm:block" />
-            </button>
-
-            {dropdownOpen && (
-              <>
-                <div className="fixed inset-0 z-40" onClick={() => setDropdownOpen(false)}></div>
-                <div className="absolute right-0 top-12 mt-2 w-56 rounded-xl shadow-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 ring-1 ring-black ring-opacity-5 py-1 z-50 overflow-hidden">
-                  <div className="px-4 py-3 border-b border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/60">
-                    <p className="text-sm font-semibold text-slate-800 dark:text-slate-100 truncate">{user?.full_name || 'Admin User'}</p>
-                    <p className="text-xs text-slate-500 truncate mt-0.5">{user?.email || 'admin@school.com'}</p>
-                  </div>
-                  <div className="py-1">
-                    <button
-                      className="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 flex items-center gap-2 transition-colors"
-                      onClick={() => { setDropdownOpen(false); navigate('/profile'); }}
-                    >
-                      <User className="w-4 h-4 text-slate-400" /> Profile
-                    </button>
-                  </div>
-                  <div className="py-1 border-t border-slate-100">
-                    <button
-                      onClick={handleLogout}
-                      className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2 transition-colors font-medium"
-                    >
-                      <LogOut className="w-4 h-4 text-red-500" /> Sign out
-                    </button>
-                  </div>
-                </div>
-              </>
-            )}
-          </div>
-        </header>
+        {/* Mobile-Only Minimal Header (Completely hidden on Desktop) */}
+        <div className="lg:hidden flex items-center justify-between px-4 py-2.5 border-b border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md z-30">
+          <button
+            className="p-2 rounded-xl text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors cursor-pointer"
+            onClick={() => setSidebarOpen(true)}
+            aria-label="Open Sidebar"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+          <span className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate">
+            {schoolName || user?.school?.name || 'SMS Platform'}
+          </span>
+        </div>
 
         {/* Main Outlet */}
         <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 relative bg-slate-50/50 dark:bg-slate-950">
