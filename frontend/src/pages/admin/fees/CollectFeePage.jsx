@@ -270,7 +270,7 @@ export default function CollectFeePage() {
                 {/* Payment Form */}
                 <div className="lg:col-span-1">
                     {selectedVoucher ? (
-                        <div className="card p-6 bg-white rounded-xl border border-slate-200 shadow-sm sticky top-6 space-y-4">
+                        <div className="card p-6 bg-white rounded-xl border border-slate-200 shadow-sm sticky top-6 space-y-4 max-h-[calc(100vh-48px)] overflow-y-auto">
                             <div className="border-b border-slate-100 pb-3">
                                 <h2 className="font-bold text-slate-800 text-lg">Record Payment</h2>
                                 <p className="text-xs text-slate-500 mt-0.5">For Voucher: {selectedVoucher.voucher_number}</p>

@@ -282,7 +282,7 @@ export default function AccountantPaymentsPage() {
       {/* Payment Modal */}
       {payModal && (
         <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white w-full max-w-md rounded-xl shadow-2xl">
+          <div className="bg-white w-full max-w-md rounded-xl shadow-2xl max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center p-6 border-b border-slate-100">
               <h2 className="text-lg font-bold text-slate-800">Collect Payment</h2>
               <button onClick={() => setPayModal(null)} className="p-2 hover:bg-slate-100 rounded-full text-slate-400">

@@ -322,7 +322,7 @@ export default function VoucherDetailPage() {
       {/* Payment Modal */}
       {showPaymentModal && (
         <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white p-6 w-full max-w-md rounded-xl shadow-xl border border-slate-200">
+          <div className="bg-white p-6 w-full max-w-md rounded-xl shadow-xl border border-slate-200 max-h-[90vh] overflow-y-auto">
             <h2 className="text-xl font-bold mb-4 text-slate-900">Record Fee Payment</h2>
 
             {paymentError && (
