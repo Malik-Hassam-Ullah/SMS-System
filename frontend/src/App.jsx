@@ -17,6 +17,7 @@ const AppLayout = lazy(() => import('./components/layout/AppLayout'));
 const CeoDashboard = lazy(() => import('./pages/ceo/CeoDashboard'));
 const BranchesPage = lazy(() => import('./pages/ceo/BranchesPage'));
 const CreateAdminPage = lazy(() => import('./pages/ceo/CreateAdminPage'));
+const CeoPayrollPage = lazy(() => import('./pages/ceo/CeoPayrollPage'));
 
 // Admin
 const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
@@ -148,6 +149,7 @@ export default function App() {
                             <Route path="create-admin" element={<Suspense fallback={<PageLoader />}><CreateAdminPage /></Suspense>} />
                             <Route path="teachers" element={<Suspense fallback={<PageLoader />}><TeachersPage /></Suspense>} />
                             <Route path="teachers/:id" element={<Suspense fallback={<PageLoader />}><TeacherDetailPage /></Suspense>} />
+                            <Route path="payroll" element={<Suspense fallback={<PageLoader />}><CeoPayrollPage /></Suspense>} />
                         </Route>
 
                         {/* Admin */}
