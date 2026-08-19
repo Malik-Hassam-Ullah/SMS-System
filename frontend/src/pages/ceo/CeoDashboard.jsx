@@ -135,10 +135,11 @@ export default function CeoDashboard() {
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
               All Systems Operational
             </div>
-            <h1 className="text-3xl sm:text-4xl font-black tracking-tight">
-              Welcome to The Smart School Kahuta Campus
+            <p className="text-indigo-300 text-xs font-bold uppercase tracking-widest mt-3">Welcome to</p>
+            <h1 className="text-2xl sm:text-3xl font-black tracking-tight bg-gradient-to-r from-white via-indigo-100 to-slate-300 bg-clip-text text-transparent">
+              The Smart School <span className="text-indigo-400">Kahuta Campus</span>
             </h1>
-            <p className="text-slate-400 text-sm sm:text-base max-w-xl">
+            <p className="text-slate-400 text-xs sm:text-sm max-w-xl mt-1">
               Real-time performance, operational health, and financial growth across all campuses.
             </p>
           </div>
