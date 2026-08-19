@@ -136,10 +136,10 @@ export default function CeoDashboard() {
               All Systems Operational
             </div>
             <h1 className="text-3xl sm:text-4xl font-black tracking-tight">
-              {getGreeting()}, Chief Executive Officer
+              Executive Command Center
             </h1>
             <p className="text-slate-400 text-sm sm:text-base max-w-xl">
-              Welcome back! Monitor your school network's real-time performance, operational health, and financial growth. Empowering leadership to make data-driven decisions for a brighter educational future.
+              Real-time performance, operational health, and financial growth across all campuses.
             </p>
           </div>
 
