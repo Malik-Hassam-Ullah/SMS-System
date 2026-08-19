@@ -239,25 +239,49 @@ export default function AppLayout() {
           {user?.role === 'teacher' && renderTeacherNav()}
         </div>
 
-        {/* Pill Logout & Officer Card (Matching Design) */}
+        {/* Unique Executive Glass Profile & Power Logout Card */}
         <div className="p-3 m-3">
-          <div className="bg-[#eef2f6] border border-slate-300/80 rounded-full px-5 py-2.5 flex items-center justify-between shadow-sm hover:shadow-md transition-all">
-            <div className="flex-1 min-w-0 pr-2">
-              <p className="text-[11px] font-semibold text-slate-600 tracking-wide truncate">
-                {user?.role === 'admin' ? 'Campus Officer' : user?.role === 'accountant' ? 'Branch Accountant' : user?.role === 'ceo' ? 'Chief Executive' : 'Campus Faculty'}
-              </p>
-              <p className="text-sm font-extrabold text-slate-950 font-mono tracking-tight truncate">
-                {user?.branch?.code || user?.employee_code || user?.full_name || '02-01-070'}
-              </p>
+          <div className="relative group overflow-hidden bg-gradient-to-b from-white/[0.08] to-white/[0.03] backdrop-blur-xl border border-white/10 hover:border-white/20 rounded-2xl p-3.5 shadow-xl shadow-black/20 transition-all duration-300">
+            {/* Top subtle light accent */}
+            <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary-400/40 to-transparent"></div>
+
+            <div className="flex items-center justify-between gap-3">
+              {/* Left: User Avatar with Live Online Pulse */}
+              <div className="relative shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary-600 via-indigo-500 to-accent-400 flex items-center justify-center text-white font-black text-sm shadow-md shadow-primary-500/20 border border-white/20">
+                  {getInitials(user?.full_name)}
+                </div>
+                {/* Live Status Pulse */}
+                <span className="absolute -bottom-0.5 -right-0.5 flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500 border-2 border-slate-900"></span>
+                </span>
+              </div>
+
+              {/* Center: User Details */}
+              <div className="flex-1 min-w-0">
+                <p className="text-xs font-black text-white truncate tracking-wide">
+                  {user?.full_name || 'Admin User'}
+                </p>
+                <div className="flex items-center gap-1.5 mt-0.5">
+                  <span className="inline-flex items-center px-1.5 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-emerald-500/15 text-emerald-400 border border-emerald-500/25">
+                    {user?.role === 'admin' ? 'Campus Officer' : user?.role === 'ceo' ? 'Executive CEO' : user?.role === 'accountant' ? 'Accountant' : 'Faculty'}
+                  </span>
+                  <span className="text-[10px] font-mono text-slate-400 truncate">
+                    {user?.branch?.code || '02-01-070'}
+                  </span>
+                </div>
+              </div>
+
+              {/* Right: Futuristic Glowing Red Power Button */}
+              <button
+                onClick={handleLogout}
+                title="Sign Out / Logout"
+                className="relative shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-rose-500 via-red-600 to-rose-700 hover:from-rose-600 hover:to-red-800 text-white flex items-center justify-center shadow-lg shadow-rose-600/30 hover:shadow-rose-600/50 hover:scale-105 active:scale-95 transition-all duration-200 border border-rose-400/30 group/btn focus:outline-none focus:ring-2 focus:ring-rose-400/50"
+              >
+                <Power className="w-5 h-5 stroke-[2.5] text-white group-hover/btn:rotate-90 group-hover/btn:scale-110 transition-all duration-300" />
+              </button>
             </div>
-            
-            <button
-              onClick={handleLogout}
-              title="Sign Out"
-              className="w-10 h-10 rounded-full bg-[#d32f2f] hover:bg-[#b71c1c] active:scale-95 text-white flex items-center justify-center shadow-md shadow-red-500/30 hover:shadow-lg hover:shadow-red-600/40 transition-all duration-200 shrink-0 group focus:outline-none focus:ring-2 focus:ring-red-400"
-            >
-              <Power className="w-5 h-5 stroke-[2.5] text-white group-hover:scale-110 transition-transform" />
-            </button>
           </div>
         </div>
       </aside>
