@@ -28,7 +28,8 @@ export const SIDEBAR_THEMES = [
     profileName: 'text-white',
     profileSub: 'text-slate-300',
     roleBadge: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
-    powerButton: 'bg-gradient-to-br from-rose-500 via-red-600 to-rose-700 hover:from-rose-600 hover:to-red-800 text-white shadow-lg shadow-rose-600/30 border border-rose-400/30'
+    powerButton: 'bg-gradient-to-br from-rose-500 via-red-600 to-rose-700 hover:from-rose-600 hover:to-red-800 text-white shadow-lg shadow-rose-600/30 border border-rose-400/30',
+    powerIcon: 'text-white'
   },
   {
     id: 'scarletRed',
@@ -53,7 +54,8 @@ export const SIDEBAR_THEMES = [
     profileName: 'text-white',
     profileSub: 'text-red-100 font-mono font-bold',
     roleBadge: 'bg-amber-400/25 text-amber-200 border-amber-400/40 font-bold',
-    powerButton: 'bg-white hover:bg-amber-50 text-red-700 hover:text-red-800 shadow-lg shadow-black/30 border border-white/80'
+    powerButton: 'bg-white hover:bg-amber-50 shadow-lg shadow-black/30 border border-white/80',
+    powerIcon: 'text-red-700'
   },
   {
     id: 'cleanLight',
@@ -78,7 +80,8 @@ export const SIDEBAR_THEMES = [
     profileName: 'text-slate-950 font-black',
     profileSub: 'text-slate-600 font-mono font-bold',
     roleBadge: 'bg-blue-100 text-blue-800 border-blue-300 font-bold',
-    powerButton: 'bg-gradient-to-br from-rose-500 via-red-600 to-rose-700 hover:from-rose-600 hover:to-red-800 text-white shadow-md shadow-rose-600/30 border border-rose-400/30'
+    powerButton: 'bg-gradient-to-br from-rose-500 via-red-600 to-rose-700 hover:from-rose-600 hover:to-red-800 text-white shadow-md shadow-rose-600/30 border border-rose-400/30',
+    powerIcon: 'text-white'
   },
   {
     id: 'ocean',
@@ -103,7 +106,8 @@ export const SIDEBAR_THEMES = [
     profileName: 'text-white',
     profileSub: 'text-cyan-200 font-mono',
     roleBadge: 'bg-cyan-500/25 text-cyan-300 border-cyan-400/40',
-    powerButton: 'bg-gradient-to-br from-rose-500 via-red-600 to-rose-700 hover:from-rose-600 hover:to-red-800 text-white shadow-lg shadow-rose-600/30 border border-rose-400/30'
+    powerButton: 'bg-gradient-to-br from-rose-500 via-red-600 to-rose-700 hover:from-rose-600 hover:to-red-800 text-white shadow-lg shadow-rose-600/30 border border-rose-400/30',
+    powerIcon: 'text-white'
   },
   {
     id: 'emerald',
@@ -128,7 +132,8 @@ export const SIDEBAR_THEMES = [
     profileName: 'text-white',
     profileSub: 'text-emerald-200 font-mono',
     roleBadge: 'bg-emerald-500/25 text-emerald-300 border-emerald-400/40',
-    powerButton: 'bg-gradient-to-br from-rose-500 via-red-600 to-rose-700 hover:from-rose-600 hover:to-red-800 text-white shadow-lg shadow-rose-600/30 border border-rose-400/30'
+    powerButton: 'bg-gradient-to-br from-rose-500 via-red-600 to-rose-700 hover:from-rose-600 hover:to-red-800 text-white shadow-lg shadow-rose-600/30 border border-rose-400/30',
+    powerIcon: 'text-white'
   },
   {
     id: 'purple',
@@ -153,7 +158,8 @@ export const SIDEBAR_THEMES = [
     profileName: 'text-white',
     profileSub: 'text-purple-200 font-mono',
     roleBadge: 'bg-purple-500/25 text-purple-300 border-purple-400/40',
-    powerButton: 'bg-gradient-to-br from-rose-500 via-red-600 to-rose-700 hover:from-rose-600 hover:to-red-800 text-white shadow-lg shadow-rose-600/30 border border-rose-400/30'
+    powerButton: 'bg-gradient-to-br from-rose-500 via-red-600 to-rose-700 hover:from-rose-600 hover:to-red-800 text-white shadow-lg shadow-rose-600/30 border border-rose-400/30',
+    powerIcon: 'text-white'
   },
   {
     id: 'carbon',
@@ -178,7 +184,8 @@ export const SIDEBAR_THEMES = [
     profileName: 'text-white',
     profileSub: 'text-zinc-400 font-mono',
     roleBadge: 'bg-zinc-800 text-zinc-300 border-zinc-600',
-    powerButton: 'bg-gradient-to-br from-rose-500 via-red-600 to-rose-700 hover:from-rose-600 hover:to-red-800 text-white shadow-lg shadow-rose-600/30 border border-rose-400/30'
+    powerButton: 'bg-gradient-to-br from-rose-500 via-red-600 to-rose-700 hover:from-rose-600 hover:to-red-800 text-white shadow-lg shadow-rose-600/30 border border-rose-400/30',
+    powerIcon: 'text-white'
   }
 ];
 

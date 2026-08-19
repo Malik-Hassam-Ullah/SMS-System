@@ -293,9 +293,9 @@ export default function AppLayout() {
                 <button
                   onClick={handleLogout}
                   title="Sign Out / Logout"
-                  className={`relative shrink-0 w-10 h-10 rounded-xl flex items-center justify-center hover:scale-105 active:scale-95 transition-all duration-200 border border-rose-400/30 group/btn focus:outline-none focus:ring-2 focus:ring-rose-400/50 cursor-pointer ${currentSidebarTheme.powerButton}`}
+                  className={`relative shrink-0 w-10 h-10 rounded-xl flex items-center justify-center hover:scale-105 active:scale-95 transition-all duration-200 group/btn focus:outline-none focus:ring-2 focus:ring-rose-400/50 cursor-pointer ${currentSidebarTheme.powerButton}`}
                 >
-                  <Power className="w-5 h-5 stroke-[2.5] text-white group-hover/btn:rotate-90 group-hover/btn:scale-110 transition-all duration-300" />
+                  <Power className={`w-5 h-5 stroke-[2.5] ${currentSidebarTheme.powerIcon || 'text-white'} group-hover/btn:rotate-90 group-hover/btn:scale-110 transition-all duration-300`} />
                 </button>
               </div>
             </div>
