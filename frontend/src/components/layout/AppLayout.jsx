@@ -4,7 +4,7 @@ import {
   Menu, X, LogOut, User, LayoutDashboard, Users, BookOpen, GraduationCap,
   CheckSquare, FileText, MessageSquare, Award, Shield, ChevronDown, ChevronRight,
   School, CreditCard, DollarSign, List, UserPlus, Upload,
-  Library, Clock, BookMarked, Activity, Building2, UserCheck, Cog, IndianRupee, Receipt
+  Library, Clock, BookMarked, Activity, Building2, UserCheck, Cog, IndianRupee, Receipt, Power
 } from 'lucide-react';
 import { useAuthStore } from '../../store/auth.store';
 import { useSettingsStore } from '../../store/settings.store';
@@ -239,17 +239,25 @@ export default function AppLayout() {
           {user?.role === 'teacher' && renderTeacherNav()}
         </div>
 
-        <div className="p-4 m-4 border border-white/10 rounded-2xl bg-white/5 backdrop-blur-sm">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-400 to-accent-500 flex items-center justify-center text-white font-bold shadow-inner">
-              {getInitials(user?.full_name)}
+        {/* Pill Logout & Officer Card (Matching Design) */}
+        <div className="p-3 m-3">
+          <div className="bg-[#eef2f6] border border-slate-300/80 rounded-full px-5 py-2.5 flex items-center justify-between shadow-sm hover:shadow-md transition-all">
+            <div className="flex-1 min-w-0 pr-2">
+              <p className="text-[11px] font-semibold text-slate-600 tracking-wide truncate">
+                {user?.role === 'admin' ? 'Campus Officer' : user?.role === 'accountant' ? 'Branch Accountant' : user?.role === 'ceo' ? 'Chief Executive' : 'Campus Faculty'}
+              </p>
+              <p className="text-sm font-extrabold text-slate-950 font-mono tracking-tight truncate">
+                {user?.branch?.code || user?.employee_code || user?.full_name || '02-01-070'}
+              </p>
             </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-bold text-white truncate">{user?.full_name || 'Admin User'}</p>
-              <span className="inline-flex items-center px-2 py-0.5 mt-1 rounded text-[10px] font-bold bg-primary-500/20 text-primary-200 uppercase tracking-widest border border-primary-500/30">
-                {user?.role || 'Admin'}
-              </span>
-            </div>
+            
+            <button
+              onClick={handleLogout}
+              title="Sign Out"
+              className="w-10 h-10 rounded-full bg-[#d32f2f] hover:bg-[#b71c1c] active:scale-95 text-white flex items-center justify-center shadow-md shadow-red-500/30 hover:shadow-lg hover:shadow-red-600/40 transition-all duration-200 shrink-0 group focus:outline-none focus:ring-2 focus:ring-red-400"
+            >
+              <Power className="w-5 h-5 stroke-[2.5] text-white group-hover:scale-110 transition-transform" />
+            </button>
           </div>
         </div>
       </aside>
