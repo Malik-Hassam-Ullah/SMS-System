@@ -48,41 +48,37 @@ router.get('/dashboard-stats', asyncHandler(async (req, res) => {
   let branchStats = [];
 
   if (branchIds.length > 0) {
-    const { count } = await supabaseAdmin
-      .from('students')
-      .select('*', { count: 'exact', head: true })
-      .in('branch_id', branchIds)
-      .eq('is_active', true);
-    totalStudents = count || 0;
-
     const thisMonth = new Date().toISOString().slice(0, 7);
-    const { data: payments } = await supabaseAdmin
-      .from('fee_payments')
-      .select('amount, branch_id')
-      .in('branch_id', branchIds)
-      .gte('payment_date', `${thisMonth}-01`);
 
+    // Parallel fetch for lightning speed
+    const [
+      { count: allStudentCount },
+      { data: payments },
+      ...branchCounts
+    ] = await Promise.all([
+      supabaseAdmin.from('students').select('*', { count: 'exact', head: true }).in('branch_id', branchIds).eq('is_active', true),
+      supabaseAdmin.from('fee_payments').select('amount, branch_id').in('branch_id', branchIds).gte('payment_date', `${thisMonth}-01`),
+      ...branches.map(branch =>
+        supabaseAdmin.from('students').select('*', { count: 'exact', head: true }).eq('branch_id', branch.id).eq('is_active', true)
+      )
+    ]);
+
+    totalStudents = allStudentCount || 0;
     totalRevenue = payments?.reduce((sum, p) => sum + p.amount, 0) || 0;
 
-    // Calculate branch-wise stats
-    for (const branch of branches) {
-      const { count: branchStudentCount } = await supabaseAdmin
-        .from('students')
-        .select('*', { count: 'exact', head: true })
-        .eq('branch_id', branch.id)
-        .eq('is_active', true);
-
+    branchStats = branches.map((branch, index) => {
+      const branchStudentCount = branchCounts[index]?.count || 0;
       const branchRevenue = payments
         ?.filter(p => p.branch_id === branch.id)
         ?.reduce((sum, p) => sum + p.amount, 0) || 0;
 
-      branchStats.push({
+      return {
         id: branch.id,
         name: branch.name,
-        studentCount: branchStudentCount || 0,
+        studentCount: branchStudentCount,
         revenue: branchRevenue
-      });
-    }
+      };
+    });
   }
 
   res.json({ success: true, data: { totalStudents, totalRevenue, branchStats } });

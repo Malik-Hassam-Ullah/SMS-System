@@ -5,17 +5,25 @@ import api from '../../lib/api';
 import { useAuthStore } from '../../store/auth.store';
 
 export default function AdminDashboard() {
-  const { user } = useAuthStore();
-  const [dashboardData, setDashboardData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [dashboardData, setDashboardData] = useState(() => {
+    try {
+      const saved = sessionStorage.getItem('admin_dashboard_cache');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
+  const [loading, setLoading] = useState(!dashboardData);
 
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const response = await api.get('/dashboard');
-        // api interceptor already unwraps {success, data} → response.data IS the data
+        const response = await api.getCached('/dashboard');
         if (response.data) {
           setDashboardData(response.data);
+          try {
+            sessionStorage.setItem('admin_dashboard_cache', JSON.stringify(response.data));
+          } catch {}
         }
       } catch (err) {
         console.error('Failed to fetch dashboard stats', err);

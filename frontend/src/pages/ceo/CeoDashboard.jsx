@@ -42,14 +42,23 @@ const CustomTooltip = ({ active, payload, label }) => {
 export default function CeoDashboard() {
   const { user } = useAuthStore();
   const navigate = useNavigate();
-  const [stats, setStats] = useState({
-    totalBranches: 0,
-    totalAdmins: 0,
-    totalStudents: 0,
-    totalRevenue: 0
+  const [stats, setStats] = useState(() => {
+    try {
+      const saved = sessionStorage.getItem('ceo_dashboard_stats');
+      return saved ? JSON.parse(saved) : { totalBranches: 0, totalAdmins: 0, totalStudents: 0, totalRevenue: 0 };
+    } catch {
+      return { totalBranches: 0, totalAdmins: 0, totalStudents: 0, totalRevenue: 0 };
+    }
   });
-  const [branchStats, setBranchStats] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [branchStats, setBranchStats] = useState(() => {
+    try {
+      const saved = sessionStorage.getItem('ceo_dashboard_branch_stats');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+  const [loading, setLoading] = useState(() => !sessionStorage.getItem('ceo_dashboard_stats'));
   const [searchTerm, setSearchTerm] = useState('');
   const [currentTime, setCurrentTime] = useState(new Date());
   const [activeChartTab, setActiveChartTab] = useState('combined'); // 'combined', 'revenue', 'students'
@@ -73,13 +82,21 @@ export default function CeoDashboard() {
         const users = usersRes || [];
         const dashboardStats = statsRes || { totalStudents: 0, totalRevenue: 0, branchStats: [] };
 
-        setStats({
+        const newStats = {
           totalBranches: branches.length,
           totalAdmins: users.filter(u => u.role === 'admin').length,
           totalStudents: dashboardStats.totalStudents,
           totalRevenue: dashboardStats.totalRevenue
-        });
-        setBranchStats(dashboardStats.branchStats || []);
+        };
+        const newBranchStats = dashboardStats.branchStats || [];
+
+        setStats(newStats);
+        setBranchStats(newBranchStats);
+
+        try {
+          sessionStorage.setItem('ceo_dashboard_stats', JSON.stringify(newStats));
+          sessionStorage.setItem('ceo_dashboard_branch_stats', JSON.stringify(newBranchStats));
+        } catch {}
       } catch (err) {
         console.error('Failed to fetch CEO dashboard stats', err);
       } finally {

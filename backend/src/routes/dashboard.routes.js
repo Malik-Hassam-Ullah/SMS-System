@@ -8,8 +8,11 @@ const { asyncHandler } = require('../middleware/error.middleware');
 router.get('/', authenticate, asyncHandler(async (req, res) => {
   const branchId = req.branchId;
   const role = req.role;
+  const today = new Date().toISOString().split('T')[0];
+  const thisMonth = today.slice(0, 7);
+  const sixMonthsAgo = new Date(Date.now() - 180 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
 
-  // Common stats
+  // Run ALL database queries simultaneously in parallel for instant execution
   const [
     { count: totalStudents },
     { count: totalTeachers },
@@ -19,6 +22,14 @@ router.get('/', authenticate, asyncHandler(async (req, res) => {
     { count: unassignedStudents },
     { count: droppedStudents },
     { data: branchData },
+    { data: todayPayments },
+    { data: monthPayments },
+    { data: voucherStats },
+    { data: outstandingData },
+    { data: recentPayments },
+    { data: monthlyData },
+    { data: attendanceToday },
+    { data: siblingData },
   ] = await Promise.all([
     supabaseAdmin.from('students').select('*', { count: 'exact', head: true }).eq('branch_id', branchId).eq('is_active', true),
     supabaseAdmin.from('teachers').select('*', { count: 'exact', head: true }).eq('branch_id', branchId).eq('is_active', true),
@@ -28,34 +39,22 @@ router.get('/', authenticate, asyncHandler(async (req, res) => {
     supabaseAdmin.from('students').select('*', { count: 'exact', head: true }).eq('branch_id', branchId).eq('is_active', true).is('current_section_id', null),
     supabaseAdmin.from('students').select('*', { count: 'exact', head: true }).eq('branch_id', branchId).eq('is_active', false),
     supabaseAdmin.from('branches').select('name, code, address, phone, email').eq('id', branchId).single(),
+    supabaseAdmin.from('fee_payments').select('amount').eq('branch_id', branchId).eq('payment_date', today),
+    supabaseAdmin.from('fee_payments').select('amount').eq('branch_id', branchId).gte('payment_date', `${thisMonth}-01`),
+    supabaseAdmin.from('fee_vouchers').select('status').eq('branch_id', branchId).eq('is_deleted', false),
+    supabaseAdmin.from('student_outstanding_balance').select('total_outstanding').eq('branch_id', branchId),
+    supabaseAdmin.from('fee_payments').select(`
+      id, amount, payment_date, payment_method,
+      students ( full_name, registration_number ),
+      fee_vouchers ( voucher_number, fee_month )
+    `).eq('branch_id', branchId).order('created_at', { ascending: false }).limit(5),
+    supabaseAdmin.from('fee_payments').select('amount, payment_date').eq('branch_id', branchId).gte('payment_date', sixMonthsAgo),
+    supabaseAdmin.from('attendance').select('status').eq('branch_id', branchId).eq('date', today),
+    supabaseAdmin.from('students').select('father_cnic').eq('branch_id', branchId).eq('is_active', true).not('father_cnic', 'is', null),
   ]);
 
-  // Today's collection
-  const today = new Date().toISOString().split('T')[0];
-  const { data: todayPayments } = await supabaseAdmin
-    .from('fee_payments')
-    .select('amount')
-    .eq('branch_id', branchId)
-    .eq('payment_date', today);
-
   const todayCollection = todayPayments?.reduce((sum, p) => sum + p.amount, 0) || 0;
-
-  // Total collection this month
-  const thisMonth = today.slice(0, 7);
-  const { data: monthPayments } = await supabaseAdmin
-    .from('fee_payments')
-    .select('amount')
-    .eq('branch_id', branchId)
-    .gte('payment_date', `${thisMonth}-01`);
-
   const monthCollection = monthPayments?.reduce((sum, p) => sum + p.amount, 0) || 0;
-
-  // Fee status breakdown
-  const { data: voucherStats } = await supabaseAdmin
-    .from('fee_vouchers')
-    .select('status')
-    .eq('branch_id', branchId)
-    .eq('is_deleted', false);
 
   const feeStats = {
     paid: voucherStats?.filter(v => v.status === 'paid').length || 0,
@@ -64,32 +63,7 @@ router.get('/', authenticate, asyncHandler(async (req, res) => {
     overdue: voucherStats?.filter(v => v.status === 'overdue').length || 0,
   };
 
-  // Outstanding total
-  const { data: outstandingData } = await supabaseAdmin
-    .from('student_outstanding_balance')
-    .select('total_outstanding')
-    .eq('branch_id', branchId);
-
   const totalOutstanding = outstandingData?.reduce((sum, s) => sum + s.total_outstanding, 0) || 0;
-
-  // Recent payments (last 5)
-  const { data: recentPayments } = await supabaseAdmin
-    .from('fee_payments')
-    .select(`
-      id, amount, payment_date, payment_method,
-      students ( full_name, registration_number ),
-      fee_vouchers ( voucher_number, fee_month )
-    `)
-    .eq('branch_id', branchId)
-    .order('created_at', { ascending: false })
-    .limit(5);
-
-  // Monthly collection chart (last 6 months)
-  const { data: monthlyData } = await supabaseAdmin
-    .from('fee_payments')
-    .select('amount, payment_date')
-    .eq('branch_id', branchId)
-    .gte('payment_date', new Date(Date.now() - 180 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]);
 
   const monthlyChart = {};
   monthlyData?.forEach(p => {
@@ -97,27 +71,12 @@ router.get('/', authenticate, asyncHandler(async (req, res) => {
     monthlyChart[month] = (monthlyChart[month] || 0) + p.amount;
   });
 
-  // Attendance overview (today)
-  const { data: attendanceToday } = await supabaseAdmin
-    .from('attendance')
-    .select('status')
-    .eq('branch_id', branchId)
-    .eq('date', today);
-
   const attendanceStats = {
     present: attendanceToday?.filter(a => a.status === 'present').length || 0,
     absent: attendanceToday?.filter(a => a.status === 'absent').length || 0,
     late: attendanceToday?.filter(a => a.status === 'late').length || 0,
     leave: attendanceToday?.filter(a => a.status === 'leave').length || 0,
   };
-
-  // Calculate Siblings based on father_cnic
-  const { data: siblingData } = await supabaseAdmin
-    .from('students')
-    .select('father_cnic')
-    .eq('branch_id', branchId)
-    .eq('is_active', true)
-    .not('father_cnic', 'is', null);
 
   let siblingsCount = 0;
   if (siblingData) {
