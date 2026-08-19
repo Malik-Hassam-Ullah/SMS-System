@@ -104,6 +104,11 @@ export default function CeoDashboard() {
     Students: b.studentCount
   }));
 
+  const studentDistribution = branchStats.map(b => ({
+    name: b.name,
+    value: b.studentCount
+  }));
+
   const filteredBranches = branchStats.filter(b =>
     b.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -245,8 +250,8 @@ export default function CeoDashboard() {
               <button
                 onClick={() => setActiveChartTab('combined')}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${activeChartTab === 'combined'
-                    ? 'bg-white text-indigo-600 shadow-sm'
-                    : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-white text-indigo-600 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900'
                   }`}
               >
                 <Activity className="w-3.5 h-3.5" /> Combined
@@ -254,8 +259,8 @@ export default function CeoDashboard() {
               <button
                 onClick={() => setActiveChartTab('revenue')}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${activeChartTab === 'revenue'
-                    ? 'bg-white text-emerald-600 shadow-sm'
-                    : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-white text-emerald-600 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900'
                   }`}
               >
                 <IndianRupee className="w-3.5 h-3.5" /> Revenue
@@ -263,8 +268,8 @@ export default function CeoDashboard() {
               <button
                 onClick={() => setActiveChartTab('students')}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${activeChartTab === 'students'
-                    ? 'bg-white text-indigo-600 shadow-sm'
-                    : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-white text-indigo-600 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900'
                   }`}
               >
                 <Users className="w-3.5 h-3.5" /> Students
