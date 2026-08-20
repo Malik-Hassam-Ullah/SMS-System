@@ -93,6 +93,89 @@ const normalizeGenderValue = (value) => {
   return null;
 };
 
+const normalizeClassName = (raw) => {
+  if (!raw) return '';
+  let s = String(raw).trim().toLowerCase();
+  s = s.replace(/[^a-z0-9]/g, ' ').replace(/\s+/g, ' ').trim();
+
+  if (s.includes('playgroup') || s.includes('play group') || s === 'pg') return 'Play Group';
+  if (s.includes('nursery')) return 'Nursery';
+  if (s === 'kg' || s === 'k g' || s.includes('kindergarten')) return 'KG';
+  if (s === 'prep') return 'Prep';
+  if (s === 'one' || s === '1' || s === '1st' || s === 'i' || s === 'class 1' || s === 'class1') return 'Class 1';
+  if (s === 'two' || s === '2' || s === '2nd' || s === 'ii' || s === 'class 2' || s === 'class2') return 'Class 2';
+  if (s === 'three' || s === '3' || s === '3rd' || s === 'iii' || s === 'class 3' || s === 'class3') return 'Class 3';
+  if (s === 'four' || s === '4' || s === '4th' || s === 'iv' || s === 'class 4' || s === 'class4') return 'Class 4';
+  if (s === 'five' || s === '5' || s === '5th' || s === 'v' || s === 'class 5' || s === 'class5') return 'Class 5';
+  if (s === 'six' || s === '6' || s === '6th' || s === 'vi' || s === 'class 6' || s === 'class6') return 'Class 6';
+  if (s === 'seven' || s === '7' || s === '7th' || s === 'vii' || s === 'class 7' || s === 'class7') return 'Class 7';
+  if (s === 'eight' || s === '8' || s === '8th' || s === 'viii' || s === 'class 8' || s === 'class8') return 'Class 8';
+  if (s === 'nine' || s === '9' || s === '9th' || s === 'ix' || s === 'class 9' || s === 'class9') return 'Class 9';
+  if (s === 'ten' || s === '10' || s === '10th' || s === 'x' || s === 'class 10' || s === 'class10' || s.includes('ex x') || s.includes('ex')) return 'Class 10';
+  if (s === '11' || s === '11th' || s === 'xi' || s === 'class 11' || s === 'class11') return 'Class 11';
+  if (s === '12' || s === '12th' || s === 'xii' || s === 'class 12' || s === 'class12') return 'Class 12';
+
+  return raw.trim().replace(/\b\w/g, c => c.toUpperCase());
+};
+
+const normalizeSectionName = (raw) => {
+  if (!raw) return 'A';
+  let s = String(raw).trim().toUpperCase();
+  if (s.startsWith('A')) return 'A';
+  if (s.startsWith('B')) return 'B';
+  if (s.startsWith('C')) return 'C';
+  if (s.startsWith('D')) return 'D';
+  if (s.startsWith('E')) return 'E';
+  if (s.includes('GIRL')) return 'Girls';
+  if (s.includes('BOY')) return 'Boys';
+  const clean = s.replace(/[^A-Z0-9]/g, '');
+  return clean.length > 0 ? clean.charAt(0) : 'A';
+};
+
+const parseGradeHeader = (row) => {
+  if (!row || !Array.isArray(row)) return null;
+  let gradeStr = '';
+
+  for (let c = 0; c < Math.min(row.length, 5); c++) {
+    const val = String(row[c] || '').trim();
+    if (!val) continue;
+
+    const m = val.match(/(?:grade|class)\s*[:\-]?\s*(.*)/i);
+    if (m) {
+      let g = m[1].trim().replace(/^[:\s\-]+/, '');
+      if (!g || g.length === 0) {
+        for (let nextC = c + 1; nextC < Math.min(row.length, 5); nextC++) {
+          const nextVal = String(row[nextC] || '').trim();
+          if (nextVal && !/^(fee|detail|month|kahuta)/i.test(nextVal)) {
+            g = nextVal;
+            break;
+          }
+        }
+      }
+      if (g && !/^(fee|detail|month|kahuta|for the)/i.test(g)) {
+        gradeStr = g;
+        break;
+      }
+    }
+  }
+
+  if (!gradeStr || /^(fee|detail|month|kahuta|for the)/i.test(gradeStr)) return null;
+
+  let className = '';
+  let sectionName = 'A';
+
+  if (gradeStr.includes('/')) {
+    const parts = gradeStr.split('/');
+    className = normalizeClassName(parts[0]);
+    sectionName = normalizeSectionName(parts.slice(1).join('/'));
+  } else {
+    className = normalizeClassName(gradeStr);
+    sectionName = 'A';
+  }
+
+  return { raw: gradeStr, className, sectionName };
+};
+
 const COLUMN_KEY_MAP = {
   'name': 'full_name',
   'student_name': 'full_name',
@@ -181,6 +264,24 @@ const COLUMN_KEY_MAP = {
   'address': 'address',
   'residential_address': 'address',
   'home_address': 'address',
+  'current_class': 'current_class',
+  'current_class_name': 'current_class',
+  'currentclass': 'current_class',
+  'class': 'current_class',
+  'class_name': 'current_class',
+  'classname': 'current_class',
+  'grade': 'current_class',
+  'current_section': 'current_section',
+  'current_section_name': 'current_section',
+  'currentsection': 'current_section',
+  'section': 'current_section',
+  'section_name': 'current_section',
+  'sectionname': 'current_section',
+  'sec': 'current_section',
+  'class_section': 'class_section',
+  'class_and_section': 'class_section',
+  'current_class_section': 'class_section',
+  'current_class_and_section': 'class_section',
   'father_occupation': 'father_occupation',
   'father_status': 'father_status',
   'primary_contact_person': 'primary_contact_person',
@@ -222,37 +323,38 @@ const parseStudentRecordsFromBuffer = (buffer, isCsv) => {
   }
 
   let headerMap = null;
-  let currentGrade = '';
+  let currentGradeClassName = '';
+  let currentGradeSectionName = 'A';
+  let currentGradeRaw = '';
 
   for (let lineIndex = 0; lineIndex < sheetData.length; lineIndex++) {
     const row = sheetData[lineIndex];
     if (!row || !Array.isArray(row)) continue;
 
-    // Check for Grade/Class section header (e.g., "Grade: PlayGroup/A")
-    const firstCell = String(row[0] || '').trim();
-    const gradeMatch = firstCell.match(/Grade:\s*([^,:]+)/i);
-    if (gradeMatch) {
-      currentGrade = gradeMatch[1].trim();
+    // Check for Grade/Class section header (e.g., "Grade: PlayGroup/A" or "Grade: V/A")
+    const gradeInfo = parseGradeHeader(row);
+    if (gradeInfo) {
+      currentGradeClassName = gradeInfo.className;
+      currentGradeSectionName = gradeInfo.sectionName;
+      currentGradeRaw = gradeInfo.raw;
       continue;
     }
 
     // Detect Header Row
-    if (!headerMap) {
-      const isHeaderRow = row.some(cell => typeof cell === 'string' && /\b(?:v\.?no|roll\s*no|name|reg[:;,.]?\s*no|father\s*name)\b/i.test(cell.trim()));
-      if (isHeaderRow) {
-        headerMap = {};
-        row.forEach((col, idx) => {
-          const rawCol = String(col || '').trim();
-          if (!rawCol) return;
-          const normalizedKey = rawCol.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/_+/g, '_').replace(/^_+|_+$/g, '');
-          detectedColumns.add(normalizedKey);
-          const mappedDbKey = COLUMN_KEY_MAP[normalizedKey];
-          if (mappedDbKey && headerMap[mappedDbKey] === undefined) {
-            headerMap[mappedDbKey] = idx;
-          }
-        });
-        continue;
-      }
+    const isHeaderRow = row.slice(0, 10).some(cell => typeof cell === 'string' && /\b(?:v\.?no|roll\s*no|name|reg[:;,.]?\s*no|father\s*name)\b/i.test(cell.trim()));
+    if (isHeaderRow) {
+      headerMap = {};
+      row.forEach((col, idx) => {
+        const rawCol = String(col || '').trim();
+        if (!rawCol) return;
+        const normalizedKey = rawCol.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/_+/g, '_').replace(/^_+|_+$/g, '');
+        detectedColumns.add(normalizedKey);
+        const mappedDbKey = COLUMN_KEY_MAP[normalizedKey];
+        if (mappedDbKey && headerMap[mappedDbKey] === undefined) {
+          headerMap[mappedDbKey] = idx;
+        }
+      });
+      continue;
     }
 
     // Parse Data Row
@@ -268,9 +370,10 @@ const parseStudentRecordsFromBuffer = (buffer, isCsv) => {
       const voucherNumber = getFieldValue('voucher_number');
       let regNo = getFieldValue('registration_number');
 
-      // Skip invalid/empty student rows
-      if (!fullName || fullName.toLowerCase() === 'name' || fullName.toLowerCase() === 'student name') continue;
+      // Skip invalid/empty/summary student rows
+      if (!fullName || /^(name|student\s*name|total|sub\s*total|grand\s*total)$/i.test(fullName)) continue;
       if (/^\d+$/.test(fullName.trim())) continue; // Skip garbage rows (pure numbers)
+      if (/^v\.?no/i.test(voucherNumber) || /^roll/i.test(rollNumber)) continue;
       if (fullName.trim().length < 2) continue;
 
       // Fallback for registration number
@@ -289,7 +392,38 @@ const parseStudentRecordsFromBuffer = (buffer, isCsv) => {
       const monthlyFee = parseFloat(getFieldValue('monthly_fee') || 0) || 0;
       const previousBalance = parseFloat(getFieldValue('previous_balance') || 0) || 0;
       const totalFee = parseFloat(getFieldValue('total_fee') || (monthlyFee + previousBalance)) || 0;
-      const admissionClass = cleanStr(getFieldValue('admission_class') || currentGrade, 100);
+      const admissionClass = cleanStr(getFieldValue('admission_class') || currentGradeClassName, 100);
+
+      // Determine Student's Current Class & Section
+      let studentClassName = currentGradeClassName;
+      let studentSectionName = currentGradeSectionName;
+
+      // If explicit class_section column is present on the row (e.g. "PlayGroup/A")
+      const rowClassSection = getFieldValue('class_section');
+      if (rowClassSection) {
+        if (rowClassSection.includes('/')) {
+          const parts = rowClassSection.split('/');
+          studentClassName = normalizeClassName(parts[0]);
+          studentSectionName = normalizeSectionName(parts.slice(1).join('/'));
+        } else {
+          studentClassName = normalizeClassName(rowClassSection);
+        }
+      } else {
+        const rowClass = getFieldValue('current_class');
+        const rowSection = getFieldValue('current_section');
+        if (rowClass) {
+          if (rowClass.includes('/')) {
+            const parts = rowClass.split('/');
+            studentClassName = normalizeClassName(parts[0]);
+            studentSectionName = normalizeSectionName(parts.slice(1).join('/'));
+          } else {
+            studentClassName = normalizeClassName(rowClass);
+          }
+        }
+        if (rowSection) {
+          studentSectionName = normalizeSectionName(rowSection);
+        }
+      }
 
       // Date parsing for Excel serial numbers
       const parseExcelDate = (val) => {
@@ -326,6 +460,8 @@ const parseStudentRecordsFromBuffer = (buffer, isCsv) => {
         date_of_birth: parseExcelDate(rawDob),
         date_of_admission: parseExcelDate(rawDoa),
         admission_class: admissionClass,
+        current_class_name: studentClassName,
+        current_section_name: studentSectionName,
         address: cleanStr(getFieldValue('address'), 300) || 'Kahuta', // Default address
         father_occupation: cleanStr(getFieldValue('father_occupation'), 100),
         father_status: cleanStr(getFieldValue('father_status'), 50),
@@ -339,7 +475,7 @@ const parseStudentRecordsFromBuffer = (buffer, isCsv) => {
         monthly_fee: monthlyFee,
         previous_balance: previousBalance,
         total_fee: totalFee,
-        section_context: currentGrade,
+        section_context: currentGradeRaw,
       });
     }
   }
@@ -376,8 +512,42 @@ router.post('/students', authenticate, requireRole('admin'), upload.single('file
     supabaseAdmin.from('sections').select('id, name, class_id').eq('branch_id', req.branchId),
   ]);
 
-  const classMap = new Map((dbClasses || []).map(c => [c.name.trim().toLowerCase(), c.id]));
-  const sectionMap = new Map((dbSections || []).map(s => [`${s.class_id}:${s.name.trim().toLowerCase()}`, s.id]));
+  const classMap = new Map((dbClasses || []).map(c => [normalizeClassName(c.name).toLowerCase(), c.id]));
+  const sectionMap = new Map((dbSections || []).map(s => [`${s.class_id}:${normalizeSectionName(s.name)}`, s.id]));
+
+  // Auto-create any missing classes & sections from the uploaded file
+  for (const student of records) {
+    if (student.current_class_name) {
+      const normalizedClassKey = student.current_class_name.toLowerCase();
+      let classId = classMap.get(normalizedClassKey);
+      if (!classId) {
+        const { data: newClass, error: classErr } = await supabaseAdmin
+          .from('classes')
+          .insert({ name: student.current_class_name, branch_id: req.branchId })
+          .select('id, name')
+          .single();
+        if (!classErr && newClass) {
+          classId = newClass.id;
+          classMap.set(normalizedClassKey, classId);
+        }
+      }
+
+      if (classId && student.current_section_name) {
+        const normalizedSecName = normalizeSectionName(student.current_section_name);
+        const secKey = `${classId}:${normalizedSecName}`;
+        if (!sectionMap.has(secKey)) {
+          const { data: newSec, error: secErr } = await supabaseAdmin
+            .from('sections')
+            .insert({ name: normalizedSecName, class_id: classId, branch_id: req.branchId })
+            .select('id, name')
+            .single();
+          if (!secErr && newSec) {
+            sectionMap.set(secKey, newSec.id);
+          }
+        }
+      }
+    }
+  }
 
   const invalid = [];
   const duplicates = [];
@@ -407,41 +577,14 @@ router.post('/students', authenticate, requireRole('admin'), upload.single('file
 
     seenRegistrationNumbers.add(regNo);
 
-    // Auto link class & section if match found
+    // Auto link class & section
     let currentClassId = null;
     let currentSectionId = null;
 
-    const classHint = student.admission_class || student.section_context || '';
-    if (classHint) {
-      let possibleClassName = '';
-      let possibleSectionName = '';
-
-      if (classHint.includes('/')) {
-        const parts = classHint.split('/');
-        possibleClassName = parts[0].trim().toLowerCase();
-        possibleSectionName = parts[1].trim().toLowerCase();
-      } else {
-        const match = classHint.trim().match(/^(.*?)(?:\s+([a-zA-Z]))?$/);
-        if (match) {
-          possibleClassName = match[1].trim().toLowerCase();
-          possibleSectionName = match[2] ? match[2].trim().toLowerCase() : '';
-        } else {
-          possibleClassName = classHint.trim().toLowerCase();
-        }
-      }
-
-      // Normalize common variations
-      if (possibleClassName === 'play group' && !classMap.has(possibleClassName)) {
-        possibleClassName = 'playgroup';
-      } else if (possibleClassName === 'playgroup' && !classMap.has(possibleClassName)) {
-        possibleClassName = 'play group';
-      }
-
-      if (possibleClassName && classMap.has(possibleClassName)) {
-        currentClassId = classMap.get(possibleClassName);
-        if (possibleSectionName && sectionMap.has(`${currentClassId}:${possibleSectionName}`)) {
-          currentSectionId = sectionMap.get(`${currentClassId}:${possibleSectionName}`);
-        }
+    if (student.current_class_name) {
+      currentClassId = classMap.get(student.current_class_name.toLowerCase()) || null;
+      if (currentClassId && student.current_section_name) {
+        currentSectionId = sectionMap.get(`${currentClassId}:${normalizeSectionName(student.current_section_name)}`) || null;
       }
     }
 

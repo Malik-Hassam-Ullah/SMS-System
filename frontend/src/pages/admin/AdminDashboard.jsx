@@ -1,8 +1,55 @@
-import React, { useState, useEffect } from 'react';
-import { Users, BookOpen, Clock, Activity, Loader2, IndianRupee, TrendingUp, Trophy, ArrowUpRight } from 'lucide-react';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
+import React, { useState, useEffect, useMemo } from 'react';
+import { Link } from 'react-router-dom';
+import { 
+  Users, BookOpen, Clock, Activity, Loader2, TrendingUp, Trophy, 
+  ArrowUpRight, ArrowRight, Receipt, DollarSign, Wallet, CheckCircle2, 
+  AlertCircle, Calendar, PlusCircle, CreditCard, ChevronRight, Sparkles 
+} from 'lucide-react';
+import { 
+  AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, 
+  ResponsiveContainer, BarChart, Bar, Cell 
+} from 'recharts';
 import api from '../../lib/api';
 import { useAuthStore } from '../../store/auth.store';
+import RealtimeCalendar from '../../components/common/RealtimeCalendar';
+
+// Custom sleek Glassmorphism Tooltips
+const CustomRevenueTooltip = ({ active, payload, label }) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-slate-900/95 backdrop-blur-md text-white px-4 py-3 rounded-2xl shadow-2xl border border-slate-700/60 text-xs">
+        <p className="font-bold text-slate-300 mb-1 flex items-center gap-1.5">
+          <Calendar className="w-3.5 h-3.5 text-emerald-400" /> {label}
+        </p>
+        <div className="flex items-center gap-2 pt-1 border-t border-slate-800">
+          <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-sm shadow-emerald-400"></span>
+          <span className="text-slate-400 font-medium">Revenue:</span>
+          <span className="font-black text-emerald-400 text-sm">PKR {Number(payload[0].value).toLocaleString()}</span>
+        </div>
+      </div>
+    );
+  }
+  return null;
+};
+
+const CustomBarTooltip = ({ active, payload, label }) => {
+  if (active && payload && payload.length) {
+    const data = payload[0].payload;
+    return (
+      <div className="bg-slate-900/95 backdrop-blur-md text-white px-4 py-3 rounded-2xl shadow-2xl border border-slate-700/60 text-xs">
+        <p className="font-bold text-slate-200 mb-1 flex items-center gap-1.5">
+          <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: data.color }}></span>
+          {label} Vouchers
+        </p>
+        <div className="flex items-center justify-between gap-4 pt-1 border-t border-slate-800">
+          <span className="text-slate-400 font-medium">Total Count:</span>
+          <span className="font-black text-white text-sm">{payload[0].value} vouchers</span>
+        </div>
+      </div>
+    );
+  }
+  return null;
+};
 
 export default function AdminDashboard() {
   const [dashboardData, setDashboardData] = useState(() => {
@@ -33,6 +80,30 @@ export default function AdminDashboard() {
     };
     fetchDashboardData();
   }, []);
+
+  // Generate continuous 6-month timeline for fluid visual representation
+  const revenueData = useMemo(() => {
+    const dataMap = {};
+    if (dashboardData?.monthlyChart && Array.isArray(dashboardData.monthlyChart)) {
+      dashboardData.monthlyChart.forEach(item => {
+        dataMap[item.month] = item.amount;
+      });
+    }
+
+    const now = new Date();
+    const months = [];
+    for (let i = 5; i >= 0; i--) {
+      const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+      const name = d.toLocaleString('en-US', { month: 'short' });
+      months.push({
+        name,
+        monthKey: key,
+        amount: dataMap[key] || 0
+      });
+    }
+    return months;
+  }, [dashboardData]);
 
   if (loading) return <div className="flex justify-center p-12"><Loader2 className="w-8 h-8 animate-spin text-primary-500" /></div>;
 
@@ -70,27 +141,15 @@ export default function AdminDashboard() {
 
   const recentPayments = dashboardData?.recentPayments || [];
 
-  // Format monthly chart data
-  const revenueData = dashboardData?.monthlyChart && dashboardData.monthlyChart.length > 0
-    ? dashboardData.monthlyChart.map(item => {
-      let name = item.month;
-      try {
-        const [year, month] = item.month.split('-');
-        const date = new Date(year, parseInt(month) - 1, 1);
-        name = date.toLocaleString('default', { month: 'short' });
-      } catch (e) { }
-      return { name, amount: item.amount };
-    })
-    : [
-      { name: 'No Data', amount: 0 }
-    ];
+  // Format fee status breakdown data with vibrant palette
+  const totalVouchersCount = (feeStats.paid + feeStats.unpaid + feeStats.partial + feeStats.overdue) || overview.totalVouchers || 1;
+  const collectionRate = Math.min(100, Math.round(((feeStats.paid + (feeStats.partial * 0.5)) / totalVouchersCount) * 100));
 
-  // Format fee status breakdown data
   const feeBreakdownData = [
-    { name: 'Paid', count: feeStats.paid },
-    { name: 'Unpaid', count: feeStats.unpaid },
-    { name: 'Partial', count: feeStats.partial },
-    { name: 'Overdue', count: feeStats.overdue }
+    { name: 'Paid', count: feeStats.paid, color: '#10b981', bgClass: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
+    { name: 'Unpaid', count: feeStats.unpaid, color: '#6366f1', bgClass: 'bg-indigo-50 text-indigo-700 border-indigo-200' },
+    { name: 'Partial', count: feeStats.partial, color: '#f59e0b', bgClass: 'bg-amber-50 text-amber-700 border-amber-200' },
+    { name: 'Overdue', count: feeStats.overdue, color: '#ef4444', bgClass: 'bg-rose-50 text-rose-700 border-rose-200' }
   ];
 
   return (
@@ -254,134 +313,327 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        {/* Right Column: Calendar & Discount */}
-        <div className="space-y-6">
-          {/* Calendar Placeholder */}
-          <div className="bg-white/80 backdrop-blur-xl border border-white/60 shadow-premium p-6 rounded-2xl">
-            <div className="flex items-center justify-between mb-4">
-              <button className="p-2 rounded-full hover:bg-slate-100"><svg className="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path></svg></button>
-              <span className="bg-red-600 text-white px-4 py-1 rounded-full text-sm font-semibold">August 2026</span>
-              <button className="p-2 rounded-full hover:bg-slate-100"><svg className="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg></button>
-            </div>
-            <div className="grid grid-cols-7 gap-1 text-center text-sm mb-2 font-semibold text-slate-600">
-              <div>S</div><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div>
-            </div>
-            <div className="grid grid-cols-7 gap-1 text-center text-sm text-slate-500">
-              <div className="text-slate-300">26</div><div className="text-slate-300">27</div><div className="text-slate-300">28</div><div className="text-slate-300">29</div><div className="text-slate-300">30</div><div className="text-slate-300">31</div><div>1</div>
-              <div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div>
-              <div className="bg-red-600 text-white rounded-full w-7 h-7 flex items-center justify-center mx-auto">9</div><div>10</div><div>11</div><div>12</div><div>13</div><div>14</div><div>15</div>
-              <div>16</div><div>17</div><div>18</div><div>19</div><div>20</div><div>21</div><div>22</div>
-              <div>23</div><div>24</div><div>25</div><div>26</div><div>27</div><div>28</div><div>29</div>
-              <div>30</div><div>31</div><div className="text-slate-300">1</div><div className="text-slate-300">2</div><div className="text-slate-300">3</div><div className="text-slate-300">4</div><div className="text-slate-300">5</div>
-            </div>
-          </div>
-
-          {/* Discount Table */}
-          <div className="bg-white/80 backdrop-blur-xl border border-white/60 shadow-premium p-6 rounded-2xl">
-            <h3 className="font-bold text-slate-800 mb-4">Discount</h3>
-            <div className="bg-slate-100 rounded-lg p-4 flex justify-between text-center text-sm font-medium text-slate-700">
-              <div>
-                <p className="mb-2">Staff-100-<br />Percent</p>
-                <p className="text-blue-600 font-bold">0</p>
-              </div>
-              <div>
-                <p className="mb-2">Staff-50-<br />Percent</p>
-                <p className="text-blue-600 font-bold">0</p>
-              </div>
-              <div>
-                <p className="mb-2">Insure<br />d_Stu<br />dent</p>
-                <p className="text-blue-600 font-bold">0</p>
-              </div>
-            </div>
-          </div>
+        {/* Right Column: Calendar */}
+        <div>
+          {/* Real-time Calendar */}
+          <RealtimeCalendar />
         </div>
       </div>
 
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="card p-0 overflow-hidden bg-white/80 backdrop-blur-xl border border-white/60 shadow-premium">
-          <div className="p-6 border-b border-slate-100/50 flex items-center justify-between">
-            <h3 className="font-bold text-slate-800 text-lg flex items-center gap-2">
-              <TrendingUp className="text-primary-500 w-5 h-5" /> Revenue Overview
-            </h3>
+        {/* Revenue Overview Card */}
+        <div className="card p-0 overflow-hidden bg-white/85 backdrop-blur-xl border border-white/80 shadow-premium hover:shadow-xl transition-all duration-300 rounded-3xl">
+          <div className="p-6 border-b border-slate-100/70 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white shadow-md shadow-emerald-500/25">
+                <TrendingUp className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="font-black text-slate-800 text-lg tracking-tight">Revenue Overview</h3>
+                <p className="text-xs text-slate-400 font-medium">6-month fee collection trend</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="bg-emerald-50 text-emerald-700 border border-emerald-200/80 px-3.5 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 shadow-sm">
+                <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+                This Month: <span className="font-black">PKR {overview.monthCollection.toLocaleString()}</span>
+              </span>
+            </div>
           </div>
-          <div className="p-6 h-[300px] w-full">
+          
+          <div className="p-6 pt-4 h-[300px] w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={revenueData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+              <AreaChart data={revenueData} margin={{ top: 15, right: 15, left: 10, bottom: 0 }}>
                 <defs>
-                  <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.3} />
-                    <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+                  <linearGradient id="colorRevenueGlow" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#10b981" stopOpacity={0.4} />
+                    <stop offset="60%" stopColor="#10b981" stopOpacity={0.08} />
+                    <stop offset="100%" stopColor="#10b981" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} dy={10} />
-                <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} />
-                <RechartsTooltip
-                  contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.1)' }}
-                  formatter={(value) => [`PKR ${value.toLocaleString()}`, 'Revenue']}
+                <XAxis 
+                  dataKey="name" 
+                  axisLine={false} 
+                  tickLine={false} 
+                  tick={{ fill: '#64748b', fontSize: 12, fontWeight: 600 }} 
+                  dy={10} 
                 />
-                <Area type="monotone" dataKey="amount" stroke="#10b981" strokeWidth={3} fillOpacity={1} fill="url(#colorRevenue)" />
+                <YAxis 
+                  axisLine={false} 
+                  tickLine={false} 
+                  tick={{ fill: '#64748b', fontSize: 11, fontWeight: 500 }} 
+                  tickFormatter={(v) => v >= 1000 ? `${(v / 1000).toFixed(0)}k` : v}
+                  width={45}
+                />
+                <RechartsTooltip content={<CustomRevenueTooltip />} />
+                <Area 
+                  type="monotone" 
+                  dataKey="amount" 
+                  stroke="#10b981" 
+                  strokeWidth={3.5} 
+                  fillOpacity={1} 
+                  fill="url(#colorRevenueGlow)" 
+                  activeDot={{ r: 7, fill: '#10b981', stroke: '#ffffff', strokeWidth: 3 }}
+                />
               </AreaChart>
             </ResponsiveContainer>
           </div>
         </div>
 
-        <div className="card p-0 overflow-hidden bg-white/80 backdrop-blur-xl border border-white/60 shadow-premium">
-          <div className="p-6 border-b border-slate-100/50 flex items-center justify-between">
-            <h3 className="font-bold text-slate-800 text-lg flex items-center gap-2">
-              <Users className="text-accent-500 w-5 h-5" /> Voucher Status Breakdown
-            </h3>
+        {/* Voucher Status Breakdown Card */}
+        <div className="card p-0 overflow-hidden bg-white/85 backdrop-blur-xl border border-white/80 shadow-premium hover:shadow-xl transition-all duration-300 rounded-3xl">
+          <div className="p-6 border-b border-slate-100/70 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-md shadow-indigo-500/25">
+                <Users className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="font-black text-slate-800 text-lg tracking-tight">Voucher Status</h3>
+                <p className="text-xs text-slate-400 font-medium">Distribution by payment state</p>
+              </div>
+            </div>
+            <span className="bg-slate-100 text-slate-700 border border-slate-200/80 px-3.5 py-1.5 rounded-full text-xs font-bold">
+              {overview.totalVouchers || totalVouchersCount} Total Vouchers
+            </span>
           </div>
-          <div className="p-6 h-[300px] w-full">
+
+          {/* Quick status pill counters */}
+          <div className="px-6 pt-4 grid grid-cols-4 gap-2">
+            {feeBreakdownData.map((item) => (
+              <div key={item.name} className={`p-2 rounded-xl text-center border text-xs font-semibold ${item.bgClass}`}>
+                <p className="opacity-75 text-[10px] uppercase font-bold">{item.name}</p>
+                <p className="text-base font-black mt-0.5">{item.count}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="p-6 pt-2 h-[225px] w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={feeBreakdownData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                <defs>
-                  <linearGradient id="colorStudents" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#6366f1" stopOpacity={1} />
-                    <stop offset="100%" stopColor="#8b5cf6" stopOpacity={0.8} />
-                  </linearGradient>
-                </defs>
+              <BarChart data={feeBreakdownData} margin={{ top: 15, right: 15, left: 10, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} dy={10} />
-                <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} />
-                <RechartsTooltip
-                  contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.1)' }}
-                  cursor={{ fill: '#f8fafc' }}
+                <XAxis 
+                  dataKey="name" 
+                  axisLine={false} 
+                  tickLine={false} 
+                  tick={{ fill: '#64748b', fontSize: 12, fontWeight: 600 }} 
+                  dy={8} 
                 />
-                <Bar dataKey="count" name="Vouchers" fill="url(#colorStudents)" radius={[6, 6, 0, 0]} barSize={32} />
+                <YAxis 
+                  axisLine={false} 
+                  tickLine={false} 
+                  tick={{ fill: '#64748b', fontSize: 11, fontWeight: 500 }} 
+                  width={40}
+                />
+                <RechartsTooltip content={<CustomBarTooltip />} cursor={{ fill: '#f8fafc' }} />
+                <Bar dataKey="count" radius={[8, 8, 0, 0]} barSize={36}>
+                  {feeBreakdownData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Bar>
               </BarChart>
             </ResponsiveContainer>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="card bg-white/80 backdrop-blur-xl border border-white/60 shadow-premium">
-          <h2 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
-            <Trophy className="text-amber-500" /> Recent Payments
-          </h2>
-          <div className="space-y-4">
-            {recentPayments.length > 0 ? (
-              recentPayments.map((payment) => (
-                <div key={payment.id} className="flex gap-4 items-start p-3 rounded-xl hover:bg-slate-50 transition-colors">
-                  <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 shrink-0">
-                    <IndianRupee className="w-5 h-5" />
+      {/* Row 2: Recent Payments & Action / Health Summary */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* Recent Payments (7 cols) */}
+        <div className="lg:col-span-7 card p-0 overflow-hidden bg-white/85 backdrop-blur-xl border border-white/80 shadow-premium hover:shadow-xl transition-all duration-300 rounded-3xl flex flex-col justify-between">
+          <div>
+            <div className="p-6 border-b border-slate-100/70 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center text-white shadow-md shadow-amber-500/25">
+                  <Trophy className="w-5 h-5" />
+                </div>
+                <div>
+                  <h2 className="text-lg font-black text-slate-800 tracking-tight">Recent Payments</h2>
+                  <p className="text-xs text-slate-400 font-medium">Real-time fee transaction log</p>
+                </div>
+              </div>
+              <Link 
+                to="/admin/fees/payments" 
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-all active:scale-95"
+              >
+                View All <ArrowRight className="w-3.5 h-3.5 text-slate-500" />
+              </Link>
+            </div>
+
+            <div className="p-6 space-y-3">
+              {recentPayments.length > 0 ? (
+                recentPayments.slice(0, 4).map((payment) => {
+                  const method = (payment.payment_method || 'Cash').toLowerCase();
+                  const isCash = method.includes('cash');
+                  const isBank = method.includes('bank');
+
+                  return (
+                    <div 
+                      key={payment.id} 
+                      className="group flex items-center justify-between p-3.5 rounded-2xl bg-slate-50/70 hover:bg-white hover:shadow-md hover:border-slate-200/80 border border-slate-100/80 transition-all duration-200"
+                    >
+                      <div className="flex items-center gap-3.5 min-w-0">
+                        <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 shadow-sm ${
+                          isCash ? 'bg-emerald-100/80 text-emerald-600' : isBank ? 'bg-blue-100/80 text-blue-600' : 'bg-purple-100/80 text-purple-600'
+                        }`}>
+                          <Receipt className="w-5 h-5" />
+                        </div>
+                        <div className="min-w-0">
+                          <p className="font-bold text-slate-800 text-sm truncate group-hover:text-primary-600 transition-colors">
+                            {payment.students?.full_name || 'Student'}
+                          </p>
+                          <div className="flex items-center gap-2 mt-0.5 flex-wrap">
+                            <span className="text-[11px] font-semibold text-slate-500 bg-slate-200/60 px-2 py-0.5 rounded-md">
+                              {payment.students?.registration_number || 'N/A'}
+                            </span>
+                            <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-md ${
+                              isCash ? 'bg-emerald-50 text-emerald-700' : 'bg-blue-50 text-blue-700'
+                            }`}>
+                              {payment.payment_method || 'Cash'}
+                            </span>
+                            {payment.fee_vouchers?.fee_month && (
+                              <span className="text-[11px] text-slate-400 font-medium hidden sm:inline">
+                                ({payment.fee_vouchers.fee_month})
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="text-right shrink-0 pl-3">
+                        <div className="font-black text-emerald-600 text-base">
+                          + PKR {payment.amount.toLocaleString()}
+                        </div>
+                        <span className="text-[11px] font-semibold text-slate-400 flex items-center justify-end gap-1 mt-0.5">
+                          <Clock className="w-3 h-3" />
+                          {new Date(payment.payment_date).toLocaleDateString(undefined, { day: '2-digit', month: 'short' })}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })
+              ) : (
+                <div className="text-center py-10">
+                  <Receipt className="w-10 h-10 text-slate-300 mx-auto mb-2" />
+                  <p className="text-sm font-semibold text-slate-500">No recent payments recorded yet.</p>
+                  <p className="text-xs text-slate-400 mt-1">Payments collected will instantly appear here.</p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="p-4 bg-slate-50/50 border-t border-slate-100/60 text-center">
+            <Link 
+              to="/admin/fees/collect"
+              className="text-xs font-bold text-primary-600 hover:text-primary-700 flex items-center justify-center gap-1.5"
+            >
+              <PlusCircle className="w-4 h-4" /> Collect New Payment
+            </Link>
+          </div>
+        </div>
+
+        {/* Financial Summary & Quick Actions (5 cols) */}
+        <div className="lg:col-span-5 card p-0 overflow-hidden bg-white/85 backdrop-blur-xl border border-white/80 shadow-premium hover:shadow-xl transition-all duration-300 rounded-3xl flex flex-col justify-between">
+          <div className="p-6 border-b border-slate-100/70 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-teal-500 to-cyan-600 flex items-center justify-center text-white shadow-md shadow-teal-500/25">
+                <Wallet className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="font-black text-slate-800 text-lg tracking-tight">Collection Summary</h3>
+                <p className="text-xs text-slate-400 font-medium">Billing & cashflow health</p>
+              </div>
+            </div>
+            <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 px-3 py-1 rounded-full text-xs font-bold">
+              {collectionRate}% Collected
+            </span>
+          </div>
+
+          <div className="p-6 space-y-4">
+            {/* Progress Bar */}
+            <div>
+              <div className="flex justify-between text-xs font-bold text-slate-600 mb-1.5">
+                <span>Fee Recovery Progress</span>
+                <span className="text-emerald-600 font-black">{collectionRate}%</span>
+              </div>
+              <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden p-0.5 border border-slate-200/60">
+                <div 
+                  className="h-full bg-gradient-to-r from-emerald-500 to-teal-400 rounded-full transition-all duration-500"
+                  style={{ width: `${Math.max(5, collectionRate)}%` }}
+                ></div>
+              </div>
+            </div>
+
+            {/* 3 Metric Mini Cards */}
+            <div className="grid grid-cols-1 gap-3">
+              <div className="flex items-center justify-between p-3.5 rounded-2xl bg-emerald-50/60 border border-emerald-100/80">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-emerald-500 text-white flex items-center justify-center font-bold text-sm shadow-sm shadow-emerald-500/30">
+                    <DollarSign className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="font-semibold text-slate-800">Fee Collected - {payment.students?.full_name || 'Unknown Student'}</p>
-                    <p className="text-sm text-slate-500">
-                      PKR {payment.amount.toLocaleString()} via {payment.payment_method || 'N/A'} (Month: {payment.fee_vouchers?.fee_month || 'N/A'})
-                    </p>
+                    <p className="text-xs font-bold text-emerald-800">Today's Collection</p>
+                    <p className="text-[11px] text-emerald-600 font-medium">Recorded today</p>
                   </div>
-                  <span className="ml-auto text-xs font-semibold text-slate-400">
-                    {new Date(payment.payment_date).toLocaleDateString()}
+                </div>
+                <div className="text-right">
+                  <span className="text-base font-black text-emerald-700">
+                    PKR {overview.todayCollection.toLocaleString()}
                   </span>
                 </div>
-              ))
-            ) : (
-              <p className="text-sm text-slate-500 p-4 text-center">No recent payments found.</p>
-            )}
+              </div>
+
+              <div className="flex items-center justify-between p-3.5 rounded-2xl bg-indigo-50/60 border border-indigo-100/80">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-indigo-500 text-white flex items-center justify-center font-bold text-sm shadow-sm shadow-indigo-500/30">
+                    <TrendingUp className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-indigo-800">This Month's Total</p>
+                    <p className="text-[11px] text-indigo-600 font-medium">Current billing cycle</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <span className="text-base font-black text-indigo-700">
+                    PKR {overview.monthCollection.toLocaleString()}
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between p-3.5 rounded-2xl bg-rose-50/60 border border-rose-100/80">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-rose-500 text-white flex items-center justify-center font-bold text-sm shadow-sm shadow-rose-500/30">
+                    <AlertCircle className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-rose-800">Total Outstanding Dues</p>
+                    <p className="text-[11px] text-rose-600 font-medium">Pending balance</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <span className="text-base font-black text-rose-700">
+                    PKR {overview.totalOutstanding.toLocaleString()}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Action Button */}
+          <div className="p-6 pt-0 flex gap-3">
+            <Link 
+              to="/admin/fees/collect" 
+              className="flex-1 py-3 px-4 rounded-2xl bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white font-bold text-sm shadow-lg shadow-primary-500/25 flex items-center justify-center gap-2 transition-all active:scale-98"
+            >
+              <CreditCard className="w-4 h-4" /> Collect Fee Now
+            </Link>
+            <Link 
+              to="/admin/fees/vouchers" 
+              className="py-3 px-4 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm flex items-center justify-center transition-all active:scale-98"
+            >
+              Vouchers
+            </Link>
           </div>
         </div>
       </div>

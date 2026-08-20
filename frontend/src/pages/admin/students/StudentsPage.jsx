@@ -81,21 +81,56 @@ const StudentsPage = () => {
     window.open(`https://wa.me/${formattedPhone}?text=${encodedText}`, '_blank');
   };
 
+  const getClassRank = (c) => {
+    if (!c || c === 'N/A') return 999;
+    const lower = String(c).toLowerCase().trim();
+
+    if (lower.includes('playgroup') || lower.includes('play group') || lower === 'pg') return 1;
+    if (lower.includes('nursery')) return 2;
+    if (lower === 'kg' || lower === 'k.g' || lower === 'k g' || lower.includes('kindergarten')) return 3;
+    if (lower === 'prep') return 4;
+
+    const wordMap = {
+      'one': 1, 'first': 1, '1st': 1,
+      'two': 2, 'second': 2, '2nd': 2,
+      'three': 3, 'third': 3, '3rd': 3,
+      'four': 4, 'fourth': 4, '4th': 4,
+      'five': 5, 'fifth': 5, '5th': 5,
+      'six': 6, 'sixth': 6, '6th': 6,
+      'seven': 7, 'seventh': 7, '7th': 7,
+      'eight': 8, 'eighth': 8, '8th': 8,
+      'nine': 9, 'ninth': 9, '9th': 9,
+      'ten': 10, 'tenth': 10, '10th': 10,
+      'eleven': 11, '11th': 11,
+      'twelve': 12, '12th': 12
+    };
+
+    for (const [w, num] of Object.entries(wordMap)) {
+      if (lower.includes(w)) return 4 + num;
+    }
+
+    const match = lower.match(/\b(\d+)\b/) || lower.match(/(\d+)/);
+    if (match) {
+      return 4 + parseInt(match[1], 10);
+    }
+
+    const romanMap = {
+      'i': 1, 'ii': 2, 'iii': 3, 'iv': 4, 'v': 5,
+      'vi': 6, 'vii': 7, 'viii': 8, 'ix': 9, 'x': 10,
+      'xi': 11, 'xii': 12
+    };
+    const parts = lower.split(/[\s\-_]+/);
+    for (const p of parts) {
+      if (romanMap[p]) return 4 + romanMap[p];
+    }
+
+    return 100;
+  };
+
   // Get list of unique classes for filter dropdown
   const uniqueClasses = Array.from(
     new Set(students.map(s => s.classes?.name || 'N/A'))
-  ).sort((a, b) => {
-    const getRank = (c) => {
-      if (!c || c === 'N/A') return 99;
-      const lower = c.toLowerCase().trim();
-      const order = { 'playgroup': 1, 'play group': 1, 'nursery': 2, 'kg': 3, 'prep': 4 };
-      if (order[lower]) return order[lower];
-      const match = lower.match(/^(\d+)/);
-      if (match) return 4 + parseInt(match[1]);
-      return 50;
-    };
-    return getRank(a) - getRank(b);
-  });
+  ).sort((a, b) => getClassRank(a) - getClassRank(b));
 
   let filteredStudents = students.filter(student => {
     const name = (student.full_name || student.name || '').toLowerCase();
@@ -111,28 +146,29 @@ const StudentsPage = () => {
     return matchesSearch && matchesClass;
   });
 
-  // Sort by Class then Section
+  // Sort by Class (PlayGroup to 10th) then Section (A to Z) then Roll/Reg No
   filteredStudents.sort((a, b) => {
-    const getRank = (c) => {
-      if (!c) return 99;
-      const lower = c.toLowerCase().trim();
-      const order = { 'playgroup': 1, 'play group': 1, 'nursery': 2, 'kg': 3, 'prep': 4 };
-      if (order[lower]) return order[lower];
-      const match = lower.match(/^(\d+)/);
-      if (match) return 4 + parseInt(match[1]);
-      return 50;
-    };
-
     const classA = a.classes?.name || '';
     const classB = b.classes?.name || '';
-    const rankA = getRank(classA);
-    const rankB = getRank(classB);
+    const rankA = getClassRank(classA);
+    const rankB = getClassRank(classB);
 
     if (rankA !== rankB) return rankA - rankB;
 
-    const secA = (a.sections?.name || '').toLowerCase();
-    const secB = (b.sections?.name || '').toLowerCase();
-    return secA.localeCompare(secB);
+    const secA = (a.sections?.name || '').trim().toUpperCase();
+    const secB = (b.sections?.name || '').trim().toUpperCase();
+    const secComp = secA.localeCompare(secB, undefined, { numeric: true });
+    if (secComp !== 0) return secComp;
+
+    const rollA = parseInt(a.roll_number, 10);
+    const rollB = parseInt(b.roll_number, 10);
+    if (!isNaN(rollA) && !isNaN(rollB) && rollA !== rollB) return rollA - rollB;
+
+    const regA = parseInt(a.registration_number, 10);
+    const regB = parseInt(b.registration_number, 10);
+    if (!isNaN(regA) && !isNaN(regB) && regA !== regB) return regA - regB;
+
+    return (a.full_name || '').localeCompare(b.full_name || '');
   });
 
   const totalFiltered = filteredStudents.length;
