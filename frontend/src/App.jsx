@@ -151,6 +151,9 @@ export default function App() {
                             <Route path="create-admin" element={<Suspense fallback={<PageLoader />}><CreateAdminPage /></Suspense>} />
                             <Route path="teachers" element={<Suspense fallback={<PageLoader />}><TeachersPage /></Suspense>} />
                             <Route path="teachers/:id" element={<Suspense fallback={<PageLoader />}><TeacherDetailPage /></Suspense>} />
+                            <Route path="academic/classes" element={<Suspense fallback={<PageLoader />}><ClassesPage /></Suspense>} />
+                            <Route path="academic/exams" element={<Suspense fallback={<PageLoader />}><ExamsPage /></Suspense>} />
+                            <Route path="marks" element={<Suspense fallback={<PageLoader />}><MarksViewPage /></Suspense>} />
                             <Route path="payroll" element={<Suspense fallback={<PageLoader />}><CeoPayrollPage /></Suspense>} />
                             <Route path="expenses" element={<Suspense fallback={<PageLoader />}><CeoExpensesPage /></Suspense>} />
                             <Route path="settings" element={<Suspense fallback={<PageLoader />}><SettingsPage /></Suspense>} />

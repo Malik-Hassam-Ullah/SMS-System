@@ -196,6 +196,15 @@ export default function AppLayout() {
       <NavItem to="/ceo/branches" label="Branches" icon={Building2} onClick={closeSidebar} />
       <NavItem to="/ceo/create-admin" label="Create Admin" icon={UserPlus} onClick={closeSidebar} />
       <NavGroup
+        icon={BookOpen}
+        label="Academic"
+        active={location.pathname.startsWith('/ceo/academic')}
+      >
+        <NavItem to="/ceo/academic/classes" label="Classes" icon={School} onClick={closeSidebar} />
+        <NavItem to="/ceo/academic/exams" label="Exams & Terms" icon={BookMarked} onClick={closeSidebar} />
+      </NavGroup>
+      <NavItem to="/ceo/marks" label="Class Results" icon={Award} onClick={closeSidebar} />
+      <NavGroup
         icon={GraduationCap}
         label="Teachers"
         active={location.pathname.startsWith('/ceo/teachers') || location.pathname.startsWith('/ceo/payroll')}

@@ -79,10 +79,11 @@ const sanitizeStudentInput = (body) => {
   const dateFields = ['date_of_birth', 'date_of_admission'];
   const uuidFields = ['current_class_id', 'current_section_id'];
   const numericFields = ['concession_percentage'];
+  const enumFields = ['gender', 'father_status', 'primary_contact_person', 'concession_type'];
 
   Object.keys(payload).forEach(key => {
     if (payload[key] === '' || payload[key] === undefined) {
-      if (dateFields.includes(key) || uuidFields.includes(key) || numericFields.includes(key)) {
+      if (dateFields.includes(key) || uuidFields.includes(key) || numericFields.includes(key) || enumFields.includes(key)) {
         payload[key] = null;
       }
     }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BookOpen, Users, CheckSquare, Award, Loader2, ArrowUpRight, TrendingUp } from 'lucide-react';
-import api from '../../lib/api';
+import { Link } from 'react-router-dom';
 import { useAuthStore } from '../../store/auth.store';
 
 export default function TeacherDashboard() {
@@ -88,20 +88,22 @@ export default function TeacherDashboard() {
             {teacherAssignments.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {teacherAssignments.map((assignment) => (
-                  <div key={assignment.id} className="p-4 rounded-xl border border-slate-100 bg-white shadow-sm flex flex-col gap-2">
-                    <div className="flex items-center justify-between">
-                      <span className="font-bold text-slate-800 text-lg">
-                        {assignment.sections?.classes?.name || 'Unknown Class'}
-                      </span>
-                      <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-600 border border-blue-100">
-                        Section: {assignment.sections?.name || 'N/A'}
-                      </span>
+                  <Link key={assignment.id} to={`/teacher/marks/${assignment.id}`} className="block">
+                    <div className="p-4 rounded-xl border border-slate-100 bg-white shadow-sm flex flex-col gap-2">
+                      <div className="flex items-center justify-between">
+                        <span className="font-bold text-slate-800 text-lg">
+                          {assignment.sections?.classes?.name || 'Unknown Class'}
+                        </span>
+                        <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-600 border border-blue-100">
+                          Section: {assignment.sections?.name || 'N/A'}
+                        </span>
+                      </div>
+                      <div className="text-sm text-slate-500 flex items-center gap-1.5 mt-1">
+                        <BookOpen size={16} className="text-slate-400" />
+                        Subject: <span className="font-medium text-slate-700">{assignment.subjects?.name || 'N/A'}</span>
+                      </div>
                     </div>
-                    <div className="text-sm text-slate-500 flex items-center gap-1.5 mt-1">
-                      <BookOpen size={16} className="text-slate-400" />
-                      Subject: <span className="font-medium text-slate-700">{assignment.subjects?.name || 'N/A'}</span>
-                    </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             ) : (

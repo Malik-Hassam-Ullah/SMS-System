@@ -1,327 +1,458 @@
 import React, { useState, useEffect } from 'react';
-import { Save, FileText, CheckCircle2, Loader2, AlertCircle } from 'lucide-react';
+import { Save, FileText, CheckCircle2, Loader2, AlertCircle, BookOpen, Lock, Unlock, User, Award, ArrowLeft, Search, Check, X } from 'lucide-react';
 import { useAuthStore } from '../../store/auth.store';
-import { getDashboardData } from '../../api/dashboard.api';
-import { getExams } from '../../api/exams.api';
-import { getStudents } from '../../api/students.api';
-import { getMarks, bulkSaveMarks } from '../../api/marks.api';
+import api from '@/api';
+import toast from 'react-hot-toast';
 
 export default function MarksEntryPage() {
   const { user } = useAuthStore();
 
-  const [loadingInitial, setLoadingInitial] = useState(true);
-  const [fetchingData, setFetchingData] = useState(false);
-  const [error, setError] = useState('');
-
-  // Data lists
+  const [loadingAssignments, setLoadingAssignments] = useState(true);
   const [assignments, setAssignments] = useState([]);
-  const [exams, setExams] = useState([]);
+  const [selectedAssignment, setSelectedAssignment] = useState(null);
 
-  // Selections
-  const [selectedClass, setSelectedClass] = useState('');
-  const [selectedSection, setSelectedSection] = useState('');
-  const [selectedSubject, setSelectedSubject] = useState('');
-  const [selectedExam, setSelectedExam] = useState('');
-
-  // Student & Marks Data
-  const [students, setStudents] = useState([]);
-  const [marksData, setMarksData] = useState({});
-  const [currentSubjectObj, setCurrentSubjectObj] = useState(null);
-
-  // Status
-  const [isSaving, setIsSaving] = useState(false);
-  const [saveSuccess, setSaveSuccess] = useState(false);
-
-  // Derived filters based on assignments
-  const availableClasses = Array.from(new Map(
-    assignments.map(a => [a.sections?.classes?.id, { id: a.sections?.classes?.id, name: a.sections?.classes?.name }])
-  ).values()).filter(c => c.id);
-
-  const availableSections = Array.from(new Map(
-    assignments
-      .filter(a => a.sections?.classes?.id === selectedClass)
-      .map(a => [a.sections?.id, { id: a.sections?.id, name: a.sections?.name }])
-  ).values()).filter(s => s.id);
-
-  const availableSubjects = Array.from(new Map(
-    assignments
-      .filter(a => a.sections?.id === selectedSection)
-      .map(a => [a.subjects?.id, { id: a.subjects?.id, name: a.subjects?.name, total_marks: a.subjects?.total_marks }])
-  ).values()).filter(s => s.id);
+  // Roster & Marks state
+  const [loadingRoster, setLoadingRoster] = useState(false);
+  const [rosterData, setRosterData] = useState(null);
+  const [studentMarks, setStudentMarks] = useState([]);
+  const [search, setSearch] = useState('');
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    const fetchInitialData = async () => {
-      try {
-        const [dashRes, examsRes] = await Promise.all([
-          getDashboardData(),
-          getExams()
-        ]);
-
-        if (dashRes.data?.teacherAssignments) {
-          setAssignments(dashRes.data.teacherAssignments);
-        }
-        if (examsRes.data) {
-          setExams(examsRes.data);
-        }
-      } catch (err) {
-        console.error('Failed to load initial data', err);
-        setError('Failed to load classes and exams.');
-      } finally {
-        setLoadingInitial(false);
-      }
-    };
-    fetchInitialData();
+    fetchAssignments();
   }, []);
 
-  // Reset dependent dropdowns when parent changes
-  useEffect(() => { setSelectedSection(''); setSelectedSubject(''); }, [selectedClass]);
-  useEffect(() => { setSelectedSubject(''); }, [selectedSection]);
-
-  const canShowStudents = selectedClass && selectedSection && selectedSubject && selectedExam;
-
-  useEffect(() => {
-    if (canShowStudents) {
-      const subj = availableSubjects.find(s => s.id === selectedSubject);
-      setCurrentSubjectObj(subj);
-      fetchStudentsAndMarks(subj);
-    } else {
-      setStudents([]);
-      setMarksData({});
-    }
-  }, [selectedClass, selectedSection, selectedSubject, selectedExam]);
-
-  const fetchStudentsAndMarks = async (subj) => {
-    setFetchingData(true);
-    setError('');
+  const fetchAssignments = async () => {
     try {
-      const [studentsRes, marksRes] = await Promise.all([
-        getStudents({ section_id: selectedSection, limit: 1000 }),
-        getMarks({ section_id: selectedSection, subject_id: selectedSubject, exam_id: selectedExam })
-      ]);
-
-      const stList = studentsRes.data || [];
-      const mList = marksRes.data || [];
-
-      setStudents(stList);
-
-      const newMarksData = {};
-      stList.forEach(st => {
-        const existingMark = mList.find(m => m.student_id === st.id);
-        newMarksData[st.id] = {
-          obtained: existingMark && existingMark.marks_obtained !== null ? existingMark.marks_obtained : '',
-          absent: existingMark ? existingMark.is_absent : false,
-          remarks: existingMark?.remarks || ''
-        };
-      });
-      setMarksData(newMarksData);
-    } catch (err) {
-      console.error(err);
-      setError('Failed to load students and marks data.');
-    } finally {
-      setFetchingData(false);
-    }
-  };
-
-  const handleMarkChange = (studentId, field, value) => {
-    setMarksData(prev => ({
-      ...prev,
-      [studentId]: {
-        ...prev[studentId],
-        [field]: value
+      setLoadingAssignments(true);
+      const res = await api.get('/marks/teacher-assignments');
+      const list = res.data?.data || [];
+      setAssignments(list);
+      if (list.length > 0) {
+        loadRoster(list[0]);
       }
-    }));
-    setSaveSuccess(false);
-  };
-
-  const handleSaveMarks = async () => {
-    setIsSaving(true);
-    setError('');
-
-    // Prepare payload
-    const payload = students.map(st => {
-      const data = marksData[st.id];
-      return {
-        student_id: st.id,
-        subject_id: selectedSubject,
-        exam_id: selectedExam,
-        section_id: selectedSection,
-        marks_obtained: data.absent || data.obtained === '' ? null : Number(data.obtained),
-        is_absent: data.absent,
-        remarks: data.remarks
-      };
-    });
-
-    try {
-      await bulkSaveMarks(payload);
-      setSaveSuccess(true);
-      setTimeout(() => setSaveSuccess(false), 3000);
     } catch (err) {
-      console.error(err);
-      setError(err.response?.data?.message || 'Failed to save marks.');
+      toast.error('Failed to load assigned classes/subjects.');
     } finally {
-      setIsSaving(false);
+      setLoadingAssignments(false);
     }
   };
 
-  if (loadingInitial) {
-    return (
-      <div className="flex items-center justify-center h-96">
-        <div className="flex flex-col items-center gap-3">
-          <Loader2 className="w-10 h-10 animate-spin text-primary-600" />
-          <p className="text-sm text-slate-500 font-medium">Loading assignments...</p>
-        </div>
-      </div>
+  const loadRoster = async (assignment) => {
+    setSelectedAssignment(assignment);
+    setLoadingRoster(true);
+    try {
+      const res = await api.get('/marks/roster', {
+        params: {
+          section_id: assignment.section_id,
+          subject_id: assignment.subject_id,
+          exam_id: assignment.exam_id
+        }
+      });
+
+      const data = res.data?.data || {};
+      setRosterData(data);
+
+      // Initialize student marks state
+      const initialMarks = (data.roster || []).map(stu => ({
+        student_id: stu.student_id,
+        roll_number: stu.roll_number,
+        registration_number: stu.registration_number,
+        full_name: stu.full_name,
+        father_name: stu.father_name,
+        total_marks: stu.total_marks || data.subject?.total_marks || 100,
+        marks_obtained: stu.marks_obtained !== null && stu.marks_obtained !== '' ? stu.marks_obtained : '',
+        is_absent: !!stu.is_absent,
+        remarks: stu.remarks || ''
+      }));
+
+      setStudentMarks(initialMarks);
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Failed to load student roster.');
+    } finally {
+      setLoadingRoster(false);
+    }
+  };
+
+  const handleMarkChange = (studentId, value) => {
+    setStudentMarks(prev =>
+      prev.map(s => {
+        if (s.student_id === studentId) {
+          return { ...s, marks_obtained: value, is_absent: false };
+        }
+        return s;
+      })
     );
-  }
+  };
+
+  const toggleAbsent = (studentId) => {
+    setStudentMarks(prev =>
+      prev.map(s => {
+        if (s.student_id === studentId) {
+          const newAbsent = !s.is_absent;
+          return { ...s, is_absent: newAbsent, marks_obtained: newAbsent ? '' : s.marks_obtained };
+        }
+        return s;
+      })
+    );
+  };
+
+  const handleSaveMarks = async (e) => {
+    if (e) e.preventDefault();
+    if (!selectedAssignment || !rosterData) return;
+
+    if (rosterData.is_locked) {
+      return toast.error('This exam is locked. Marks cannot be saved.');
+    }
+
+    const maxMarks = Number(rosterData.subject?.total_marks || 100);
+
+    // Validate marks before sending
+    for (const s of studentMarks) {
+      if (!s.is_absent && s.marks_obtained !== '' && s.marks_obtained !== null) {
+        const num = Number(s.marks_obtained);
+        if (isNaN(num)) {
+          return toast.error(`Invalid numeric mark for ${s.full_name}`);
+        }
+        if (num < 0) {
+          return toast.error(`Negative marks are not allowed for ${s.full_name}`);
+        }
+        if (num > maxMarks) {
+          return toast.error(`Obtained marks (${num}) for ${s.full_name} cannot exceed total marks (${maxMarks})`);
+        }
+      }
+    }
+
+    try {
+      setSaving(true);
+      const payload = {
+        exam_id: selectedAssignment.exam_id,
+        subject_id: selectedAssignment.subject_id,
+        section_id: selectedAssignment.section_id,
+        marks: studentMarks.map(s => ({
+          student_id: s.student_id,
+          marks_obtained: s.is_absent ? 0 : (s.marks_obtained !== '' ? Number(s.marks_obtained) : null),
+          is_absent: s.is_absent,
+          remarks: s.remarks
+        }))
+      };
+
+      const res = await api.post('/marks/bulk', payload);
+      toast.success(res.data?.message || 'Marks saved successfully!');
+      // Refresh roster data
+      loadRoster(selectedAssignment);
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Failed to save marks.');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const filteredStudents = studentMarks.filter(s => {
+    const term = search.toLowerCase();
+    return (
+      (s.full_name || '').toLowerCase().includes(term) ||
+      (s.roll_number || '').toLowerCase().includes(term) ||
+      (s.father_name || '').toLowerCase().includes(term)
+    );
+  });
+
+  const totalStudents = studentMarks.length;
+  const enteredCount = studentMarks.filter(s => s.marks_obtained !== '' || s.is_absent).length;
+  const absentCount = studentMarks.filter(s => s.is_absent).length;
+  const pendingCount = totalStudents - enteredCount;
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className="p-6 space-y-6 max-w-7xl mx-auto">
+      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Enter Marks</h1>
-          <p className="text-sm text-slate-500 mt-1 font-medium">Select criteria to enter student marks.</p>
+          <h1 className="text-2xl font-black text-slate-900 flex items-center gap-3">
+            <Award className="w-7 h-7 text-indigo-600" />
+            Teacher Marks Entry Portal
+          </h1>
+          <p className="text-sm text-slate-500 mt-1">
+            Select your assigned exam and class to record student marks with instant validation.
+          </p>
         </div>
+
+        {selectedAssignment && rosterData && !rosterData.is_locked && (
+          <button
+            onClick={handleSaveMarks}
+            disabled={saving}
+            className="btn-primary flex items-center gap-2 text-sm shadow-sm"
+          >
+            {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save size={16} />}
+            {saving ? 'Saving Marks...' : 'Save All Marks'}
+          </button>
+        )}
       </div>
 
-      {error && (
-        <div className="bg-red-50 text-red-600 p-4 rounded-xl text-sm font-medium border border-red-100 flex items-center gap-2">
-          <AlertCircle className="w-5 h-5 shrink-0" />
-          <span>{error}</span>
-        </div>
-      )}
+      {/* ── ASSIGNMENTS SELECTOR BAR / CARDS ── */}
+      <div className="space-y-3">
+        <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider">
+          Your Assigned Classes & Subjects ({assignments.length})
+        </label>
 
-      <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">Class</label>
-            <select className="input bg-slate-50" value={selectedClass} onChange={e => setSelectedClass(e.target.value)}>
-              <option value="">Select Class</option>
-              {availableClasses.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-            </select>
+        {loadingAssignments ? (
+          <div className="flex justify-center p-8">
+            <Loader2 className="w-6 h-6 animate-spin text-indigo-600" />
           </div>
-          <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">Section</label>
-            <select className="input bg-slate-50" value={selectedSection} onChange={e => setSelectedSection(e.target.value)} disabled={!selectedClass}>
-              <option value="">Select Section</option>
-              {availableSections.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
-            </select>
+        ) : assignments.length === 0 ? (
+          <div className="card p-8 text-center bg-slate-50 border border-dashed border-slate-200 rounded-xl text-slate-500">
+            <BookOpen className="w-10 h-10 text-slate-300 mx-auto mb-2" />
+            <p className="font-bold text-slate-700">No active class assignments found</p>
+            <p className="text-xs text-slate-400 mt-1">
+              The CEO or Administrator has not assigned you any exam subjects yet.
+            </p>
           </div>
-          <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">Subject</label>
-            <select className="input bg-slate-50" value={selectedSubject} onChange={e => setSelectedSubject(e.target.value)} disabled={!selectedSection}>
-              <option value="">Select Subject</option>
-              {availableSubjects.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
-            </select>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+            {assignments.map((assign, idx) => {
+              const isSelected =
+                selectedAssignment?.section_id === assign.section_id &&
+                selectedAssignment?.subject_id === assign.subject_id &&
+                selectedAssignment?.exam_id === assign.exam_id;
+
+              return (
+                <button
+                  key={idx}
+                  onClick={() => loadRoster(assign)}
+                  className={`card p-4 text-left border rounded-xl transition-all flex flex-col justify-between ${
+                    isSelected
+                      ? 'border-indigo-600 bg-indigo-50/50 shadow-md ring-2 ring-indigo-500/20'
+                      : 'border-slate-200 bg-white hover:bg-slate-50 shadow-sm'
+                  }`}
+                >
+                  <div>
+                    <div className="flex justify-between items-center mb-1.5">
+                      <span className="text-[11px] font-bold text-indigo-700 bg-indigo-100/70 px-2 py-0.5 rounded-full">
+                        {assign.exam_name}
+                      </span>
+                      {assign.is_locked && (
+                        <span className="flex items-center gap-1 text-[11px] font-bold text-amber-700 bg-amber-100 px-2 py-0.5 rounded-full">
+                          <Lock size={11} /> Locked
+                        </span>
+                      )}
+                    </div>
+                    <h3 className="font-bold text-slate-900 text-sm">
+                      {assign.class_name} — Section {assign.section_name}
+                    </h3>
+                    <p className="text-xs font-semibold text-slate-600 mt-0.5">
+                      Subject: <span className="text-indigo-600">{assign.subject_name}</span> (Max: {assign.total_marks})
+                    </p>
+                  </div>
+
+                  <div className="mt-3 pt-2 border-t border-slate-100 flex justify-between items-center text-xs">
+                    <span className={`font-semibold ${assign.marks_entered > 0 ? 'text-emerald-600' : 'text-slate-400'}`}>
+                      {assign.marks_entered > 0 ? 'Marks Submitted' : 'Pending Entry'}
+                    </span>
+                    <span className="text-indigo-600 font-bold text-xs">Open Roster →</span>
+                  </div>
+                </button>
+              );
+            })}
           </div>
-          <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">Exam</label>
-            <select className="input bg-slate-50" value={selectedExam} onChange={e => setSelectedExam(e.target.value)}>
-              <option value="">Select Exam</option>
-              {exams.map(e => <option key={e.id} value={e.id}>{e.name}</option>)}
-            </select>
-          </div>
-        </div>
+        )}
       </div>
 
-      {fetchingData ? (
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-12 flex flex-col items-center justify-center text-center">
-          <Loader2 className="w-10 h-10 animate-spin text-primary-600 mb-4" />
-          <p className="text-sm text-slate-500 font-medium">Loading student list and previous marks...</p>
-        </div>
-      ) : canShowStudents ? (
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
-          <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-            <div>
-              <h2 className="text-lg font-bold text-slate-900">Student List</h2>
-              <p className="text-sm text-slate-500 font-medium">Entering marks for {currentSubjectObj?.name}</p>
+      {/* ── MARKS ENTRY ROSTER TABLE ── */}
+      {selectedAssignment && rosterData && (
+        <div className="space-y-4 animate-in fade-in duration-300">
+          {/* Lock Banner if locked */}
+          {rosterData.is_locked && (
+            <div className="p-4 bg-amber-50 border border-amber-300 rounded-xl flex items-center gap-3 text-amber-900">
+              <Lock className="w-5 h-5 text-amber-600 shrink-0" />
+              <div>
+                <p className="font-bold text-sm">This examination is LOCKED by CEO / Administration.</p>
+                <p className="text-xs text-amber-700">Marks are in read-only mode and cannot be modified.</p>
+              </div>
             </div>
-            {saveSuccess && (
-              <span className="flex items-center gap-1.5 text-sm font-medium text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-100">
-                <CheckCircle2 className="w-4 h-4" /> Marks Saved Successfully
+          )}
+
+          {/* Roster Controls & Summary Bar */}
+          <div className="card bg-white p-4 border border-slate-200 rounded-xl shadow-sm space-y-3">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+              <div>
+                <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                  <span>{rosterData.class_name} — Section {rosterData.section_name}</span>
+                  <span className="text-slate-300">|</span>
+                  <span className="text-indigo-600">{rosterData.subject?.name}</span>
+                </h2>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  Exam Term: <span className="font-semibold text-slate-700">{rosterData.exam?.name}</span> • Total Marks: <span className="font-bold text-indigo-700">{rosterData.subject?.total_marks || 100}</span>
+                </p>
+              </div>
+
+              {/* Search */}
+              <div className="relative w-full md:w-72">
+                <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                <input
+                  type="text"
+                  placeholder="Search student name or roll..."
+                  className="input pl-9 pr-4 py-1.5 w-full bg-slate-50 border-slate-200 rounded-lg text-xs focus:bg-white"
+                  value={search}
+                  onChange={e => setSearch(e.target.value)}
+                />
+              </div>
+            </div>
+
+            {/* Quick Metrics */}
+            <div className="flex flex-wrap gap-2 pt-2 border-t border-slate-100 text-xs font-bold">
+              <span className="bg-slate-100 text-slate-700 px-3 py-1 rounded-lg">
+                Total Students: {totalStudents}
               </span>
-            )}
+              <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 px-3 py-1 rounded-lg">
+                Marks Entered: {enteredCount}
+              </span>
+              <span className="bg-rose-50 text-rose-700 border border-rose-200 px-3 py-1 rounded-lg">
+                Absent: {absentCount}
+              </span>
+              <span className="bg-amber-50 text-amber-700 border border-amber-200 px-3 py-1 rounded-lg">
+                Pending: {pendingCount}
+              </span>
+            </div>
           </div>
 
-          <div className="overflow-x-auto">
-            {students.length === 0 ? (
-              <div className="p-12 text-center text-slate-500">No active students found in this section.</div>
+          {/* Roster Table */}
+          <div className="card p-0 overflow-hidden bg-white border border-slate-200 rounded-xl shadow-sm">
+            {loadingRoster ? (
+              <div className="flex justify-center p-16">
+                <Loader2 className="w-8 h-8 animate-spin text-indigo-600" />
+              </div>
+            ) : filteredStudents.length === 0 ? (
+              <div className="p-12 text-center text-slate-500">
+                No students found matching your search.
+              </div>
             ) : (
-              <table className="w-full text-sm text-left">
-                <thead className="bg-slate-50 border-b border-slate-200 text-slate-600 font-semibold">
-                  <tr>
-                    <th className="px-6 py-4">Roll No.</th>
-                    <th className="px-6 py-4">Student Name</th>
-                    <th className="px-6 py-4 w-32">Obtained</th>
-                    <th className="px-6 py-4 w-24 text-center">Absent</th>
-                    <th className="px-6 py-4">Remarks</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100">
-                  {students.map(student => {
-                    const sData = marksData[student.id] || { obtained: '', absent: false, remarks: '' };
-                    return (
-                      <tr key={student.id} className="hover:bg-slate-50/80 transition-colors">
-                        <td className="px-6 py-4 font-medium text-slate-900">{student.roll_number || '-'}</td>
-                        <td className="px-6 py-4 font-medium text-slate-700">{student.full_name}</td>
-                        <td className="px-6 py-4">
-                          <input
-                            type="number"
-                            min="0"
-                            value={sData.obtained}
-                            onChange={(e) => handleMarkChange(student.id, 'obtained', e.target.value)}
-                            disabled={sData.absent}
-                            className="input px-3 py-2 w-full text-center disabled:bg-slate-100 disabled:text-slate-400"
-                            placeholder="0"
-                          />
-                        </td>
-                        <td className="px-6 py-4 text-center">
-                          <input
-                            type="checkbox"
-                            checked={sData.absent}
-                            onChange={(e) => {
-                              handleMarkChange(student.id, 'absent', e.target.checked);
-                              if (e.target.checked) handleMarkChange(student.id, 'obtained', '');
-                            }}
-                            className="w-5 h-5 rounded border-slate-300 text-primary-600 focus:ring-primary-500 cursor-pointer mx-auto"
-                          />
-                        </td>
-                        <td className="px-6 py-4">
-                          <input
-                            type="text"
-                            value={sData.remarks}
-                            onChange={(e) => handleMarkChange(student.id, 'remarks', e.target.value)}
-                            className="input px-3 py-2 w-full"
-                            placeholder="Optional remarks..."
-                          />
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs border-collapse">
+                  <thead>
+                    <tr className="bg-slate-50 text-slate-600 border-b border-slate-200 font-bold uppercase tracking-wider">
+                      <th className="p-3 w-12 text-center">#</th>
+                      <th className="p-3 w-20">Roll No</th>
+                      <th className="p-3 w-24">Reg No</th>
+                      <th className="p-3">Student Name</th>
+                      <th className="p-3">Father Name</th>
+                      <th className="p-3 text-center w-28">Total Marks</th>
+                      <th className="p-3 text-center w-40">Obtained Marks *</th>
+                      <th className="p-3 text-center w-28">Attendance</th>
+                      <th className="p-3 text-center w-24">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100">
+                    {filteredStudents.map((stu, index) => {
+                      const maxM = stu.total_marks || rosterData.subject?.total_marks || 100;
+                      const obtVal = stu.marks_obtained;
+                      const isOverMax = !stu.is_absent && obtVal !== '' && Number(obtVal) > maxM;
+                      const isNegative = !stu.is_absent && obtVal !== '' && Number(obtVal) < 0;
+                      const hasError = isOverMax || isNegative;
+
+                      return (
+                        <tr
+                          key={stu.student_id}
+                          className={`hover:bg-slate-50/70 transition-colors ${
+                            stu.is_absent ? 'bg-rose-50/30' : hasError ? 'bg-red-50/50' : ''
+                          }`}
+                        >
+                          <td className="p-3 text-center text-slate-400 font-mono">{index + 1}</td>
+                          <td className="p-3 font-mono font-bold text-slate-900">{stu.roll_number || '-'}</td>
+                          <td className="p-3 font-mono text-slate-500">{stu.registration_number || '-'}</td>
+                          <td className="p-3">
+                            <span className="font-bold text-slate-900 text-sm block">{stu.full_name}</span>
+                          </td>
+                          <td className="p-3 text-slate-600">{stu.father_name || '-'}</td>
+                          <td className="p-3 text-center font-mono font-bold text-slate-500">{maxM}</td>
+
+                          {/* Obtained Marks Input */}
+                          <td className="p-3 text-center">
+                            {stu.is_absent ? (
+                              <span className="font-bold text-rose-600 bg-rose-100 px-3 py-1.5 rounded-lg text-xs inline-block">
+                                ABSENT (0)
+                              </span>
+                            ) : (
+                              <div className="relative inline-block w-28">
+                                <input
+                                  type="number"
+                                  min="0"
+                                  max={maxM}
+                                  step="0.5"
+                                  disabled={rosterData.is_locked}
+                                  placeholder="0 - 100"
+                                  className={`input w-full text-center font-mono font-bold text-sm py-1.5 rounded-lg transition-all ${
+                                    hasError
+                                      ? 'border-red-500 bg-red-50 text-red-700 ring-2 ring-red-400'
+                                      : obtVal !== ''
+                                      ? 'border-indigo-400 bg-indigo-50/30 text-indigo-900'
+                                      : 'border-slate-300 bg-white'
+                                  }`}
+                                  value={obtVal}
+                                  onChange={e => handleMarkChange(stu.student_id, e.target.value)}
+                                />
+                                {isOverMax && (
+                                  <span className="absolute -bottom-4 left-0 right-0 text-[10px] text-red-600 font-bold">
+                                    Max: {maxM}
+                                  </span>
+                                )}
+                              </div>
+                            )}
+                          </td>
+
+                          {/* Absent Toggle Button */}
+                          <td className="p-3 text-center">
+                            <button
+                              type="button"
+                              disabled={rosterData.is_locked}
+                              onClick={() => toggleAbsent(stu.student_id)}
+                              className={`px-3 py-1 rounded-lg font-bold text-xs transition-colors ${
+                                stu.is_absent
+                                  ? 'bg-rose-600 text-white shadow-sm'
+                                  : 'bg-slate-100 hover:bg-rose-50 text-slate-600 hover:text-rose-600 border border-slate-200'
+                              }`}
+                            >
+                              {stu.is_absent ? 'Marked Absent' : 'Mark Absent'}
+                            </button>
+                          </td>
+
+                          {/* Status Badge */}
+                          <td className="p-3 text-center">
+                            {stu.is_absent ? (
+                              <span className="text-rose-600 font-bold text-xs">Absent</span>
+                            ) : obtVal !== '' && !hasError ? (
+                              <span className="inline-flex items-center gap-1 text-emerald-600 font-bold text-xs">
+                                <Check size={14} /> Ready
+                              </span>
+                            ) : hasError ? (
+                              <span className="text-red-600 font-bold text-xs">Error</span>
+                            ) : (
+                              <span className="text-slate-400 font-medium text-xs">Pending</span>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
             )}
           </div>
 
-          {students.length > 0 && (
-            <div className="p-6 border-t border-slate-100 bg-slate-50/50 flex justify-end">
+          {/* Bottom Save Action Bar */}
+          {!rosterData.is_locked && (
+            <div className="flex justify-between items-center bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+              <span className="text-xs text-slate-500 font-medium">
+                Remember to click "Save Marks" to record your changes into the database.
+              </span>
               <button
                 onClick={handleSaveMarks}
-                disabled={isSaving}
-                className="btn-primary"
+                disabled={saving}
+                className="btn-primary flex items-center gap-2 text-sm shadow-sm"
               >
-                {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                {isSaving ? 'Saving...' : 'Save Marks'}
+                {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save size={16} />}
+                {saving ? 'Saving Marks...' : 'Save All Marks'}
               </button>
             </div>
           )}
-        </div>
-      ) : (
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-12 flex flex-col items-center justify-center text-center">
-          <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4 text-slate-400">
-            <FileText className="w-8 h-8" />
-          </div>
-          <h3 className="text-lg font-bold text-slate-900">No Selection</h3>
-          <p className="text-slate-500 mt-1 max-w-sm">Please select a class, section, subject, and exam from the filters above to enter marks.</p>
         </div>
       )}
     </div>

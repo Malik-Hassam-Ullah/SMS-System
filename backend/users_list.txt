@@ -1,4 +1,5 @@
 --- SUPABASE AUTH USERS ---
+ID: 710517da-c918-4488-bc14-c121366125d3 | Email: dhupri.admin@gmail.com | Created At: 2026-08-20T04:04:11.685485Z
 ID: a72c80ec-18db-4022-86a5-b694d0ff9749 | Email: dhupri.accountant@gmail.com | Created At: 2026-08-12T07:30:54.140293Z
 ID: 6817760b-a0f6-41dd-83a0-842eac3899d9 | Email: dhupri.teacher@gmail.com | Created At: 2026-08-12T07:30:53.157624Z
 ID: e10b7953-9b13-434e-b20a-eadd8ac35c18 | Email: main.accountant@gmail.com | Created At: 2026-08-12T07:30:52.594994Z
@@ -23,3 +24,4 @@ ID: c5eda9e2-5c56-4cf6-82c2-61314d6de55a | Role: teacher | Name: Main Campus Tea
 ID: e10b7953-9b13-434e-b20a-eadd8ac35c18 | Role: accountant | Name: Main Campus Accountant | School ID: aaaaaaaa-0000-0000-0000-000000000001 | Branch ID: bbbbbbbb-0000-0000-0000-000000000001
 ID: 6817760b-a0f6-41dd-83a0-842eac3899d9 | Role: teacher | Name: Dhupri Campus Teacher | School ID: aaaaaaaa-0000-0000-0000-000000000001 | Branch ID: ba530268-ceaa-4d3d-bf40-799f50aea53b
 ID: a72c80ec-18db-4022-86a5-b694d0ff9749 | Role: accountant | Name: Dhupri Campus Accountant | School ID: aaaaaaaa-0000-0000-0000-000000000001 | Branch ID: ba530268-ceaa-4d3d-bf40-799f50aea53b
+ID: 710517da-c918-4488-bc14-c121366125d3 | Role: admin | Name: Dhupri Campus Admin | School ID: aaaaaaaa-0000-0000-0000-000000000001 | Branch ID: ba530268-ceaa-4d3d-bf40-799f50aea53b

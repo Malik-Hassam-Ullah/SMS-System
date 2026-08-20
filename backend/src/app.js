@@ -24,6 +24,7 @@ const publicRoutes = require('./routes/public.routes');
 const whatsappRoutes = require('./routes/whatsapp.routes');
 const settingsRoutes = require('./routes/settings.routes');
 const expenseRoutes = require('./routes/expense.routes');
+const teacherAssignmentsRoutes = require('./routes/teacher_assignments.routes');
 
 const { errorHandler } = require('./middleware/error.middleware');
 
@@ -83,6 +84,7 @@ app.use('/api/public', publicRoutes);
 app.use('/api/whatsapp', whatsappRoutes);
 app.use('/api/settings', settingsRoutes);
 app.use('/api/expenses', expenseRoutes);
+app.use('/api/teacher-assignments', teacherAssignmentsRoutes);
 
 // ─── 404 ─────────────────────────────────────────────────────
 app.use('/{*path}', (req, res) => {

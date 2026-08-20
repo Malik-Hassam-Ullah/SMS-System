@@ -40,91 +40,90 @@ const TeacherDetailPage = () => {
   const [loadingAttendance, setLoadingAttendance] = useState(false);
   const [attendanceMonth, setAttendanceMonth] = useState('2026-08');
 
+  // Assignment Management States
+  const [showAssignModal, setShowAssignModal] = useState(false);
+  const [classesList, setClassesList] = useState([]);
+  const [subjectsList, setSubjectsList] = useState([]);
+  const [assignExamId, setAssignExamId] = useState('');
+  const [assignClassId, setAssignClassId] = useState('');
+  const [assignSectionId, setAssignSectionId] = useState('');
+  const [assignSubjectId, setAssignSubjectId] = useState('');
+  const [assigning, setAssigning] = useState(false);
+
+  const fetchTeacher = async () => {
+    try {
+      const response = await api.get(`/teachers/${id}`);
+      setTeacher(response.data || null);
+    } catch (error) {
+      console.error('Failed to fetch teacher:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchTeacher = async () => {
-      try {
-        const response = await api.get(`/teachers/${id}`);
-        setTeacher(response.data || null);
-      } catch (error) {
-        console.error('Failed to fetch teacher:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchTeacher();
   }, [id]);
 
-  // Load/Initialize Payroll Data from localStorage
   useEffect(() => {
-    if (!teacher) return;
-
-    // Load Base Salary
-    const storedBase = localStorage.getItem(`teacher_base_salary_${id}`);
-    if (storedBase) {
-      setBaseSalary(Number(storedBase));
-    } else {
-      localStorage.setItem(`teacher_base_salary_${id}`, '45000');
-      setBaseSalary(45000);
-    }
-
-    // Load Payroll History
-    const storedPayrolls = localStorage.getItem(`teacher_payrolls_${id}`);
-    if (storedPayrolls) {
-      setPayrolls(JSON.parse(storedPayrolls));
-    } else {
-      const initialPayrolls = [
-        {
-          month: 'August 2026',
-          baseSalary: 45000,
-          allowances: 5000,
-          deductions: 2000,
-          netSalary: 48000,
-          status: 'paid',
-          paymentMethod: 'Bank Transfer',
-          paymentDate: '2026-08-05'
-        },
-        {
-          month: 'July 2026',
-          baseSalary: 45000,
-          allowances: 3000,
-          deductions: 1000,
-          netSalary: 47000,
-          status: 'paid',
-          paymentMethod: 'Cash',
-          paymentDate: '2026-07-02'
-        },
-        {
-          month: 'September 2026',
-          baseSalary: 45000,
-          allowances: 0,
-          deductions: 0,
-          netSalary: 45000,
-          status: 'pending',
-          paymentMethod: '',
-          paymentDate: ''
-        }
-      ];
-      localStorage.setItem(`teacher_payrolls_${id}`, JSON.stringify(initialPayrolls));
-      setPayrolls(initialPayrolls);
-    }
-  }, [teacher, id]);
-
-  useEffect(() => {
-    const fetchExams = async () => {
+    const fetchLookups = async () => {
       try {
-        const res = await api.get('/exams');
-        setExams(res.data || []);
-        if (res.data?.length > 0) {
-          setSelectedExamId(res.data[0].id);
+        const [clsRes, subRes, exmRes] = await Promise.all([
+          api.get('/classes').catch(() => ({ data: [] })),
+          api.get('/subjects').catch(() => ({ data: [] })),
+          api.get('/exams').catch(() => ({ data: [] }))
+        ]);
+        setClassesList(clsRes.data || []);
+        setSubjectsList(subRes.data || []);
+        const exms = exmRes.data || [];
+        setExams(exms);
+        if (exms.length > 0) {
+          setSelectedExamId(exms[0].id);
+          setAssignExamId(exms[0].id);
         }
       } catch (err) {
-        console.error("Failed to fetch exams:", err);
+        console.error('Failed to fetch lookups:', err);
       }
     };
     if (activeTab === 'classes') {
-      fetchExams();
+      fetchLookups();
     }
   }, [activeTab]);
+
+  const handleCreateAssignment = async (e) => {
+    e.preventDefault();
+    if (!assignSectionId || !assignSubjectId) {
+      return toast.error('Class Section and Subject are required');
+    }
+    try {
+      setAssigning(true);
+      await api.post(`/teachers/${id}/assignments`, {
+        branch_id: teacher.branch_id,
+        section_id: assignSectionId,
+        subject_id: assignSubjectId,
+        exam_id: assignExamId || null,
+        class_id: assignClassId || null
+      });
+      toast.success('Assignment added successfully!');
+      setShowAssignModal(false);
+      fetchTeacher();
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Failed to add assignment.');
+    } finally {
+      setAssigning(false);
+    }
+  };
+
+  const handleRemoveAssignment = async (assignmentId) => {
+    if (!window.confirm('Are you sure you want to remove this assignment?')) return;
+    try {
+      await api.delete(`/teachers/${id}/assignments/${assignmentId}`);
+      toast.success('Assignment removed successfully.');
+      fetchTeacher();
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Failed to remove assignment.');
+    }
+  };
 
   // Fetch Attendance History
   useEffect(() => {
@@ -370,19 +369,36 @@ const TeacherDetailPage = () => {
               {/* Classes & Marks Tab */}
               {activeTab === 'classes' && (
                 <div className="animate-in fade-in slide-in-from-bottom-2 duration-300 space-y-6">
-                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                    <h3 className="text-lg font-bold text-slate-800">Assigned Classes & Subjects</h3>
+                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-100 pb-4">
+                    <div>
+                      <h3 className="text-lg font-bold text-slate-800">Assigned Classes, Subjects & Exams</h3>
+                      <p className="text-xs text-slate-500 mt-0.5">Manage which classes and exam terms this teacher is authorized to enter marks for.</p>
+                    </div>
 
-                    <div className="flex items-center gap-3 bg-slate-50 p-2 rounded-lg border border-slate-200">
-                      <label className="text-sm font-medium text-slate-600 pl-2">Filter Marks By Exam:</label>
-                      <select
-                        className="input py-1.5 text-sm w-48 border-slate-300 shadow-sm"
-                        value={selectedExamId}
-                        onChange={(e) => setSelectedExamId(e.target.value)}
+                    <div className="flex items-center gap-3 flex-wrap">
+                      <button
+                        onClick={() => {
+                          setAssignClassId(classesList[0]?.id || '');
+                          setAssignSectionId(classesList[0]?.sections?.[0]?.id || '');
+                          setAssignSubjectId(subjectsList[0]?.id || '');
+                          setShowAssignModal(true);
+                        }}
+                        className="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold shadow-sm transition-colors flex items-center gap-1.5"
                       >
-                        {exams.map(e => <option key={e.id} value={e.id}>{e.name}</option>)}
-                        {exams.length === 0 && <option value="">No exams available</option>}
-                      </select>
+                        + Assign Class / Subject / Exam
+                      </button>
+
+                      <div className="flex items-center gap-2 bg-slate-50 p-1.5 rounded-lg border border-slate-200">
+                        <label className="text-xs font-bold text-slate-500 uppercase tracking-wider pl-1">Marks Filter:</label>
+                        <select
+                          className="input py-1 text-xs w-40 border-slate-300 shadow-sm bg-white"
+                          value={selectedExamId}
+                          onChange={(e) => setSelectedExamId(e.target.value)}
+                        >
+                          {exams.map(e => <option key={e.id} value={e.id}>{e.name}</option>)}
+                          {exams.length === 0 && <option value="">No exams available</option>}
+                        </select>
+                      </div>
                     </div>
                   </div>
 
@@ -392,23 +408,48 @@ const TeacherDetailPage = () => {
                         const isExpanded = expandedAssignment === assignment.id;
                         return (
                           <div key={idx} className={`bg-white border ${isExpanded ? 'border-indigo-300 shadow-md ring-4 ring-indigo-50' : 'border-slate-200 shadow-sm'} rounded-xl transition-all duration-200 overflow-hidden`}>
-                            <button
-                              onClick={() => handleExpandAssignment(assignment)}
-                              className={`w-full p-5 flex items-center justify-between transition-colors ${isExpanded ? 'bg-indigo-50/30' : 'hover:bg-slate-50'}`}
-                            >
-                              <div className="flex items-center gap-4">
-                                <div className={`p-3 rounded-lg ${isExpanded ? 'bg-indigo-100 text-indigo-600' : 'bg-slate-100 text-slate-600'}`}>
-                                  <BookOpen size={20} />
+                            <div className="flex items-center justify-between p-4 bg-white hover:bg-slate-50/50">
+                              <button
+                                onClick={() => handleExpandAssignment(assignment)}
+                                className="flex-1 flex items-center justify-between text-left"
+                              >
+                                <div className="flex items-center gap-3">
+                                  <div className={`p-2.5 rounded-lg ${isExpanded ? 'bg-indigo-100 text-indigo-600' : 'bg-slate-100 text-slate-600'}`}>
+                                    <BookOpen size={18} />
+                                  </div>
+                                  <div>
+                                    <div className="flex items-center gap-2">
+                                      <p className="font-bold text-slate-900 text-base">{assignment.sections?.classes?.name || 'Class'} — Section {assignment.sections?.name || 'A'}</p>
+                                      <span className="bg-indigo-50 text-indigo-700 border border-indigo-200 px-2 py-0.5 rounded-full text-xs font-bold">
+                                        {assignment.subjects?.name || 'Subject'}
+                                      </span>
+                                    </div>
+                                    <div className="flex items-center gap-2 mt-1 text-xs text-slate-500">
+                                      <span className="font-semibold text-slate-700">Exam: {assignment.exams?.name || 'All Exams / Terms'}</span>
+                                      <span>•</span>
+                                      <span className={`font-semibold ${assignment.marks_entered > 0 ? 'text-emerald-600' : 'text-slate-400'}`}>
+                                        Status: {assignment.marks_entered > 0 ? 'Marks Entered' : 'Pending Entry'}
+                                      </span>
+                                    </div>
+                                  </div>
                                 </div>
-                                <div className="text-left">
-                                  <p className="font-bold text-slate-800 text-lg">{assignment.sections?.classes?.name} - {assignment.sections?.name}</p>
-                                  <p className="text-sm font-medium text-indigo-600">{assignment.subjects?.name}</p>
+
+                                <div className="flex items-center gap-3 mr-3">
+                                  <span className="text-xs text-slate-400">Click to view student marks</span>
+                                  <div className={`p-1.5 rounded-full ${isExpanded ? 'bg-indigo-100 text-indigo-600' : 'bg-slate-100 text-slate-400'}`}>
+                                    {isExpanded ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+                                  </div>
                                 </div>
-                              </div>
-                              <div className={`p-2 rounded-full ${isExpanded ? 'bg-indigo-100 text-indigo-600' : 'bg-slate-100 text-slate-400'}`}>
-                                {isExpanded ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
-                              </div>
-                            </button>
+                              </button>
+
+                              <button
+                                onClick={() => handleRemoveAssignment(assignment.id)}
+                                className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors ml-2"
+                                title="Remove Assignment"
+                              >
+                                <X size={16} />
+                              </button>
+                            </div>
 
                             {isExpanded && (
                               <div className="border-t border-slate-200 bg-slate-50 p-6 animate-in slide-in-from-top-2 duration-200">
@@ -888,6 +929,115 @@ const TeacherDetailPage = () => {
                 <Printer className="w-4 h-4" /> Print Slip
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Assign Class / Subject / Exam Modal */}
+      {showAssignModal && (
+        <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white p-6 w-full max-w-lg rounded-2xl shadow-xl border border-slate-200">
+            <h2 className="text-xl font-bold text-slate-900 mb-1">
+              Assign Class, Subject & Exam
+            </h2>
+            <p className="text-xs text-slate-500 mb-4">
+              Authorize {teacher.user_profiles?.full_name} for specific class section, subject, and examination term.
+            </p>
+
+            <form onSubmit={handleCreateAssignment} className="space-y-4">
+              {/* 1. Exam Term */}
+              <div>
+                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                  Examination Term
+                </label>
+                <select
+                  className="input w-full text-sm bg-white"
+                  value={assignExamId}
+                  onChange={e => setAssignExamId(e.target.value)}
+                >
+                  <option value="">All Exams / General Term</option>
+                  {exams.map(e => (
+                    <option key={e.id} value={e.id}>{e.name} ({e.exam_type || 'Term'})</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* 2. Class */}
+              <div>
+                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                  Class *
+                </label>
+                <select
+                  className="input w-full text-sm bg-white"
+                  value={assignClassId}
+                  onChange={e => {
+                    const cId = e.target.value;
+                    setAssignClassId(cId);
+                    const selectedC = classesList.find(c => c.id === cId);
+                    setAssignSectionId(selectedC?.sections?.[0]?.id || '');
+                  }}
+                  required
+                >
+                  <option value="" disabled>Select Class...</option>
+                  {classesList.map(c => (
+                    <option key={c.id} value={c.id}>{c.name}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* 3. Section */}
+              <div>
+                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                  Section *
+                </label>
+                <select
+                  className="input w-full text-sm bg-white"
+                  value={assignSectionId}
+                  onChange={e => setAssignSectionId(e.target.value)}
+                  required
+                >
+                  <option value="" disabled>Select Section...</option>
+                  {(classesList.find(c => c.id === assignClassId)?.sections || []).map(s => (
+                    <option key={s.id} value={s.id}>Section {s.name}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* 4. Subject */}
+              <div>
+                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                  Subject *
+                </label>
+                <select
+                  className="input w-full text-sm bg-white"
+                  value={assignSubjectId}
+                  onChange={e => setAssignSubjectId(e.target.value)}
+                  required
+                >
+                  <option value="" disabled>Select Subject...</option>
+                  {subjectsList.map(sub => (
+                    <option key={sub.id} value={sub.id}>{sub.name} (Total: {sub.total_marks || 100} Marks)</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="flex justify-end gap-2 pt-4 border-t border-slate-100">
+                <button
+                  type="button"
+                  className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg font-medium"
+                  onClick={() => setShowAssignModal(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={assigning || !assignSectionId || !assignSubjectId}
+                  className="btn-primary text-sm disabled:opacity-50"
+                >
+                  {assigning ? 'Assigning...' : 'Save Assignment'}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

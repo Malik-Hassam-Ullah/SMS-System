@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, User, FileText, Activity, BookOpen, Pencil, Plus, Loader2, AlertCircle, Eye } from 'lucide-react';
+import { ArrowLeft, User, FileText, Activity, BookOpen, Pencil, Plus, Loader2, AlertCircle, Eye, Trophy, Award, Calendar, CheckCircle2, XCircle } from 'lucide-react';
 import api from '@/api';
 import { useAuthStore } from '@/store/auth.store';
+import ResultCardModal from '../../../components/academic/ResultCardModal';
 
 const StudentDetailPage = () => {
     const { user } = useAuthStore();
@@ -18,6 +19,13 @@ const StudentDetailPage = () => {
     const [feeStructures, setFeeStructures] = useState([]);
     const [sessions, setSessions] = useState([]);
     const [loadingFees, setLoadingFees] = useState(false);
+
+    // Exams & Marks Tab States
+    const [examSummaries, setExamSummaries] = useState([]);
+    const [loadingMarks, setLoadingMarks] = useState(false);
+    const [showResultCardModal, setShowResultCardModal] = useState(false);
+    const [selectedCardExam, setSelectedCardExam] = useState(null);
+    const [schoolInfo, setSchoolInfo] = useState(null);
 
     // Generate Voucher Modal States
     const [showVoucherModal, setShowVoucherModal] = useState(false);
@@ -81,6 +89,20 @@ const StudentDetailPage = () => {
         }
     };
 
+    const fetchMarksReport = async () => {
+        setLoadingMarks(true);
+        try {
+            const res = await api.get(`/marks/report/student/${id}`);
+            const data = res.data?.data || {};
+            setExamSummaries(data.examSummaries || []);
+            setSchoolInfo(data.school || {});
+        } catch (err) {
+            console.error('Failed to load marks report:', err);
+        } finally {
+            setLoadingMarks(false);
+        }
+    };
+
     useEffect(() => {
         const init = async () => {
             setLoading(true);
@@ -93,6 +115,8 @@ const StudentDetailPage = () => {
     useEffect(() => {
         if (activeTab === 'fees' && student) {
             fetchFeeData();
+        } else if (activeTab === 'marks' && student) {
+            fetchMarksReport();
         }
     }, [activeTab, student]);
 
@@ -216,7 +240,7 @@ const StudentDetailPage = () => {
                                 onClick={() => setActiveTab('marks')}
                                 className={`px-6 py-3 text-sm font-medium transition-colors ${activeTab === 'marks' ? 'text-orange-500 border-b-2 border-orange-500' : 'text-slate-600 hover:text-slate-900'}`}
                             >
-                                Exam
+                                Exams & Results
                             </button>
                             <button
                                 onClick={() => setActiveTab('attendance')}
@@ -379,9 +403,94 @@ const StudentDetailPage = () => {
                             )}
 
                             {activeTab === 'marks' && (
-                                <div className="text-center py-10 text-slate-500">
-                                    <BookOpen size={48} className="mx-auto mb-4 opacity-50" />
-                                    <p>Academic marks and grades will be displayed here.</p>
+                                <div className="p-6 space-y-6">
+                                    <div className="flex justify-between items-center border-b border-slate-100 pb-4">
+                                        <div>
+                                            <h3 className="text-lg font-bold text-slate-800">Academic Examination History</h3>
+                                            <p className="text-xs text-slate-500 mt-0.5">Historical examination reports, term results, and report cards.</p>
+                                        </div>
+                                    </div>
+
+                                    {loadingMarks ? (
+                                        <div className="text-center py-12 text-slate-500">
+                                            <Loader2 className="w-8 h-8 animate-spin mx-auto mb-2 text-blue-600" />
+                                            Loading student exam records...
+                                        </div>
+                                    ) : examSummaries.length === 0 ? (
+                                        <div className="text-center py-12 border border-dashed border-slate-200 rounded-2xl bg-slate-50 text-slate-500">
+                                            <BookOpen size={44} className="mx-auto mb-3 text-slate-300" />
+                                            <p className="font-bold text-slate-700">No examination records found</p>
+                                            <p className="text-xs text-slate-400 mt-1">This student has no marks entered for any exam term yet.</p>
+                                        </div>
+                                    ) : (
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                            {examSummaries.map(ex => {
+                                                const hasMarks = ex.subjects_count > 0;
+                                                const isPassed = ex.result_status === 'PASS';
+
+                                                return (
+                                                    <div
+                                                        key={ex.exam_id}
+                                                        className="card p-5 bg-white border border-slate-200 rounded-2xl shadow-sm hover:shadow-md transition-all flex flex-col justify-between space-y-4"
+                                                    >
+                                                        <div>
+                                                            <div className="flex justify-between items-start mb-2">
+                                                                <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200 uppercase tracking-wide">
+                                                                    {ex.exam_type}
+                                                                </span>
+
+                                                                {hasMarks && (
+                                                                    <span className={`inline-flex items-center gap-1 text-xs font-black uppercase px-2.5 py-0.5 rounded-full ${
+                                                                        isPassed ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'
+                                                                    }`}>
+                                                                        {isPassed ? <CheckCircle2 size={12} /> : <XCircle size={12} />}
+                                                                        {ex.result_status}
+                                                                    </span>
+                                                                )}
+                                                            </div>
+
+                                                            <h4 className="text-lg font-bold text-slate-900">{ex.exam_name}</h4>
+
+                                                            {hasMarks ? (
+                                                                <div className="grid grid-cols-3 gap-2 bg-slate-50 p-3 rounded-xl border border-slate-100 mt-3 text-center">
+                                                                    <div>
+                                                                        <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">Obtained</span>
+                                                                        <span className="font-bold text-slate-900 text-sm font-mono">{ex.total_obtained}/{ex.total_max}</span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">Percentage</span>
+                                                                        <span className="font-black text-blue-600 text-sm">{ex.percentage}%</span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">Subjects</span>
+                                                                        <span className="font-bold text-slate-700 text-sm">{ex.subjects_count}</span>
+                                                                    </div>
+                                                                </div>
+                                                            ) : (
+                                                                <p className="text-xs text-slate-400 italic mt-2">
+                                                                    No marks submitted for this term yet.
+                                                                </p>
+                                                            )}
+                                                        </div>
+
+                                                        {hasMarks && (
+                                                            <div className="pt-3 border-t border-slate-100 flex justify-end">
+                                                                <button
+                                                                    onClick={() => {
+                                                                        setSelectedCardExam(ex);
+                                                                        setShowResultCardModal(true);
+                                                                    }}
+                                                                    className="flex items-center gap-1.5 px-3.5 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg text-xs font-bold transition-colors"
+                                                                >
+                                                                    <FileText size={14} /> View Official Result Card
+                                                                </button>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    )}
                                 </div>
                             )}
 
@@ -522,6 +631,15 @@ const StudentDetailPage = () => {
                     </div>
                 </div>
             )}
+
+            {/* Result Card Modal */}
+            <ResultCardModal
+                isOpen={showResultCardModal}
+                onClose={() => setShowResultCardModal(false)}
+                student={student}
+                school={schoolInfo}
+                examResult={selectedCardExam}
+            />
         </div>
     );
 };
