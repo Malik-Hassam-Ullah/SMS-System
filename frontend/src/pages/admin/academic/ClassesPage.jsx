@@ -171,7 +171,13 @@ export default function ClassesPage() {
         {classes.map(cls => (
           <div key={cls.id} className="card p-5 flex flex-col space-y-4 bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition-shadow">
             <div className="flex justify-between items-center border-b border-slate-100 pb-3">
-              <h3 className="text-lg font-bold text-slate-900">{cls.name}</h3>
+              <div>
+                <h3 className="text-lg font-bold text-slate-900">{cls.name}</h3>
+                <span className="inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 mt-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
+                  <Users size={12} />
+                  {cls.student_count || 0} Students Enrolled
+                </span>
+              </div>
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => openAssignModal(cls)}
@@ -196,19 +202,27 @@ export default function ClassesPage() {
               </div>
             </div>
             <div className="flex-1">
-              <h4 className="text-sm text-slate-500 mb-3 flex items-center gap-2 font-medium">
-                <Layers className="w-4 h-4" /> Assigned Sections
+              <h4 className="text-sm text-slate-500 mb-3 flex items-center justify-between font-medium">
+                <span className="flex items-center gap-2">
+                  <Layers className="w-4 h-4" /> Sections & Student Strength
+                </span>
+                <span className="text-xs text-slate-400 font-normal">
+                  {cls.sections?.length || 0} {cls.sections?.length === 1 ? 'Section' : 'Sections'}
+                </span>
               </h4>
               <div className="flex flex-wrap gap-2">
-                {cls.sections && cls.sections.length > 1 ? (
+                {cls.sections && cls.sections.length > 0 ? (
                   cls.sections.map(sec => (
                     <div key={sec.id} className="inline-flex items-center group">
                       <button
                         onClick={() => navigate(`/admin/classes/${cls.id}/sections/${sec.id}`)}
                         className="inline-flex items-center gap-1.5 bg-indigo-50 text-indigo-700 px-3 py-1.5 rounded-l-lg text-sm font-bold border border-indigo-200 hover:bg-indigo-600 hover:text-white hover:border-indigo-600 transition-colors shadow-sm"
-                        title="View Section Details"
+                        title={`View Section ${sec.name} Students (${sec.student_count || 0} enrolled)`}
                       >
-                        {sec.name}
+                        <span>Section {sec.name}</span>
+                        <span className="ml-1 px-1.5 py-0.2 bg-white text-indigo-800 group-hover:bg-indigo-700 group-hover:text-white rounded-full text-xs font-semibold border border-indigo-300 group-hover:border-indigo-500">
+                          {sec.student_count || 0}
+                        </span>
                         <ExternalLink className="w-3 h-3 opacity-50 group-hover:opacity-100" />
                       </button>
                       <button
@@ -220,24 +234,6 @@ export default function ClassesPage() {
                       </button>
                     </div>
                   ))
-                ) : cls.sections && cls.sections.length === 1 ? (
-                  <div className="inline-flex items-center group">
-                    <button
-                      onClick={() => navigate(`/admin/classes/${cls.id}/sections/${cls.sections[0].id}`)}
-                      className="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-l-lg text-sm font-bold border border-emerald-200 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 transition-colors shadow-sm"
-                      title="View Section Details"
-                    >
-                      {cls.sections[0].name} (Standard)
-                      <ExternalLink className="w-3 h-3 opacity-50 group-hover:opacity-100" />
-                    </button>
-                    <button
-                      onClick={() => handleDeleteSection(cls.sections[0].id)}
-                      className="bg-emerald-50 border border-l-0 border-emerald-200 px-2 py-1.5 rounded-r-lg text-slate-400 hover:text-rose-500 hover:bg-rose-50 hover:border-rose-200 transition-colors shadow-sm"
-                      title="Delete Section"
-                    >
-                      <X size={14} />
-                    </button>
-                  </div>
                 ) : (
                   <span className="text-slate-400 text-sm italic">No sections added yet.</span>
                 )}

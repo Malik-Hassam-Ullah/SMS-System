@@ -6,13 +6,44 @@ const { asyncHandler } = require('../middleware/error.middleware');
 
 // GET /api/classes
 router.get('/', authenticate, asyncHandler(async (req, res) => {
-  const { data, error } = await supabaseAdmin
-    .from('classes')
-    .select(`*, sections ( id, name )`)
-    .eq('branch_id', req.branchId)
-    .order('display_order');
+  const [{ data: classes, error }, { data: students, error: stuError }] = await Promise.all([
+    supabaseAdmin
+      .from('classes')
+      .select(`*, sections ( id, name )`)
+      .eq('branch_id', req.branchId)
+      .order('display_order'),
+    supabaseAdmin
+      .from('students')
+      .select('id, current_class_id, current_section_id')
+      .eq('branch_id', req.branchId)
+      .eq('is_active', true)
+  ]);
+
   if (error) throw error;
-  res.json({ success: true, data });
+  if (stuError) throw stuError;
+
+  const classStudentCount = {};
+  const sectionStudentCount = {};
+
+  (students || []).forEach(s => {
+    if (s.current_class_id) {
+      classStudentCount[s.current_class_id] = (classStudentCount[s.current_class_id] || 0) + 1;
+    }
+    if (s.current_section_id) {
+      sectionStudentCount[s.current_section_id] = (sectionStudentCount[s.current_section_id] || 0) + 1;
+    }
+  });
+
+  const enrichedClasses = (classes || []).map(cls => ({
+    ...cls,
+    student_count: classStudentCount[cls.id] || 0,
+    sections: (cls.sections || []).map(sec => ({
+      ...sec,
+      student_count: sectionStudentCount[sec.id] || 0
+    })).sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }))
+  }));
+
+  res.json({ success: true, data: enrichedClasses });
 }));
 
 // POST /api/classes — Admin only
