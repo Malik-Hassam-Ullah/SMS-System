@@ -85,12 +85,18 @@ const EditStudentPage = () => {
     const onSubmit = async (formData) => {
         try {
             const payload = { ...formData };
+            if (!payload.date_of_birth) payload.date_of_birth = null;
+            if (!payload.date_of_admission) payload.date_of_admission = null;
+            if (!payload.current_class_id) payload.current_class_id = null;
+            if (!payload.current_section_id) payload.current_section_id = null;
+
             if (payload.concession_percentage) {
                 payload.concession_percentage = Number(payload.concession_percentage);
             } else {
                 payload.concession_percentage = null;
             }
             payload.age_relaxation = payload.age_relaxation ? 'Allowed' : null;
+
             await api.put(`/students/${id}`, payload);
             toast.success('Student updated successfully!');
             navigate(`/admin/students/${id}`);

@@ -67,9 +67,34 @@ router.get('/:id', authenticate, asyncHandler(async (req, res) => {
   res.json({ success: true, data });
 }));
 
+const sanitizeStudentInput = (body) => {
+  const payload = { ...body };
+  delete payload.branch_id;
+  delete payload.id;
+  delete payload.classes;
+  delete payload.sections;
+  delete payload.student_outstanding_balance;
+  delete payload.student_sessions;
+
+  const dateFields = ['date_of_birth', 'date_of_admission'];
+  const uuidFields = ['current_class_id', 'current_section_id'];
+  const numericFields = ['concession_percentage'];
+
+  Object.keys(payload).forEach(key => {
+    if (payload[key] === '' || payload[key] === undefined) {
+      if (dateFields.includes(key) || uuidFields.includes(key) || numericFields.includes(key)) {
+        payload[key] = null;
+      }
+    }
+  });
+
+  return payload;
+};
+
 // POST /api/students — Admin only
 router.post('/', authenticate, requireRole('admin'), asyncHandler(async (req, res) => {
-  const payload = { ...req.body, branch_id: req.branchId };
+  const sanitized = sanitizeStudentInput(req.body);
+  const payload = { ...sanitized, branch_id: req.branchId };
 
   const { data, error } = await supabaseAdmin
     .from('students')
@@ -131,9 +156,7 @@ router.put('/:id', authenticate, requireRole('admin'), asyncHandler(async (req, 
     return res.status(404).json({ success: false, message: 'Student not found' });
   }
 
-  const payload = { ...req.body };
-  delete payload.branch_id; // cannot change branch via update
-  delete payload.id;
+  const payload = sanitizeStudentInput(req.body);
 
   const totalOutstanding = payload.total_outstanding;
   delete payload.total_outstanding;
