@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Plus, Upload, Eye, Trash2, Filter, Pencil, MessageSquare } from 'lucide-react';
 import api from '@/api';
@@ -10,7 +10,7 @@ const StudentsPage = () => {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedClass, setSelectedClass] = useState('');
+  const [selectedClassSection, setSelectedClassSection] = useState('');
   const [page, setPage] = useState(1);
   const [showInactive, setShowInactive] = useState(false);
   const pageSize = 20;
@@ -127,10 +127,31 @@ const StudentsPage = () => {
     return 100;
   };
 
-  // Get list of unique classes for filter dropdown
-  const uniqueClasses = Array.from(
-    new Set(students.map(s => s.classes?.name || 'N/A'))
-  ).sort((a, b) => getClassRank(a) - getClassRank(b));
+  // Get list of unique Class + Section combinations in strict ascending order
+  const classSectionOptions = useMemo(() => {
+    const map = new Map();
+    students.forEach(s => {
+      const c = s.classes?.name || 'N/A';
+      const sec = s.sections?.name || '';
+      const key = sec ? `${c}|||${sec}` : c;
+      if (!map.has(key)) {
+        const label = sec ? `${c} - Section ${sec}` : c;
+        map.set(key, { key, className: c, sectionName: sec, label });
+      }
+    });
+
+    const list = Array.from(map.values());
+    list.sort((a, b) => {
+      const rankA = getClassRank(a.className);
+      const rankB = getClassRank(b.className);
+      if (rankA !== rankB) return rankA - rankB;
+
+      const secA = (a.sectionName || '').trim().toUpperCase();
+      const secB = (b.sectionName || '').trim().toUpperCase();
+      return secA.localeCompare(secB, undefined, { numeric: true });
+    });
+    return list;
+  }, [students]);
 
   let filteredStudents = students.filter(student => {
     const name = (student.full_name || student.name || '').toLowerCase();
@@ -140,10 +161,13 @@ const StudentsPage = () => {
     const term = searchTerm.toLowerCase();
 
     const matchesSearch = name.includes(term) || regNo.includes(term) || rollNo.includes(term) || fatherName.includes(term);
+    
     const clsName = student.classes?.name || 'N/A';
-    const matchesClass = !selectedClass || clsName === selectedClass;
+    const secName = student.sections?.name || '';
+    const key = secName ? `${clsName}|||${secName}` : clsName;
+    const matchesClassSection = !selectedClassSection || key === selectedClassSection || clsName === selectedClassSection;
 
-    return matchesSearch && matchesClass;
+    return matchesSearch && matchesClassSection;
   });
 
   // Sort by Class (PlayGroup to 10th) then Section (A to Z) then Roll/Reg No
@@ -256,12 +280,12 @@ const StudentsPage = () => {
             <Filter size={18} className="text-slate-400" />
             <select
               className="input bg-white border border-slate-200 rounded-md px-3 py-2 text-sm focus:outline-none focus:border-blue-500"
-              value={selectedClass}
-              onChange={(e) => { setSelectedClass(e.target.value); setPage(1); }}
+              value={selectedClassSection}
+              onChange={(e) => { setSelectedClassSection(e.target.value); setPage(1); }}
             >
-              <option value="">All Classes ({uniqueClasses.length})</option>
-              {uniqueClasses.map(cls => (
-                <option key={cls} value={cls}>{cls}</option>
+              <option value="">All Classes & Sections ({classSectionOptions.length})</option>
+              {classSectionOptions.map(opt => (
+                <option key={opt.key} value={opt.key}>{opt.label}</option>
               ))}
             </select>
           </div>
