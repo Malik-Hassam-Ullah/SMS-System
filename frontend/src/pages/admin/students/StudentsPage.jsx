@@ -12,8 +12,9 @@ const StudentsPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedClassSection, setSelectedClassSection] = useState('');
   const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(20);
+  const [jumpPage, setJumpPage] = useState(1);
   const [showInactive, setShowInactive] = useState(false);
-  const pageSize = 20;
 
   useEffect(() => {
     fetchStudents();
@@ -199,6 +200,19 @@ const StudentsPage = () => {
   const totalPages = Math.ceil(totalFiltered / pageSize) || 1;
   const currentPage = Math.min(page, totalPages);
   const paginatedStudents = filteredStudents.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+
+  useEffect(() => {
+    setJumpPage(currentPage);
+  }, [currentPage]);
+
+  const handleJumpSubmit = (val) => {
+    const p = parseInt(val, 10);
+    if (!isNaN(p) && p >= 1 && p <= totalPages) {
+      setPage(p);
+    } else {
+      setJumpPage(currentPage);
+    }
+  };
 
   const handleClearAllStudents = async () => {
     const confirmMessage = `WARNING: Are you sure you want to deactivate ALL ${students.length} active student records for this branch?\n\nStudents will be marked inactive and hidden from the list.`;
@@ -416,24 +430,85 @@ const StudentsPage = () => {
         </div>
 
         <div className="p-4 border-t border-slate-200 flex items-center justify-between text-sm text-slate-500 flex-wrap gap-4">
-          <div>
-            Showing {totalFiltered > 0 ? (currentPage - 1) * pageSize + 1 : 0} to {Math.min(currentPage * pageSize, totalFiltered)} of {totalFiltered} entries
+          <div className="flex items-center gap-4 flex-wrap">
+            <div>
+              Showing {totalFiltered > 0 ? (currentPage - 1) * pageSize + 1 : 0} to {Math.min(currentPage * pageSize, totalFiltered)} of {totalFiltered} entries
+            </div>
+
+            <div className="flex items-center gap-1.5 text-xs text-slate-600">
+              <span>Show:</span>
+              <select
+                value={pageSize}
+                onChange={(e) => { setPageSize(Number(e.target.value)); setPage(1); }}
+                className="bg-white border border-slate-200 rounded px-2 py-1 text-xs text-slate-700 focus:outline-none focus:border-blue-500 font-medium"
+              >
+                <option value={20}>20 rows</option>
+                <option value={50}>50 rows</option>
+                <option value={100}>100 rows</option>
+                <option value={500}>500 rows</option>
+                <option value={2000}>All</option>
+              </select>
+            </div>
           </div>
-          <div className="flex gap-1 items-center">
+
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <button
+              onClick={() => setPage(1)}
+              disabled={currentPage === 1}
+              className="px-2.5 py-1 text-xs border border-slate-200 rounded-md hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed font-medium text-slate-600 transition-colors"
+              title="First Page"
+            >
+              « First
+            </button>
             <button
               onClick={() => setPage(p => Math.max(1, p - 1))}
               disabled={currentPage === 1}
-              className="px-3 py-1 border border-slate-200 rounded-md hover:bg-slate-50 disabled:opacity-50"
+              className="px-3 py-1 text-xs border border-slate-200 rounded-md hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed font-medium text-slate-600 transition-colors"
             >
-              Prev
+              ‹ Prev
             </button>
-            <span className="px-3 py-1 text-slate-700 font-medium">Page {currentPage} of {totalPages}</span>
+
+            {/* Direct Jump to Page Box */}
+            <div className="flex items-center gap-1.5 px-2.5 py-1 bg-slate-50 border border-slate-200 rounded-md">
+              <span className="text-xs text-slate-600 font-medium">Page</span>
+              <input
+                type="number"
+                min={1}
+                max={totalPages}
+                value={jumpPage}
+                onChange={(e) => setJumpPage(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') handleJumpSubmit(jumpPage);
+                }}
+                onBlur={() => handleJumpSubmit(jumpPage)}
+                className="w-12 text-center py-0.5 px-1 bg-white border border-slate-300 rounded text-xs font-bold text-blue-700 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                title={`Enter page number (1 to ${totalPages}) and press Enter`}
+              />
+              <span className="text-xs text-slate-600 font-medium">of {totalPages}</span>
+              <button
+                type="button"
+                onClick={() => handleJumpSubmit(jumpPage)}
+                className="ml-1 px-1.5 py-0.5 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 rounded text-[11px] font-semibold transition-colors"
+                title="Go to page"
+              >
+                Go
+              </button>
+            </div>
+
             <button
               onClick={() => setPage(p => Math.min(totalPages, p + 1))}
               disabled={currentPage === totalPages}
-              className="px-3 py-1 border border-slate-200 rounded-md hover:bg-slate-50 disabled:opacity-50"
+              className="px-3 py-1 text-xs border border-slate-200 rounded-md hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed font-medium text-slate-600 transition-colors"
             >
-              Next
+              Next ›
+            </button>
+            <button
+              onClick={() => setPage(totalPages)}
+              disabled={currentPage === totalPages}
+              className="px-2.5 py-1 text-xs border border-slate-200 rounded-md hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed font-medium text-slate-600 transition-colors"
+              title="Last Page"
+            >
+              Last »
             </button>
           </div>
         </div>
