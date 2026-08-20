@@ -398,19 +398,19 @@ router.get('/report/class/:classId/exam/:examId', authenticate, asyncHandler(asy
   // Sort descending by percentage for ranking
   rows.sort((a, b) => b.percentage - a.percentage);
 
-  // Assign competition rank (handle ties)
-  let currentRank = 1;
-  rows.forEach((row, index) => {
+  // Assign True Dense Ranking (1st, 2nd, 2nd, 3rd — handles ties without skipping rank numbers)
+  let currentRank = 0;
+  let lastPercentage = null;
+  rows.forEach((row) => {
     if (row.total_max === 0) {
       row.position = '-';
       return;
     }
-    if (index > 0 && row.percentage === rows[index - 1].percentage) {
-      row.position = rows[index - 1].position;
-    } else {
-      row.position = currentRank;
+    if (row.percentage !== lastPercentage) {
+      currentRank++;
+      lastPercentage = row.percentage;
     }
-    currentRank = index + 2;
+    row.position = currentRank;
   });
 
   // Calculate Top 5 Students

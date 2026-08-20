@@ -754,3 +754,1103 @@
 [2026-08-20T08:42:31.091Z] Loading: 100% — WhatsApp
 [2026-08-20T08:42:31.535Z] ✅ Authenticated successfully!
 [2026-08-20T08:42:32.491Z] ✅ WhatsApp client is READY!
+[2026-08-20T13:23:57.398Z] Initializing WhatsApp client...
+[2026-08-20T13:23:57.417Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:24:12.418Z] Initializing WhatsApp client...
+[2026-08-20T13:24:12.426Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:24:27.427Z] Initializing WhatsApp client...
+[2026-08-20T13:24:27.429Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:24:42.431Z] Initializing WhatsApp client...
+[2026-08-20T13:24:42.435Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:24:57.439Z] Initializing WhatsApp client...
+[2026-08-20T13:24:57.441Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:25:12.442Z] Initializing WhatsApp client...
+[2026-08-20T13:25:12.444Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:25:27.449Z] Initializing WhatsApp client...
+[2026-08-20T13:25:27.462Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:25:42.464Z] Initializing WhatsApp client...
+[2026-08-20T13:25:42.467Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:25:57.474Z] Initializing WhatsApp client...
+[2026-08-20T13:25:57.477Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:26:12.479Z] Initializing WhatsApp client...
+[2026-08-20T13:26:12.486Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:26:27.488Z] Initializing WhatsApp client...
+[2026-08-20T13:26:27.491Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:26:42.492Z] Initializing WhatsApp client...
+[2026-08-20T13:26:42.494Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:26:57.496Z] Initializing WhatsApp client...
+[2026-08-20T13:26:57.498Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:27:12.499Z] Initializing WhatsApp client...
+[2026-08-20T13:27:12.507Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:27:27.509Z] Initializing WhatsApp client...
+[2026-08-20T13:27:27.518Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:27:42.519Z] Initializing WhatsApp client...
+[2026-08-20T13:27:42.524Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:27:57.526Z] Initializing WhatsApp client...
+[2026-08-20T13:27:57.528Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:28:12.531Z] Initializing WhatsApp client...
+[2026-08-20T13:28:12.533Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:28:27.534Z] Initializing WhatsApp client...
+[2026-08-20T13:28:27.535Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:28:42.540Z] Initializing WhatsApp client...
+[2026-08-20T13:28:42.541Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:28:57.547Z] Initializing WhatsApp client...
+[2026-08-20T13:28:57.553Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:29:12.556Z] Initializing WhatsApp client...
+[2026-08-20T13:29:12.560Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:29:27.565Z] Initializing WhatsApp client...
+[2026-08-20T13:29:27.582Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:29:42.604Z] Initializing WhatsApp client...
+[2026-08-20T13:29:42.608Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:29:57.614Z] Initializing WhatsApp client...
+[2026-08-20T13:29:57.617Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:30:12.624Z] Initializing WhatsApp client...
+[2026-08-20T13:30:12.627Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:30:27.635Z] Initializing WhatsApp client...
+[2026-08-20T13:30:27.638Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:30:42.641Z] Initializing WhatsApp client...
+[2026-08-20T13:30:42.649Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:30:57.650Z] Initializing WhatsApp client...
+[2026-08-20T13:30:57.662Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:31:12.663Z] Initializing WhatsApp client...
+[2026-08-20T13:31:12.665Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:31:27.665Z] Initializing WhatsApp client...
+[2026-08-20T13:31:27.667Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:31:42.675Z] Initializing WhatsApp client...
+[2026-08-20T13:31:42.678Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:31:57.684Z] Initializing WhatsApp client...
+[2026-08-20T13:31:57.686Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:32:12.693Z] Initializing WhatsApp client...
+[2026-08-20T13:32:12.695Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:32:27.697Z] Initializing WhatsApp client...
+[2026-08-20T13:32:27.701Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:32:42.710Z] Initializing WhatsApp client...
+[2026-08-20T13:32:42.716Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:32:57.735Z] Initializing WhatsApp client...
+[2026-08-20T13:32:57.748Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:33:12.750Z] Initializing WhatsApp client...
+[2026-08-20T13:33:12.752Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:33:27.761Z] Initializing WhatsApp client...
+[2026-08-20T13:33:27.766Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:33:42.770Z] Initializing WhatsApp client...
+[2026-08-20T13:33:42.832Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:33:57.861Z] Initializing WhatsApp client...
+[2026-08-20T13:33:57.868Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:34:12.870Z] Initializing WhatsApp client...
+[2026-08-20T13:34:12.878Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:34:27.880Z] Initializing WhatsApp client...
+[2026-08-20T13:34:27.881Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:34:42.896Z] Initializing WhatsApp client...
+[2026-08-20T13:34:42.907Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:34:57.909Z] Initializing WhatsApp client...
+[2026-08-20T13:34:57.915Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:35:12.917Z] Initializing WhatsApp client...
+[2026-08-20T13:35:12.919Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:35:27.925Z] Initializing WhatsApp client...
+[2026-08-20T13:35:27.932Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:35:42.935Z] Initializing WhatsApp client...
+[2026-08-20T13:35:42.945Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:35:57.950Z] Initializing WhatsApp client...
+[2026-08-20T13:35:57.959Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:36:12.962Z] Initializing WhatsApp client...
+[2026-08-20T13:36:12.964Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:36:27.970Z] Initializing WhatsApp client...
+[2026-08-20T13:36:27.979Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:36:42.980Z] Initializing WhatsApp client...
+[2026-08-20T13:36:42.991Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:36:57.994Z] Initializing WhatsApp client...
+[2026-08-20T13:36:58.006Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:37:13.008Z] Initializing WhatsApp client...
+[2026-08-20T13:37:13.027Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:37:28.034Z] Initializing WhatsApp client...
+[2026-08-20T13:37:28.046Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:37:43.048Z] Initializing WhatsApp client...
+[2026-08-20T13:37:43.082Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:37:58.083Z] Initializing WhatsApp client...
+[2026-08-20T13:37:58.092Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:38:13.094Z] Initializing WhatsApp client...
+[2026-08-20T13:38:13.110Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:38:28.114Z] Initializing WhatsApp client...
+[2026-08-20T13:38:28.130Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:38:43.132Z] Initializing WhatsApp client...
+[2026-08-20T13:38:43.148Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:38:58.149Z] Initializing WhatsApp client...
+[2026-08-20T13:38:58.154Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:39:13.157Z] Initializing WhatsApp client...
+[2026-08-20T13:39:13.165Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:39:28.166Z] Initializing WhatsApp client...
+[2026-08-20T13:39:28.168Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:39:43.169Z] Initializing WhatsApp client...
+[2026-08-20T13:39:43.174Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:39:58.178Z] Initializing WhatsApp client...
+[2026-08-20T13:39:58.182Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:40:13.184Z] Initializing WhatsApp client...
+[2026-08-20T13:40:13.195Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:40:28.196Z] Initializing WhatsApp client...
+[2026-08-20T13:40:28.197Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:40:43.199Z] Initializing WhatsApp client...
+[2026-08-20T13:40:43.208Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:40:58.210Z] Initializing WhatsApp client...
+[2026-08-20T13:40:58.217Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:41:13.218Z] Initializing WhatsApp client...
+[2026-08-20T13:41:13.219Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:41:28.221Z] Initializing WhatsApp client...
+[2026-08-20T13:41:28.228Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:41:43.229Z] Initializing WhatsApp client...
+[2026-08-20T13:41:43.239Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:41:58.240Z] Initializing WhatsApp client...
+[2026-08-20T13:41:58.244Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:42:13.247Z] Initializing WhatsApp client...
+[2026-08-20T13:42:13.249Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:42:28.260Z] Initializing WhatsApp client...
+[2026-08-20T13:42:28.262Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:42:43.263Z] Initializing WhatsApp client...
+[2026-08-20T13:42:43.265Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:42:58.275Z] Initializing WhatsApp client...
+[2026-08-20T13:42:58.279Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:43:13.283Z] Initializing WhatsApp client...
+[2026-08-20T13:43:13.287Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:43:28.288Z] Initializing WhatsApp client...
+[2026-08-20T13:43:28.292Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:43:43.297Z] Initializing WhatsApp client...
+[2026-08-20T13:43:43.301Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:43:58.304Z] Initializing WhatsApp client...
+[2026-08-20T13:43:58.306Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:44:13.311Z] Initializing WhatsApp client...
+[2026-08-20T13:44:13.314Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:44:28.318Z] Initializing WhatsApp client...
+[2026-08-20T13:44:28.320Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:44:43.324Z] Initializing WhatsApp client...
+[2026-08-20T13:44:43.327Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:44:58.381Z] Initializing WhatsApp client...
+[2026-08-20T13:44:58.383Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:45:13.385Z] Initializing WhatsApp client...
+[2026-08-20T13:45:13.388Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:45:28.395Z] Initializing WhatsApp client...
+[2026-08-20T13:45:28.402Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:45:43.413Z] Initializing WhatsApp client...
+[2026-08-20T13:45:43.423Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:45:58.425Z] Initializing WhatsApp client...
+[2026-08-20T13:45:58.426Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:46:13.431Z] Initializing WhatsApp client...
+[2026-08-20T13:46:13.436Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:46:28.450Z] Initializing WhatsApp client...
+[2026-08-20T13:46:28.460Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:46:43.461Z] Initializing WhatsApp client...
+[2026-08-20T13:46:43.463Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:46:58.470Z] Initializing WhatsApp client...
+[2026-08-20T13:46:58.477Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:47:13.480Z] Initializing WhatsApp client...
+[2026-08-20T13:47:13.486Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:47:28.488Z] Initializing WhatsApp client...
+[2026-08-20T13:47:28.492Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:47:43.497Z] Initializing WhatsApp client...
+[2026-08-20T13:47:43.514Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:47:58.517Z] Initializing WhatsApp client...
+[2026-08-20T13:47:58.519Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:48:13.525Z] Initializing WhatsApp client...
+[2026-08-20T13:48:13.527Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:48:28.528Z] Initializing WhatsApp client...
+[2026-08-20T13:48:28.530Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:48:43.536Z] Initializing WhatsApp client...
+[2026-08-20T13:48:43.543Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:48:58.546Z] Initializing WhatsApp client...
+[2026-08-20T13:48:58.551Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:49:13.553Z] Initializing WhatsApp client...
+[2026-08-20T13:49:13.558Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:49:28.560Z] Initializing WhatsApp client...
+[2026-08-20T13:49:28.565Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:49:43.570Z] Initializing WhatsApp client...
+[2026-08-20T13:49:43.575Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:49:58.577Z] Initializing WhatsApp client...
+[2026-08-20T13:49:58.579Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:50:13.585Z] Initializing WhatsApp client...
+[2026-08-20T13:50:13.592Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:50:28.595Z] Initializing WhatsApp client...
+[2026-08-20T13:50:28.602Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:50:43.604Z] Initializing WhatsApp client...
+[2026-08-20T13:50:43.609Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T13:50:58.610Z] Initializing WhatsApp client...
+[2026-08-20T13:50:58.618Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:11:37.502Z] Initializing WhatsApp client...
+[2026-08-20T15:11:37.537Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:11:52.545Z] Initializing WhatsApp client...
+[2026-08-20T15:11:52.572Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:12:07.577Z] Initializing WhatsApp client...
+[2026-08-20T15:12:07.582Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:12:22.587Z] Initializing WhatsApp client...
+[2026-08-20T15:12:22.596Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:12:37.603Z] Initializing WhatsApp client...
+[2026-08-20T15:12:37.630Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:12:52.639Z] Initializing WhatsApp client...
+[2026-08-20T15:12:52.645Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:13:07.648Z] Initializing WhatsApp client...
+[2026-08-20T15:13:07.656Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:13:22.660Z] Initializing WhatsApp client...
+[2026-08-20T15:13:22.700Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:13:37.702Z] Initializing WhatsApp client...
+[2026-08-20T15:13:37.714Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:13:52.733Z] Initializing WhatsApp client...
+[2026-08-20T15:13:52.770Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:14:07.772Z] Initializing WhatsApp client...
+[2026-08-20T15:14:07.786Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:14:22.788Z] Initializing WhatsApp client...
+[2026-08-20T15:14:22.801Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:14:37.806Z] Initializing WhatsApp client...
+[2026-08-20T15:14:37.834Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:14:52.837Z] Initializing WhatsApp client...
+[2026-08-20T15:14:52.851Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:15:07.858Z] Initializing WhatsApp client...
+[2026-08-20T15:15:07.871Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:15:22.878Z] Initializing WhatsApp client...
+[2026-08-20T15:15:22.901Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:15:37.903Z] Initializing WhatsApp client...
+[2026-08-20T15:15:37.906Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:15:52.907Z] Initializing WhatsApp client...
+[2026-08-20T15:15:52.914Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:16:07.915Z] Initializing WhatsApp client...
+[2026-08-20T15:16:07.920Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:16:22.921Z] Initializing WhatsApp client...
+[2026-08-20T15:16:22.940Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:16:37.976Z] Initializing WhatsApp client...
+[2026-08-20T15:16:37.983Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:16:52.989Z] Initializing WhatsApp client...
+[2026-08-20T15:16:53.000Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:17:08.002Z] Initializing WhatsApp client...
+[2026-08-20T15:17:08.016Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:17:23.033Z] Initializing WhatsApp client...
+[2026-08-20T15:17:23.039Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:17:38.044Z] Initializing WhatsApp client...
+[2026-08-20T15:17:38.050Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:17:53.052Z] Initializing WhatsApp client...
+[2026-08-20T15:17:53.061Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:18:08.064Z] Initializing WhatsApp client...
+[2026-08-20T15:18:08.070Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:18:23.071Z] Initializing WhatsApp client...
+[2026-08-20T15:18:23.088Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:18:38.089Z] Initializing WhatsApp client...
+[2026-08-20T15:18:38.100Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:18:53.102Z] Initializing WhatsApp client...
+[2026-08-20T15:18:53.109Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:19:08.115Z] Initializing WhatsApp client...
+[2026-08-20T15:19:08.125Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:19:23.126Z] Initializing WhatsApp client...
+[2026-08-20T15:19:23.133Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:19:38.135Z] Initializing WhatsApp client...
+[2026-08-20T15:19:38.141Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:19:53.155Z] Initializing WhatsApp client...
+[2026-08-20T15:19:53.159Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:20:08.166Z] Initializing WhatsApp client...
+[2026-08-20T15:20:08.172Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:20:23.200Z] Initializing WhatsApp client...
+[2026-08-20T15:20:23.250Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:20:38.253Z] Initializing WhatsApp client...
+[2026-08-20T15:20:38.265Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:20:53.267Z] Initializing WhatsApp client...
+[2026-08-20T15:20:53.280Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:21:08.284Z] Initializing WhatsApp client...
+[2026-08-20T15:21:08.289Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:21:23.297Z] Initializing WhatsApp client...
+[2026-08-20T15:21:23.303Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:21:38.304Z] Initializing WhatsApp client...
+[2026-08-20T15:21:38.318Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:21:53.321Z] Initializing WhatsApp client...
+[2026-08-20T15:21:53.335Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:22:08.342Z] Initializing WhatsApp client...
+[2026-08-20T15:22:08.347Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:22:23.363Z] Initializing WhatsApp client...
+[2026-08-20T15:22:23.403Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:22:38.405Z] Initializing WhatsApp client...
+[2026-08-20T15:22:38.409Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:22:54.684Z] Initializing WhatsApp client...
+[2026-08-20T15:22:54.696Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:23:09.702Z] Initializing WhatsApp client...
+[2026-08-20T15:23:09.721Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:23:24.724Z] Initializing WhatsApp client...
+[2026-08-20T15:23:24.731Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:23:44.669Z] Initializing WhatsApp client...
+[2026-08-20T15:23:44.678Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:23:59.689Z] Initializing WhatsApp client...
+[2026-08-20T15:23:59.697Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:24:14.697Z] Initializing WhatsApp client...
+[2026-08-20T15:24:14.706Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:24:29.732Z] Initializing WhatsApp client...
+[2026-08-20T15:24:29.750Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:24:40.238Z] Initializing WhatsApp client...
+[2026-08-20T15:24:40.250Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:24:55.254Z] Initializing WhatsApp client...
+[2026-08-20T15:24:55.273Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:25:06.491Z] Initializing WhatsApp client...
+[2026-08-20T15:25:06.518Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:25:21.521Z] Initializing WhatsApp client...
+[2026-08-20T15:25:21.532Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:25:36.539Z] Initializing WhatsApp client...
+[2026-08-20T15:25:36.555Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:25:51.575Z] Initializing WhatsApp client...
+[2026-08-20T15:25:51.586Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:26:06.587Z] Initializing WhatsApp client...
+[2026-08-20T15:26:06.612Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:26:10.672Z] Initializing WhatsApp client...
+[2026-08-20T15:26:10.685Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:26:25.687Z] Initializing WhatsApp client...
+[2026-08-20T15:26:25.705Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:26:40.709Z] Initializing WhatsApp client...
+[2026-08-20T15:26:40.715Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:26:55.720Z] Initializing WhatsApp client...
+[2026-08-20T15:26:55.726Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:27:10.730Z] Initializing WhatsApp client...
+[2026-08-20T15:27:10.736Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:27:25.740Z] Initializing WhatsApp client...
+[2026-08-20T15:27:25.757Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:27:40.759Z] Initializing WhatsApp client...
+[2026-08-20T15:27:40.767Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:27:55.771Z] Initializing WhatsApp client...
+[2026-08-20T15:27:55.779Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:28:10.781Z] Initializing WhatsApp client...
+[2026-08-20T15:28:10.790Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:28:25.794Z] Initializing WhatsApp client...
+[2026-08-20T15:28:25.801Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:28:40.805Z] Initializing WhatsApp client...
+[2026-08-20T15:28:40.812Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:28:55.817Z] Initializing WhatsApp client...
+[2026-08-20T15:28:55.821Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:29:10.827Z] Initializing WhatsApp client...
+[2026-08-20T15:29:10.833Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:29:25.838Z] Initializing WhatsApp client...
+[2026-08-20T15:29:25.847Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:29:40.851Z] Initializing WhatsApp client...
+[2026-08-20T15:29:40.860Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:29:55.864Z] Initializing WhatsApp client...
+[2026-08-20T15:29:55.878Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:30:10.880Z] Initializing WhatsApp client...
+[2026-08-20T15:30:10.882Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:30:25.887Z] Initializing WhatsApp client...
+[2026-08-20T15:30:25.951Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:30:40.973Z] Initializing WhatsApp client...
+[2026-08-20T15:30:40.984Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:30:55.986Z] Initializing WhatsApp client...
+[2026-08-20T15:30:55.992Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:31:11.021Z] Initializing WhatsApp client...
+[2026-08-20T15:31:11.035Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:31:26.041Z] Initializing WhatsApp client...
+[2026-08-20T15:31:26.052Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:31:41.053Z] Initializing WhatsApp client...
+[2026-08-20T15:31:41.063Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:31:56.064Z] Initializing WhatsApp client...
+[2026-08-20T15:31:56.070Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:32:11.071Z] Initializing WhatsApp client...
+[2026-08-20T15:32:11.077Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:32:26.079Z] Initializing WhatsApp client...
+[2026-08-20T15:32:26.082Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:32:41.089Z] Initializing WhatsApp client...
+[2026-08-20T15:32:41.122Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:32:56.124Z] Initializing WhatsApp client...
+[2026-08-20T15:32:56.131Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:33:11.133Z] Initializing WhatsApp client...
+[2026-08-20T15:33:11.137Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:33:26.142Z] Initializing WhatsApp client...
+[2026-08-20T15:33:26.171Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:33:41.175Z] Initializing WhatsApp client...
+[2026-08-20T15:33:41.180Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:33:56.206Z] Initializing WhatsApp client...
+[2026-08-20T15:33:56.214Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:34:11.218Z] Initializing WhatsApp client...
+[2026-08-20T15:34:11.224Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:34:26.228Z] Initializing WhatsApp client...
+[2026-08-20T15:34:26.235Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:34:41.244Z] Initializing WhatsApp client...
+[2026-08-20T15:34:41.248Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:34:56.250Z] Initializing WhatsApp client...
+[2026-08-20T15:34:56.252Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:35:11.258Z] Initializing WhatsApp client...
+[2026-08-20T15:35:11.287Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:35:26.290Z] Initializing WhatsApp client...
+[2026-08-20T15:35:26.294Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:35:41.314Z] Initializing WhatsApp client...
+[2026-08-20T15:35:41.316Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:35:56.323Z] Initializing WhatsApp client...
+[2026-08-20T15:35:56.324Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:36:11.349Z] Initializing WhatsApp client...
+[2026-08-20T15:36:11.351Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:36:26.394Z] Initializing WhatsApp client...
+[2026-08-20T15:36:26.398Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:36:41.400Z] Initializing WhatsApp client...
+[2026-08-20T15:36:41.414Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:36:56.424Z] Initializing WhatsApp client...
+[2026-08-20T15:36:56.430Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:37:11.443Z] Initializing WhatsApp client...
+[2026-08-20T15:37:11.467Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:37:26.469Z] Initializing WhatsApp client...
+[2026-08-20T15:37:26.478Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:37:41.479Z] Initializing WhatsApp client...
+[2026-08-20T15:37:41.486Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:37:56.490Z] Initializing WhatsApp client...
+[2026-08-20T15:37:56.501Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:38:11.503Z] Initializing WhatsApp client...
+[2026-08-20T15:38:11.506Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:38:26.510Z] Initializing WhatsApp client...
+[2026-08-20T15:38:26.525Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:38:41.542Z] Initializing WhatsApp client...
+[2026-08-20T15:38:41.577Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+[2026-08-20T15:38:51.033Z] Initializing WhatsApp client...
+[2026-08-20T15:38:51.048Z] Init error: Could not find Chrome (ver. 146.0.7680.31). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: C:\Users\hani7\.cache\puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.

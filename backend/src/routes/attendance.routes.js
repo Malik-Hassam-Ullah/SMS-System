@@ -98,4 +98,68 @@ router.get('/report', authenticate, asyncHandler(async (req, res) => {
   res.json({ success: true, data: report });
 }));
 
+// POST /api/attendance/biometric/sync — Ingest hardware punch logs (ZKTeco / Hikvision)
+router.post('/biometric/sync', authenticate, requireRole('admin', 'ceo'), asyncHandler(async (req, res) => {
+  const { punches } = req.body; // [{ student_id, roll_number, date, check_in, check_out, status, remarks }]
+  const branchId = req.branchId;
+
+  if (!Array.isArray(punches) || punches.length === 0) {
+    return res.status(400).json({ success: false, message: 'Punches array is required' });
+  }
+
+  // Resolve students by roll_number if student_id not passed
+  const rollNumbers = punches.filter(p => !p.student_id && p.roll_number).map(p => String(p.roll_number));
+  let studentMap = {};
+  if (rollNumbers.length > 0) {
+    const { data: students } = await supabaseAdmin
+      .from('students')
+      .select('id, roll_number, current_section_id')
+      .eq('branch_id', branchId)
+      .in('roll_number', rollNumbers);
+
+    (students || []).forEach(s => {
+      studentMap[s.roll_number] = s;
+    });
+  }
+
+  const attendanceRecords = [];
+  punches.forEach(p => {
+    let sId = p.student_id;
+    let secId = p.section_id;
+
+    if (!sId && p.roll_number && studentMap[p.roll_number]) {
+      sId = studentMap[p.roll_number].id;
+      secId = studentMap[p.roll_number].current_section_id;
+    }
+
+    if (sId) {
+      attendanceRecords.push({
+        student_id: sId,
+        section_id: secId || null,
+        date: p.date || new Date().toISOString().split('T')[0],
+        status: p.status || 'present',
+        remarks: p.remarks || 'Biometric Punch Log',
+        branch_id: branchId,
+        marked_by: req.profile.id
+      });
+    }
+  });
+
+  if (attendanceRecords.length === 0) {
+    return res.json({ success: true, message: 'No valid student attendance punches matched.', count: 0 });
+  }
+
+  const { data, error } = await supabaseAdmin
+    .from('attendance')
+    .upsert(attendanceRecords, { onConflict: 'student_id,date' })
+    .select();
+
+  if (error) throw error;
+  res.status(201).json({
+    success: true,
+    message: `Synchronized ${data.length} biometric attendance punch(es) successfully!`,
+    count: data.length
+  });
+}));
+
 module.exports = router;

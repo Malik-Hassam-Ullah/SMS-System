@@ -54,26 +54,42 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 flex">
-      {/* Left side - Branding (hidden on mobile) */}
-      <div className="hidden lg:flex lg:w-1/2 bg-primary-600 relative overflow-hidden items-center justify-center">
-        {/* Background Decorative Elements */}
-        <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
-        <div className="absolute -top-24 -left-24 w-96 h-96 bg-primary-500 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
-        <div className="absolute top-1/2 -right-24 w-96 h-96 bg-primary-400 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
-        <div className="absolute -bottom-24 left-1/4 w-96 h-96 bg-primary-700 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-4000"></div>
+      {/* Left side - Branding with School Picture Background (hidden on mobile) */}
+      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden items-center justify-center bg-slate-900">
+        {/* School Campus Photo */}
+        <img
+          src="/login-bg.jpg"
+          alt="The Smart School Campus"
+          className="absolute inset-0 w-full h-full object-cover object-center scale-105 transform hover:scale-100 transition-transform duration-1000 ease-out"
+        />
 
+        {/* Dynamic Dark Gradient & Tint Overlay for Text Readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-blue-950/80 via-slate-900/75 to-blue-950/90 backdrop-brightness-90" />
+
+        {/* Content Container */}
         <div className="relative z-10 px-12 text-white max-w-2xl text-center">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-white mb-8 border border-white/20 shadow-xl overflow-hidden p-2">
-            <img src="/tss-logo.png" alt="Logo" className="w-full h-full object-contain" />
+          <div className="inline-flex items-center justify-center w-24 h-24 rounded-2xl bg-white/95 mb-8 border border-white/30 shadow-2xl overflow-hidden p-3 backdrop-blur-md">
+            <img src="/tss-logo.png" alt="The Smart School Logo" className="w-full h-full object-contain" />
           </div>
-          <h1 className="text-5xl font-bold mb-6 tracking-tight">Smart Campus Management</h1>
-          <p className="text-lg text-primary-100 mb-8 leading-relaxed">
+
+          <h1 className="text-4xl xl:text-5xl font-black mb-5 tracking-tight text-white drop-shadow-lg">
+            Smart Campus Management
+          </h1>
+
+          <p className="text-base xl:text-lg text-slate-100/95 mb-8 leading-relaxed font-medium drop-shadow-md max-w-xl mx-auto">
             Streamline your administrative tasks, enhance communication, and foster a better learning environment with our comprehensive School Management System.
           </p>
-          <div className="flex items-center justify-center gap-4 text-sm font-medium text-primary-200">
-            <span className="flex items-center gap-1"><CheckCircle className="w-4 h-4" /> Attendance</span>
-            <span className="flex items-center gap-1"><CheckCircle className="w-4 h-4" /> Finance</span>
-            <span className="flex items-center gap-1"><CheckCircle className="w-4 h-4" /> Academics</span>
+
+          <div className="flex items-center justify-center gap-3 flex-wrap">
+            <span className="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white/15 backdrop-blur-md border border-white/20 text-xs xl:text-sm font-bold text-white shadow-sm">
+              <CheckCircle className="w-4 h-4 text-emerald-400" /> Attendance
+            </span>
+            <span className="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white/15 backdrop-blur-md border border-white/20 text-xs xl:text-sm font-bold text-white shadow-sm">
+              <CheckCircle className="w-4 h-4 text-emerald-400" /> Finance & Fees
+            </span>
+            <span className="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white/15 backdrop-blur-md border border-white/20 text-xs xl:text-sm font-bold text-white shadow-sm">
+              <CheckCircle className="w-4 h-4 text-emerald-400" /> Academics & Exams
+            </span>
           </div>
         </div>
       </div>
