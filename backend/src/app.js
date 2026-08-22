@@ -26,15 +26,32 @@ const settingsRoutes = require('./routes/settings.routes');
 const expenseRoutes = require('./routes/expense.routes');
 const teacherAssignmentsRoutes = require('./routes/teacher_assignments.routes');
 
+const { apiCacheMiddleware } = require('./middleware/cache.middleware');
 const { errorHandler } = require('./middleware/error.middleware');
 
 const app = express();
 
 // ─── Security ───────────────────────────────────────────────
-app.use(helmet());
+app.use(helmet({
+  crossOriginResourcePolicy: false,
+}));
 
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    const isAllowed =
+      origin === 'http://localhost:5173' ||
+      origin === 'http://localhost:3000' ||
+      origin === 'http://127.0.0.1:5173' ||
+      origin === process.env.FRONTEND_URL ||
+      /^https?:\/\/(localhost|127\.0\.0\.1|192\.168\.\d+\.\d+|10\.\d+\.\d+\.\d+|172\.(1[6-9]|2\d|3[0-1])\.\d+\.\d+)(:\d+)?$/.test(origin) ||
+      process.env.NODE_ENV !== 'production';
+
+    if (isAllowed) {
+      return callback(null, true);
+    }
+    return callback(new Error(`Origin ${origin} not allowed by CORS`));
+  },
   credentials: true,
 }));
 
@@ -45,9 +62,16 @@ const limiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
   skip: (req) => {
-    // Skip rate limiting for localhost in development
+    // Skip rate limiting for localhost / LAN in development
     const ip = req.ip || req.connection?.remoteAddress || '';
-    return ip === '127.0.0.1' || ip === '::1' || ip === '::ffff:127.0.0.1';
+    return (
+      ip === '127.0.0.1' ||
+      ip === '::1' ||
+      ip === '::ffff:127.0.0.1' ||
+      ip.includes('192.168.') ||
+      ip.includes('10.') ||
+      process.env.NODE_ENV !== 'production'
+    );
   },
 });
 app.use(limiter);
@@ -56,6 +80,9 @@ app.use(limiter);
 // ─── Body parsing ────────────────────────────────────────────
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
+
+// ─── Server In-Memory Cache (0ms Instant Read) ───────────────
+app.use('/api', apiCacheMiddleware());
 
 // ─── Health check ────────────────────────────────────────────
 app.get('/health', (req, res) => {

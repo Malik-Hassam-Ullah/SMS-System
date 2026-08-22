@@ -10,7 +10,7 @@ export default function ResetPasswordPage() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
   const [sessionError, setSessionError] = useState(false);
-  
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -41,17 +41,17 @@ export default function ResetPasswordPage() {
 
     try {
       const { error } = await supabase.auth.updateUser({ password });
-      
+
       if (error) {
         throw error;
       }
-      
+
       setSuccess(true);
       // Optional: Wait a few seconds then redirect
       setTimeout(() => {
         navigate('/login');
       }, 3000);
-      
+
     } catch (err) {
       setError(err.message || 'Failed to reset password.');
     } finally {

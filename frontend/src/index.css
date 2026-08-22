@@ -432,12 +432,14 @@ html[data-color-scheme="violet"] {
     @apply bg-sidebar/90 backdrop-blur-xl border border-white/10;
   }
 
-  .scrollbar-hide {
+  .scrollbar-hide,
+  .no-scrollbar {
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
 
-  .scrollbar-hide::-webkit-scrollbar {
+  .scrollbar-hide::-webkit-scrollbar,
+  .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
 }
@@ -679,3 +681,33 @@ html[data-color-scheme="violet"] {
   background: rgba(30, 41, 59, 0.8) !important;
   border-color: #334155 !important;
 }
+
+/* ════════════════════ MOBILE OPTIMIZATIONS ════════════════════ */
+@layer base {
+  html, body {
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Responsive smooth touch scrolling */
+  .overflow-x-auto,
+  .overflow-y-auto {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Responsive Table Enhancements */
+@media (max-width: 768px) {
+  .table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Optimize button tap targets */
+  button, a, input, select, textarea {
+    touch-action: manipulation;
+  }
+}

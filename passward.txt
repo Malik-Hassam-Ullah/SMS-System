@@ -1,0 +1,73 @@
+=====================================================
+         THE SMART SCHOOL - SYSTEM PASSWORDS & ROLES
+=====================================================
+
+DEFAULT PASSWORD (SAB ACCOUNTS KE LIYE):
+Password@123
+
+-----------------------------------------------------
+1. CEO / OWNER (All Campuses Full Access)
+-----------------------------------------------------
+Role Dropdown : CEO / Owner
+Branch        : (Not Required / Disabled for CEO)
+Email         : hassanaliabrar635@gmail.com
+Password      : Password@123
+
+-----------------------------------------------------
+2. MAIN CAMPUS
+-----------------------------------------------------
+Branch Dropdown : Main Campus
+
+[ADMIN]
+- Role Dropdown : Administrator
+- Email         : admin@gmail.com
+- Password      : Password@123
+
+- Alt Admin Email: ali@gmail.com
+- Password       : Password@123
+
+[ACCOUNTANT]
+- Role Dropdown : Accountant
+- Email         : main.accountant@gmail.com
+- Password      : Password@123
+
+- Alt Accountant Email: ahmed@gmail.com
+- Password            : Password@123
+
+[TEACHER]
+- Role Dropdown : Teacher
+- Email         : teacher@gmail.com
+- Password      : Password@123
+
+- Alt Teacher Email: main.teacher@gmail.com
+- Password         : Password@123
+
+- Alt Teacher Email: hassam@gmail.com
+- Password         : Password@123
+
+
+-----------------------------------------------------
+3. DUPRI CAMPUS
+-----------------------------------------------------
+Branch Dropdown : Dupri Campus
+
+[ADMIN]
+- Role Dropdown : Administrator
+- Email         : dhupri.admin@gmail.com
+- Password      : Password@123
+
+[ACCOUNTANT]
+- Role Dropdown : Accountant
+- Email         : dhupri.accountant@gmail.com
+- Password      : Password@123
+
+[TEACHER]
+- Role Dropdown : Teacher
+- Email         : dhupri.teacher@gmail.com
+- Password      : Password@123
+
+=====================================================
+URLS:
+- Local Machine : http://localhost:5173
+- Mobile/Network: http://192.168.10.8:5173
+=====================================================

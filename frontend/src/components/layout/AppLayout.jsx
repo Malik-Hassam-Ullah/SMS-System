@@ -19,13 +19,48 @@ const SidebarDivider = () => {
   return <div className={`pt-2 mt-2 border-t ${theme.divider || 'border-white/10'}`} />;
 };
 
+const routeToEndpointMap = {
+  '/admin/dashboard': '/dashboard',
+  '/admin/students': '/students?limit=2000',
+  '/admin/teachers': '/teachers',
+  '/admin/academic/classes': '/classes',
+  '/admin/academic/exams': '/exams',
+  '/admin/marks': '/marks',
+  '/admin/attendance': '/attendance',
+  '/admin/staff-attendance': '/staff-attendance',
+  '/admin/fees/vouchers': '/fees/vouchers',
+  '/admin/fees/structures': '/fees/structures',
+  '/admin/messages': '/messages',
+  '/admin/settings': '/settings',
+  '/ceo/dashboard': '/dashboard',
+  '/ceo/branches': '/ceo/branches',
+  '/ceo/expenses': '/expenses',
+  '/ceo/settings': '/settings',
+  '/accountant/dashboard': '/dashboard',
+  '/accountant/students': '/students?limit=2000',
+  '/accountant/fees/vouchers': '/fees/vouchers',
+  '/accountant/expenses': '/expenses',
+  '/accountant/settings': '/settings',
+  '/teacher/dashboard': '/dashboard',
+  '/teacher/attendance': '/attendance',
+  '/teacher/settings': '/settings',
+};
+
 const NavItem = ({ icon: Icon, label, to, end = false, onClick }) => {
   const theme = React.useContext(SidebarThemeContext);
+
+  const handlePrefetch = () => {
+    const ep = routeToEndpointMap[to];
+    if (ep) api.prefetch(ep);
+  };
+
   return (
     <NavLink
       to={to}
       end={end}
       onClick={onClick}
+      onMouseEnter={handlePrefetch}
+      onTouchStart={handlePrefetch}
       className={({ isActive }) =>
         `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer ${
           isActive ? theme.navActive : theme.navDefault
@@ -81,6 +116,24 @@ export default function AppLayout() {
   const { schoolName } = useSettingsStore();
   const sidebarTheme = useSettingsStore(s => s.sidebarTheme);
   const currentSidebarTheme = getSidebarTheme(sidebarTheme);
+
+  // ── Background Warmup: Preload core data for 0ms instantaneous navigation ──
+  useEffect(() => {
+    const warmupEndpoints = [
+      '/dashboard',
+      '/classes',
+      '/settings',
+      '/students?limit=2000',
+      '/teachers',
+      '/fees/structures',
+      '/fees/vouchers',
+    ];
+    // Stagger slightly so browser network queue stays free
+    const timer = setTimeout(() => {
+      warmupEndpoints.forEach((ep) => api.prefetch(ep));
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -311,22 +364,48 @@ export default function AppLayout() {
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        {/* Mobile-Only Minimal Header (Completely hidden on Desktop) */}
-        <div className="lg:hidden flex items-center justify-between px-4 py-2.5 border-b border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md z-30">
+        {/* Mobile-Only Enhanced Header (Completely hidden on Desktop) */}
+        <header className="lg:hidden flex items-center justify-between px-3.5 py-2.5 border-b border-slate-200/80 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md z-30 sticky top-0 shadow-sm">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <button
+              className="p-2 -ml-1 rounded-xl text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 active:scale-95 transition-all cursor-pointer shrink-0"
+              onClick={() => setSidebarOpen(true)}
+              aria-label="Open Navigation Menu"
+            >
+              <Menu className="w-5 h-5" />
+            </button>
+            <div className="flex items-center gap-2 min-w-0">
+              <div className="w-7 h-7 rounded-lg bg-white p-0.5 shadow-sm border border-slate-200 shrink-0">
+                <img src="/tss-logo.png" alt="Logo" className="w-full h-full object-contain" />
+              </div>
+              <div className="min-w-0">
+                <h2 className="text-xs font-black text-slate-900 dark:text-white truncate leading-tight">
+                  {schoolName || user?.school?.name || 'The Smart School'}
+                </h2>
+                <p className="text-[10px] font-medium text-slate-500 dark:text-slate-400 truncate">
+                  {user?.branch?.name || 'Campus Portal'}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Quick User Avatar / Status Button */}
           <button
-            className="p-2 rounded-xl text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors cursor-pointer"
             onClick={() => setSidebarOpen(true)}
-            aria-label="Open Sidebar"
+            className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors cursor-pointer shrink-0"
+            title="Open Profile & Menu"
           >
-            <Menu className="w-5 h-5" />
+            <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-[#00875a] to-emerald-600 flex items-center justify-center text-white font-bold text-xs shadow-sm">
+              {getInitials(user?.full_name)}
+            </div>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 pr-1 hidden sm:inline">
+              {user?.role}
+            </span>
           </button>
-          <span className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate">
-            {schoolName || user?.school?.name || 'SMS Platform'}
-          </span>
-        </div>
+        </header>
 
         {/* Main Outlet */}
-        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 relative bg-slate-50/50 dark:bg-slate-950">
+        <main className="flex-1 overflow-y-auto p-3 sm:p-5 md:p-6 lg:p-8 relative bg-slate-50/50 dark:bg-slate-950">
           <Outlet />
         </main>
       </div>

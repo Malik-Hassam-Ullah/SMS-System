@@ -5,8 +5,8 @@ const { authenticate, requireRole } = require('../middleware/auth.middleware');
 const { asyncHandler } = require('../middleware/error.middleware');
 const { logAudit } = require('../utils/audit.util');
 
-// Helper: Check if teacher is assigned to section + subject (+ optional exam)
-async function verifyTeacherAssignment(profileId, sectionId, subjectId, examId) {
+// Helper: Check if teacher is assigned to section + subject
+async function verifyTeacherAssignment(profileId, sectionId, subjectId) {
   const { data: teacher } = await supabaseAdmin
     .from('teachers')
     .select('id')
@@ -15,22 +15,14 @@ async function verifyTeacherAssignment(profileId, sectionId, subjectId, examId) 
 
   if (!teacher) return false;
 
-  let query = supabaseAdmin
+  const { data: assignments } = await supabaseAdmin
     .from('teacher_assignments')
-    .select('id, exam_id, is_locked')
+    .select('id')
     .eq('teacher_id', teacher.id)
     .eq('section_id', sectionId)
     .eq('subject_id', subjectId);
 
-  const { data: assignments } = await query;
-  if (!assignments || assignments.length === 0) return false;
-
-  // If exam_id is provided, match exam or generic assignment (where exam_id is null)
-  if (examId) {
-    const match = assignments.find(a => !a.exam_id || a.exam_id === examId);
-    return !!match;
-  }
-  return true;
+  return !!(assignments && assignments.length > 0);
 }
 
 // GET /api/marks/teacher-assignments — Get only assigned tasks for logged-in teacher
@@ -52,11 +44,9 @@ router.get('/teacher-assignments', authenticate, requireRole('teacher'), asyncHa
       id,
       section_id,
       subject_id,
-      exam_id,
-      is_locked,
+      session_id,
       sections ( id, name, class_id, classes ( id, name ) ),
-      subjects ( id, name, code, total_marks, pass_marks ),
-      exams ( id, name, exam_type, is_locked, start_date, end_date )
+      subjects ( id, name, code, total_marks, pass_marks )
     `)
     .eq('teacher_id', teacher.id);
 
@@ -65,7 +55,7 @@ router.get('/teacher-assignments', authenticate, requireRole('teacher'), asyncHa
   // Also fetch exams if some assignments don't have exam_id pinned
   const { data: allExams } = await supabaseAdmin
     .from('exams')
-    .select('id, name, exam_type, is_locked, start_date, end_date')
+    .select('id, name, exam_date, created_at')
     .eq('branch_id', req.branchId)
     .order('created_at', { ascending: false });
 
@@ -143,7 +133,7 @@ router.get('/roster', authenticate, requireRole('teacher', 'admin', 'ceo'), asyn
 
   // Teacher security authorization check
   if (req.role === 'teacher') {
-    const isAssigned = await verifyTeacherAssignment(req.profile.id, section_id, subject_id, exam_id);
+    const isAssigned = await verifyTeacherAssignment(req.profile.id, section_id, subject_id);
     if (!isAssigned) {
       return res.status(403).json({ success: false, message: 'Forbidden: You are not authorized for this class/subject' });
     }
@@ -232,7 +222,7 @@ router.post('/bulk', authenticate, requireRole('admin', 'teacher', 'ceo'), async
 
   // 2. Teacher Authorization verification
   if (req.role === 'teacher') {
-    const isAssigned = await verifyTeacherAssignment(req.profile.id, section_id, subject_id, exam_id);
+    const isAssigned = await verifyTeacherAssignment(req.profile.id, section_id, subject_id);
     if (!isAssigned) {
       return res.status(403).json({ success: false, message: 'Forbidden: You are not authorized to enter marks for this section/subject.' });
     }
@@ -331,8 +321,15 @@ router.get('/report/class/:classId/exam/:examId', authenticate, asyncHandler(asy
   }
 
   // 2. Fetch global passing threshold (default 40%)
-  const { data: branch } = await supabaseAdmin.from('branches').select('settings').eq('id', branchId).single().catch(() => ({ data: null }));
-  const passingPercent = parseFloat(branch?.settings?.passingMarks || '40');
+  let passingPercent = 40;
+  try {
+    const { data: branch } = await supabaseAdmin.from('branches').select('settings').eq('id', branchId).single();
+    if (branch?.settings?.passingMarks) {
+      passingPercent = parseFloat(branch.settings.passingMarks);
+    }
+  } catch (e) {
+    // Default 40%
+  }
 
   // 3. Map marks per student
   const studentMap = {};
@@ -458,7 +455,7 @@ router.get('/report/student/:studentId', authenticate, asyncHandler(async (req, 
     supabaseAdmin.from('students').select('*, classes(id, name), sections(id, name)').eq('id', studentId).single(),
     supabaseAdmin.from('branches').select('name, code, address, phone, email, settings').eq('id', branchId).single(),
     supabaseAdmin.from('exams').select('*').eq('branch_id', branchId).order('exam_date', { ascending: false }),
-    supabaseAdmin.from('marks').select('*, subjects(id, name, code, total_marks, pass_marks), exams(id, name, exam_type, start_date, end_date)').eq('student_id', studentId)
+    supabaseAdmin.from('marks').select('*, subjects(id, name, code, total_marks, pass_marks), exams(id, name, exam_date, created_at)').eq('student_id', studentId)
   ]);
 
   if (!student) {

@@ -109,11 +109,11 @@ export default function ForgotPasswordPage() {
                   )}
                 </button>
               </div>
-              
+
               <div className="text-center">
-                 <Link to="/login" className="inline-flex items-center text-sm font-medium text-slate-500 hover:text-slate-700">
-                    <ArrowLeft className="w-4 h-4 mr-1" /> Back to Login
-                 </Link>
+                <Link to="/login" className="inline-flex items-center text-sm font-medium text-slate-500 hover:text-slate-700">
+                  <ArrowLeft className="w-4 h-4 mr-1" /> Back to Login
+                </Link>
               </div>
             </form>
           )}
